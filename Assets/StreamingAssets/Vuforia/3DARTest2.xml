@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig>
+  <Tracking>
+    <ImageTarget name="book2" size="458.000000 627.000000" />
+    <ImageTarget name="book1" size="140.000000 191.659393" />
+    <CylinderTarget name="PepsiLime1-1" sideLength="125.000000"/>
+    <CylinderTarget name="PepsiLime6" sideLength="180.000000"/>
+    <CylinderTarget name="PepsiLime5" sideLength="180.000000"/>
+  </Tracking>
+</QCARConfig>

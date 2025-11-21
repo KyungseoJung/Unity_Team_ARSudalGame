@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VuforiaUnityInfo version="7.0">
+    <TargetSet version="5.0" toolVersion="2.8.1">
+        <CylinderTarget name="PepsiLime1-1" version="3.0" targetId="0e8eaa9f47284d31b34c6da1190a6273" sideLength="125.000000" topDiameter="62.500000" bottomDiameter="62.500000" sideImage="PepsiLime1-1.Body_scaled.jpg"/>
+        <CylinderTarget name="PepsiLime6" version="3.0" targetId="4a1695e5a3344d16a6a9d4f167bf97ab" sideLength="180.000000" topDiameter="90.000000" bottomDiameter="90.000000" sideImage="PepsiLime6.Body_scaled.jpg"/>
+        <CylinderTarget name="PepsiLime5" version="3.0" targetId="fc620fead82149a5bd685c0d99158674" sideLength="180.000000" topDiameter="90.000000" bottomDiameter="90.000000" sideImage="PepsiLime5.Body_scaled.jpg"/>
+    </TargetSet>
+</VuforiaUnityInfo>
