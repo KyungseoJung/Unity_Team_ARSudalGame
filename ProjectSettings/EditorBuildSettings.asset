@@ -8,9 +8,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/test1_Plane.unity
     guid: bdfe204b659eb5745a3eb5d5867a1995
+  - enabled: 0
+    path: Assets/Scenes/test3_Choonsik.unity
+    guid: 96640ed624f3fb643bf4cfa2acb8401e
+  - enabled: 1
+    path: Assets/Scenes/test2_LeftController.unity
+    guid: ae97477e50ca5854f97a6e433c5a9729
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 47a759dc0f217f147b965030f2bf44f7, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 21ed7436e2f32d74d846bf9196a84277, type: 2}
