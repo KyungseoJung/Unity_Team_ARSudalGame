@@ -12,6 +12,14 @@
 UserSettings/
 
 # ================================================
+# 내가 따로 설정한 무시하고자 하는 파일
+# ================================================
+Assets/Resources/VuforiaModels/Choonsik_Multiview1/
+Assets/Resources/VuforiaModels/leftController1/
+Assets/Resources/VuforiaModels/VuforiaMars_ModelTarget/
+
+
+# ================================================
 # 빌드/캐시/로그 등 불필요한 파일
 # ================================================
 
