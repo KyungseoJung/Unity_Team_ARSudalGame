@@ -18,6 +18,7 @@ Assets/Resources/VuforiaModels/Choonsik_Multiview1/
 Assets/Resources/VuforiaModels/leftController1/
 Assets/Resources/VuforiaModels/VuforiaMars_ModelTarget/
 
+.utmp/
 
 # ================================================
 # 빌드/캐시/로그 등 불필요한 파일
