@@ -71,6 +71,7 @@ public class RubbingInput : MonoBehaviour
                     {
                         // 픽셀 이동량에 민감도를 곱해서 전달
                         target.AddRub(movement * rubSensitivity);
+                        Debug.Log("AddRub 호출!!");
                     }
                 }
             }

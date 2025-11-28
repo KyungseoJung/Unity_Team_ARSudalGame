@@ -39,16 +39,29 @@ public class RubbableObject : MonoBehaviour
         {
             CompleteCleaning();
         }
+        Debug.Log("응예아 " + currentRub);
     }
-
     void UpdateAlpha(float alpha)
     {
         if (dirtyRenderer != null)
         {
-            // 머티리얼 색상 가져오기
-            Color color = dirtyRenderer.material.color;
-            color.a = alpha; // 알파값 변경
-            dirtyRenderer.material.color = color;
+            // 1. 머티리얼 복사본 가져오기 (자동 생성됨)
+            Material mat = dirtyRenderer.material;
+
+            // 2. URP인지 레거시인지 확인해서 프로퍼티 이름 결정
+            string propertyName = "_BaseColor"; // URP 기본 이름
+            if (!mat.HasProperty(propertyName))
+            {
+                propertyName = "_Color"; // 레거시(Built-in) 이름
+            }
+
+            // 3. 색상 가져와서 알파값만 바꾸고 다시 넣기
+            if (mat.HasProperty(propertyName))
+            {
+                Color color = mat.GetColor(propertyName);
+                color.a = alpha;
+                mat.SetColor(propertyName, color);
+            }
         }
     }
 
