@@ -61,17 +61,14 @@ public class RubbingInput : MonoBehaviour
                 // Ray 발사
                 Ray ray = Camera.main.ScreenPointToRay(pointerPos);
                 RaycastHit hit;
-
                 if (Physics.Raycast(ray, out hit))
                 {
                     // 맞은 물체에게 "문질러짐" 신호 보내기
                     RubbableObject target = hit.collider.GetComponent<RubbableObject>();
-
                     if (target != null)
                     {
                         // 픽셀 이동량에 민감도를 곱해서 전달
                         target.AddRub(movement * rubSensitivity);
-                        Debug.Log("AddRub 호출!!");
                     }
                 }
             }

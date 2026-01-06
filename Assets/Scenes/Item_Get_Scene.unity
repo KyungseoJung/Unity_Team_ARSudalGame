@@ -238,9 +238,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MarkerSpawner
   contentPrefab: {fileID: 3004099091394828957, guid: 86ac2e07cfa6df540a085070015cb784, type: 3}
-  spawnOnlyOnce: 1
   spawnDistance: 1
-  lookAtCamera: 1
+  heightOffset: 0.1
 --- !u!114 &37082340
 MonoBehaviour:
   m_ObjectHideFlags: 0
