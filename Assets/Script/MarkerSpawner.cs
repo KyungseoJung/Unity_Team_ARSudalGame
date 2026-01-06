@@ -55,6 +55,7 @@ public class ScreenFixedSpawner : MonoBehaviour
 
         // 4. 회전 고정
         obj.transform.localRotation = Quaternion.Euler(rotationOffset);
+        GameManager.Instance.RegisterObject(obj);
 
         hasSpawned = true;
         Debug.Log("✨ 수달 화면 중앙 고정 완료!");

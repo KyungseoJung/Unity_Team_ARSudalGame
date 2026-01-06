@@ -92,6 +92,13 @@ public class RubbableObject : MonoBehaviour
         // 4. (선택) 수달이 기뻐하는 애니메이션 재생 등 추가 가능
 
         // 5. 사라지게 만들기
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.UnregisterObject();
+        }
+
         gameObject.SetActive(false);
     }
+
+
 }
