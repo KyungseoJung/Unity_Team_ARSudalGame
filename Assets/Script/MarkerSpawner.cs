@@ -34,6 +34,12 @@ public class ScreenFixedSpawner : MonoBehaviour
 
     void SpawnAndLock()
     {
+        if (GameManager.Instance.CanSpawn() == false)
+        {
+            Debug.Log("🚫 이미 다른 오브젝트가 있어서 소환할 수 없습니다.");
+            return;
+        }
+
         Transform camTrans = Camera.main.transform;
 
         // 1. 생성
