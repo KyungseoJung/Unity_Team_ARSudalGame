@@ -27,6 +27,17 @@ public class InventoryManager : MonoBehaviour
     int frontOrderCounter = 0;         //#4-2: 최근에 선택된 순서를 반영할 카운터
     // ▲▲▲                                                                  //#4-2
 
+    // //#5 아이템을 이름으로 파악해서 -> 인벤토리에서 활성화하기
+    public enum ItemType
+    {
+        RED,    // 0
+        ORANGE, // 1
+        YELLOW, // 2
+        GREEN,  // 3
+        BLUE    // 4
+    }
+
+
     private void Awake()
     {
         // 1. 싱글톤 체크: 이미 인스턴스가 있다면 새로 생긴 놈은 파괴
@@ -60,28 +71,30 @@ public class InventoryManager : MonoBehaviour
         // 키보드 상단 숫자키 (0,1,2,3, 4) // (임시 테스트) 각 숫자를 키보드로 누르면, 해당 번호의 아이템을 획득하도록
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            AcquireItem(0);
+            AcquireItem(ItemType.RED);
         }
-        // 테스트용: 숫자키 1~5으로 아이템 획득 처리
-        for (int i = 1; i <= 5; i++)    // GetKeyDown을 여러번 적기 싫어서 for문으로 적어둔 것
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            // 키보드 상단 숫자키 (1,2,3,4,5) // (임시 테스트) 각 숫자를 키보드로 누르면, 해당 번호의 아이템을 획득하도록
-            if (Input.GetKeyDown(KeyCode.Alpha0 + i))
-            {
-                AcquireItem(i);
-            }
+            AcquireItem(ItemType.ORANGE);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            AcquireItem(ItemType.YELLOW);
         }
     }
 
-    void AcquireItem(int index)
+    void AcquireItem(ItemType itemType)
     {
-        PlayerPrefs.SetInt("ITEM_" + (index -1), 1);    // n번을 누르면 (n-1)번째 아이템이 나오도록
+        int index = (int)itemType;   // enum → index 변환
+
+
+        PlayerPrefs.SetInt("ITEM_" + index, 1); // Ex) 0번 아이템인 RED를 획득하면, 인벤토리에 ITEM_1이 생성되도록
         PlayerPrefs.Save();
 
         // 인벤토리 UI 갱신
         GenerateSlots();
 
-        Debug.Log($"Item {index} acquired");
+        Debug.Log($"Item acquired: {itemType} (index {index})");
     }
 
 
@@ -104,7 +117,7 @@ public class InventoryManager : MonoBehaviour
             GameObject slot = Instantiate(slotPrefab, slotsArea);
 
             InventorySlot slotScript = slot.GetComponent<InventorySlot>();   //#4
-            slotScript.Setup(i, "Item " + (i + 1));                        //#4
+            slotScript.Setup(i, "Item " + (i));                        //#4
 
             /* //#4 삭제
             int index = i;
@@ -191,10 +204,26 @@ public class InventoryManager : MonoBehaviour
     }
     // ▲▲▲                                                                   //#4-2
 
+    // //#6-2: 배경 클릭 시 선택 해제용
+    public void ClearSelection()
+    {
+        if (currentSelected != null)    // 현재 클릭한 게 있다면, 배경을 선택했을 때 -> 그 선택했던 아이템을 선택 해제하기
+        {
+            currentSelected.SetSelected(false);   
+        }
+        currentSelected = null;
+    }
+
     // ▼▼▼ UI에서 "회수" 버튼이 눌렸을 때 호출할 함수                       //#4-2
     public void ReturnSelectedItem()                                      //#4-2
     {
-        if (currentSelected == null) return;                               //#4-2
+        if (currentSelected == null) 
+        {
+            Debug.Log("선택된 아이템 없음 ----");
+            return;                               //#4-2
+        }
+            Debug.Log("선택된 아이템 있음 ----");
+
 
         Destroy(currentSelected.gameObject);                               //#4-2
         currentSelected = null;                                            //#4-2
