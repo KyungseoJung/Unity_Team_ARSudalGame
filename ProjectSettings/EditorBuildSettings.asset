@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/test2_LeftController.unity
     guid: ae97477e50ca5854f97a6e433c5a9729
   - enabled: 1
+    path: Assets/Scenes/Item_Get_Scene.unity
+    guid: 528ce0f6bb91b204bba94352f155779e
+  - enabled: 1
     path: Assets/Scenes/Item_Place_Scene.unity
     guid: 0650c3ce84d8bed41aece9e9828316da
   m_configObjects:

@@ -165,7 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
   inventoryPanel: {fileID: 967230385}
   slotsArea: {fileID: 2026372036}
-  slotPrefab: {fileID: 7622044118349017849, guid: f91ba1ecf4f185c4bb3ea6465aa5f0de, type: 3}
+  slotPrefab: {fileID: 7622044118349017849, guid: 549151e15f2f31345baa8cc8fe755fde, type: 3}
   itemPrefabs:
   - {fileID: 3489582577677653837, guid: 9a39afd063badd947a062494a90f1d18, type: 3}
   - {fileID: 7140524524723613119, guid: 06bca65181209f7428a1e3c0992895cb, type: 3}

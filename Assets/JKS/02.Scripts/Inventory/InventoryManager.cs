@@ -34,17 +34,47 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        //#4 임시로 모든 프리팹이 존재한다고 가정하자.
-        PlayerPrefs.SetInt("ITEM_0", 1);
-        PlayerPrefs.SetInt("ITEM_1", 0);
-        PlayerPrefs.SetInt("ITEM_2", 1);
-        PlayerPrefs.SetInt("ITEM_3", 1);
-        PlayerPrefs.SetInt("ITEM_4", 1);
+        //#4 처음에는(아이템을 획득하기 전에는) 모든 아이템을 "없음(0)" 상태로 초기화
+        for (int i = 0; i < 5; i++)
+        {
+            PlayerPrefs.SetInt("ITEM_" + i, 0);
+        }
         PlayerPrefs.Save();
 
         inventoryPanel.SetActive(false);
         GenerateSlots();
     }
+
+    private void Update()
+    {
+
+        // 키보드 상단 숫자키 (0,1,2,3, 4) // (임시 테스트) 각 숫자를 키보드로 누르면, 해당 번호의 아이템을 획득하도록
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            AcquireItem(0);
+        }
+        // 테스트용: 숫자키 1~5으로 아이템 획득 처리
+        for (int i = 1; i <= 5; i++)    // GetKeyDown을 여러번 적기 싫어서 for문으로 적어둔 것
+        {
+            // 키보드 상단 숫자키 (1,2,3,4,5) // (임시 테스트) 각 숫자를 키보드로 누르면, 해당 번호의 아이템을 획득하도록
+            if (Input.GetKeyDown(KeyCode.Alpha0 + i))
+            {
+                AcquireItem(i);
+            }
+        }
+    }
+
+    void AcquireItem(int index)
+    {
+        PlayerPrefs.SetInt("ITEM_" + (index -1), 1);    // n번을 누르면 (n-1)번째 아이템이 나오도록
+        PlayerPrefs.Save();
+
+        // 인벤토리 UI 갱신
+        GenerateSlots();
+
+        Debug.Log($"Item {index} acquired");
+    }
+
 
     void GenerateSlots()
     {
