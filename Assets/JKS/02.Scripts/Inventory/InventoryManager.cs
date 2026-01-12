@@ -29,7 +29,16 @@ public class InventoryManager : MonoBehaviour
 
     private void Awake()
     {
+        // 1. 싱글톤 체크: 이미 인스턴스가 있다면 새로 생긴 놈은 파괴
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        // 2. 인스턴스 할당 및 씬 전환 시 파괴 방지
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()

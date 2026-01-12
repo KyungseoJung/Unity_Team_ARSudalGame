@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class RubbableObject : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class RubbableObject : MonoBehaviour
 
     private float currentRub = 0f;
     private bool isCompleted = false;
+
+    public event Action<string> OnCleaningCompleted;
 
     void Start()
     {
@@ -39,7 +42,6 @@ public class RubbableObject : MonoBehaviour
         {
             CompleteCleaning();
         }
-        Debug.Log("응예아 " + currentRub);
     }
     void UpdateAlpha(float alpha)
     {
@@ -92,12 +94,8 @@ public class RubbableObject : MonoBehaviour
         // 4. (선택) 수달이 기뻐하는 애니메이션 재생 등 추가 가능
 
         // 5. 사라지게 만들기
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.UnregisterObject();
-        }
-
-        gameObject.SetActive(false);
+        OnCleaningCompleted?.Invoke(itemName);
+        Destroy(gameObject);
     }
 
 
