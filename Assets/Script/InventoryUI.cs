@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -39,6 +40,19 @@ public class InventoryUI : MonoBehaviour
         if (isActive)
         {
             RefreshUI(); // 열 때 최신 상태로 갱신
+        }
+    }
+
+    public void ChangeScene()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        if(sceneName == "Item_Get_Scene")
+        {
+            SceneManager.LoadScene("Item_Place_Scene");
+        }
+        else
+        {
+            SceneManager.LoadScene("Item_Get_Scene");
         }
     }
 
