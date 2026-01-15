@@ -7,7 +7,7 @@ public class InventoryOpener : MonoBehaviour
     {
         if (InventoryManager.Instance != null)
         {
-            InventoryManager.Instance.ToggleInventory();
+            //InventoryManager.Instance.ToggleInventory();
         }
     }
 }

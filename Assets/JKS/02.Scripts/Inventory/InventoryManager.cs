@@ -1,232 +1,138 @@
 using UnityEngine;
-using UnityEngine.UI;
+using System; // Action 이벤트를 위해 필요
 
 public class InventoryManager : MonoBehaviour
 {
-    // //#3 (위치:InventoryManager라는 Empty 오브젝트에 부착) 
-    /* 역할
-    1) 어떤 아이템을 가지고 있는지 확인
-    2) 슬롯 생성
-    3) 슬롯 클릭 시 아이템 Instantiate
-    4) 인벤토리 열고 닫기
-    */
-    // //#4 인벤토리에서 클릭하면 화면에 Instantiate 되도록
     public static InventoryManager Instance;
 
-    public GameObject inventoryPanel;  
-    public Transform slotsArea;        
-    public GameObject slotPrefab;      
+    [Header("Data & Prefabs")]
+    public GameObject[] itemPrefabs;   // 아이템 프리팹 (데이터)
 
-    public GameObject[] itemPrefabs;   // Cube 프리팹 1~5개
+    [Header("World Interaction")]
+    public Transform spawnBase;        // 아이템 스폰 위치
+    public float spawnHeight = 0.5f;
 
-    public Transform spawnBase;        //#4
-    public float spawnHeight = 0.5f;   //#4
+    // ▼ 이벤트 정의: 데이터가 변경되거나 선택 상태가 바뀔 때 UI에게 알림
+    public event Action OnInventoryUpdated;
+    public event Action<PlacedItem> OnSelectionChanged;
 
-    // ▼▼▼ 선택 & 렌더 순서 관리를 위한 변수들 추가                            //#4-2
-    PlacedItem currentSelected;        //#4-2: 현재 선택된 아이템
-    int frontOrderCounter = 0;         //#4-2: 최근에 선택된 순서를 반영할 카운터
-    // ▲▲▲                                                                  //#4-2
+    // ▼ 내부 로직 변수
+    PlacedItem currentSelected;
+    int frontOrderCounter = 0;
 
-    // //#5 아이템을 이름으로 파악해서 -> 인벤토리에서 활성화하기
-    public enum ItemType
-    {
-        RED,    // 0
-        ORANGE, // 1
-        YELLOW, // 2
-        GREEN,  // 3
-        BLUE    // 4
-    }
-
+    public enum ItemType { RED, ORANGE, YELLOW, GREEN, BLUE }
 
     private void Awake()
     {
-        // 1. 싱글톤 체크: 이미 인스턴스가 있다면 새로 생긴 놈은 파괴
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        // 2. 인스턴스 할당 및 씬 전환 시 파괴 방지
+        if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
-        //#4 처음에는(아이템을 획득하기 전에는) 모든 아이템을 "없음(0)" 상태로 초기화
-        for (int i = 0; i < 5; i++)
+        // 초기화 (최초 1회만 실행된다고 가정)
+        // 실제 게임에서는 별도 SaveManager가 있는게 좋지만 일단 여기 유지
+        if (!PlayerPrefs.HasKey("Initialized"))
         {
-            PlayerPrefs.SetInt("ITEM_" + i, 0);
+            for (int i = 0; i < 5; i++) PlayerPrefs.SetInt("ITEM_" + i, 0);
+            PlayerPrefs.SetInt("Initialized", 1);
+            PlayerPrefs.Save();
         }
-        PlayerPrefs.Save();
-
-        inventoryPanel.SetActive(false);
-        GenerateSlots();
     }
 
     private void Update()
     {
-
-        // 키보드 상단 숫자키 (0,1,2,3, 4) // (임시 테스트) 각 숫자를 키보드로 누르면, 해당 번호의 아이템을 획득하도록
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            AcquireItem(ItemType.RED);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            AcquireItem(ItemType.ORANGE);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            AcquireItem(ItemType.YELLOW);
-        }
+        // 테스트용 입력 (데이터 획득 로직)
+        if (Input.GetKeyDown(KeyCode.Alpha0)) AcquireItem(ItemType.RED);
+        if (Input.GetKeyDown(KeyCode.Alpha1)) AcquireItem(ItemType.ORANGE);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) AcquireItem(ItemType.YELLOW);
     }
 
-    void AcquireItem(ItemType itemType)
+    // ====================================================
+    // 1. 데이터 관리 (Data Logic)
+    // ====================================================
+    public void AcquireItem(ItemType itemType)
     {
-        int index = (int)itemType;   // enum → index 변환
-
-
-        PlayerPrefs.SetInt("ITEM_" + index, 1); // Ex) 0번 아이템인 RED를 획득하면, 인벤토리에 ITEM_1이 생성되도록
+        int index = (int)itemType;
+        PlayerPrefs.SetInt("ITEM_" + index, 1);
         PlayerPrefs.Save();
 
-        // 인벤토리 UI 갱신
-        GenerateSlots();
+        Debug.Log($"Item acquired: {itemType}");
 
-        Debug.Log($"Item acquired: {itemType} (index {index})");
+        // ★ 핵심: 데이터가 변했으니 UI에게 업데이트하라고 알림
+        OnInventoryUpdated?.Invoke();
     }
 
-
-    void GenerateSlots()
+    public bool HasItem(int index)
     {
-        foreach (Transform child in slotsArea)   // 변경됨 (새로 추가)
-        {
-            Destroy(child.gameObject);
-        }
-        
-        // 슬롯 5개 생성
-        for (int i = 0; i < itemPrefabs.Length; i++)
-        {
-            // PlayerPrefs에서 1이면 “획득한 아이템”
-            if (PlayerPrefs.GetInt("ITEM_" + i, 0) == 0)
-            {
-                continue;
-            }
-
-            GameObject slot = Instantiate(slotPrefab, slotsArea);
-
-            InventorySlot slotScript = slot.GetComponent<InventorySlot>();   //#4
-            slotScript.Setup(i, "Item " + (i));                        //#4
-
-            /* //#4 삭제
-            int index = i;
-
-            // 버튼 클릭 시 아이템 소환
-            slot.GetComponent<Button>().onClick.AddListener(() =>
-            {
-                SpawnItem(index);
-            });
-
-            // 슬롯 텍스트 변경 (선택 사항)
-            slot.GetComponentInChildren<Text>().text = "아이템 " + (i + 1);
-            */
-        }
+        return PlayerPrefs.GetInt("ITEM_" + index, 0) == 1;
     }
 
+    // ====================================================
+    // 2. 월드 상호작용 (World Interaction Logic)
+    // ====================================================
     public void SpawnItem(int index)
     {
-        //#4 [변경됨] : 카메라 앞이 아니라 "초록 바닥(Quad) 위"에 생성하도록 변경
-        Vector3 basePos = (spawnBase != null) ? spawnBase.position : Vector3.zero;   // 변경됨
-        Vector3 spawnPos = basePos + Vector3.up * spawnHeight;                       // 변경됨
+        Vector3 basePos = (spawnBase != null) ? spawnBase.position : Vector3.zero;
+        Vector3 spawnPos = basePos + Vector3.up * spawnHeight;
 
-        // Instantiate(itemPrefabs[index], spawnPos, Quaternion.identity);    
+
+ 
         GameObject go = Instantiate(itemPrefabs[index], spawnPos, Quaternion.identity);
 
-        // Camera cam = Camera.main;
-        // Vector3 pos = cam.transform.position + cam.transform.forward * 0.5f;
+        // 필요한 컴포넌트 부착 로직 유지
+        if (go.GetComponent<ItemDragger2D>() == null) go.AddComponent<ItemDragger2D>();
+        if (go.GetComponent<PlacedItem>() == null) go.AddComponent<PlacedItem>();
 
-        // Instantiate(itemPrefabs[index], pos, Quaternion.identity);
-
-        //#4 새로 생성된 아이템에 PlacedItem 컴포넌트 추가
-        // go.AddComponent<PlacedItem>();  // 기존 코드
-
-        // ▼▼▼ 새로 생성된 아이템에 드래그/선택 기능을 붙여준다                 //#4-2
-        if (go.GetComponent<ItemDragger2D>() == null)                      //#4-2
-        {
-            go.AddComponent<ItemDragger2D>();                              //#4-2
-        }
-
-        if (go.GetComponent<PlacedItem>() == null)                         //#4-2
-        {
-            go.AddComponent<PlacedItem>();                                 //#4-2
-        }
-        // ▲▲▲                                                                //#4-2
-        
-        inventoryPanel.SetActive(false);
+        // 아이템 생성 후 인벤토리를 닫고 싶다면 UI 쪽에서 처리하거나,
+        // 여기서 이벤트를 보낼 수도 있습니다. (여기서는 UI가 알아서 닫도록 유도)
     }
 
-    public void ToggleInventory()
+    public void SelectItem(PlacedItem item)
     {
-        inventoryPanel.SetActive(!inventoryPanel.activeSelf);
-    }
-
-    // ▼▼▼ 아이템 "선택" 처리: PlacedItem에서 호출                          //#4-2
-    public void SelectItem(PlacedItem item)                                //#4-2
-    {
-        // 이전에 선택된 아이템이 있으면 선택 해제                          //#4-2
-        if (currentSelected != null && currentSelected != item)            //#4-2
+        if (currentSelected != null && currentSelected != item)
         {
-            currentSelected.SetSelected(false);                            //#4-2
+            currentSelected.SetSelected(false);
         }
 
-        currentSelected = item;                                            //#4-2
+        currentSelected = item;
 
-        if (currentSelected != null)                                       //#4-2
+        if (currentSelected != null)
         {
-            currentSelected.SetSelected(true);                             //#4-2
-            BringToFront(currentSelected);                                 //#4-2
+            currentSelected.SetSelected(true);
+            BringToFront(currentSelected);
         }
+
+        // 선택 변경 알림 (UI가 '회수 버튼'을 활성화할지 결정할 수 있음)
+        OnSelectionChanged?.Invoke(currentSelected);
     }
-    // ▲▲▲                                                                   //#4-2
 
-    // ▼▼▼ 가장 최근에 선택된 아이템을 "맨 위"로 보이게 하는 함수           //#4-2
-    void BringToFront(PlacedItem item)                                     //#4-2
-    {
-        Renderer rend = item.GetComponent<Renderer>();                     //#4-2
-        if (rend == null) return;                                         //#4-2
-
-        Material mat = rend.material;                                     //#4-2
-        int baseQueue = 3000; // 기본 렌더 큐 (Opaque 기준)                //#4-2
-
-        frontOrderCounter++;                                              //#4-2
-        mat.renderQueue = baseQueue + frontOrderCounter;                  //#4-2
-    }
-    // ▲▲▲                                                                   //#4-2
-
-    // //#6-2: 배경 클릭 시 선택 해제용
     public void ClearSelection()
     {
-        if (currentSelected != null)    // 현재 클릭한 게 있다면, 배경을 선택했을 때 -> 그 선택했던 아이템을 선택 해제하기
+        if (currentSelected != null)
         {
-            currentSelected.SetSelected(false);   
+            currentSelected.SetSelected(false);
         }
         currentSelected = null;
+        OnSelectionChanged?.Invoke(null);
     }
 
-    // ▼▼▼ UI에서 "회수" 버튼이 눌렸을 때 호출할 함수                       //#4-2
-    public void ReturnSelectedItem()                                      //#4-2
+    public void ReturnSelectedItem()
     {
-        if (currentSelected == null) 
-        {
-            Debug.Log("선택된 아이템 없음 ----");
-            return;                               //#4-2
-        }
-            Debug.Log("선택된 아이템 있음 ----");
+        if (currentSelected == null) return;
 
-
-        Destroy(currentSelected.gameObject);                               //#4-2
-        currentSelected = null;                                            //#4-2
+        Destroy(currentSelected.gameObject);
+        ClearSelection();
     }
-    // ▲▲▲                                                                   //#4-2
+
+    void BringToFront(PlacedItem item)
+    {
+        Renderer rend = item.GetComponent<Renderer>();
+        if (rend == null) return;
+
+        int baseQueue = 3000;
+        frontOrderCounter++;
+        rend.material.renderQueue = baseQueue + frontOrderCounter;
+    }
 }
