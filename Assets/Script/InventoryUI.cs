@@ -54,7 +54,6 @@ public class InventoryUI : MonoBehaviour
         InventoryManager manager = InventoryManager.Instance;
         if (manager == null) return;
 
-        Debug.Log("뭐야 " + manager.itemPrefabs.Length);
         // 2. 데이터 확인 후 슬롯 생성
         for (int i = 0; i < manager.itemPrefabs.Length; i++)
         {
