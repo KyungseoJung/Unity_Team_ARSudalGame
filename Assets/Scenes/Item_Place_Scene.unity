@@ -164,10 +164,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
   itemPrefabs:
-  - {fileID: 3489582577677653837, guid: 9a39afd063badd947a062494a90f1d18, type: 3}
-  - {fileID: 7140524524723613119, guid: 06bca65181209f7428a1e3c0992895cb, type: 3}
-  - {fileID: 7140524524723613119, guid: 5042e10d5d7eb7b43bba342a42496869, type: 3}
-  - {fileID: 7140524524723613119, guid: 2865e4b7a4c8a7340b6a588d6bc2309b, type: 3}
+  - {fileID: 3684237265513853406, guid: 3f3b1ac0ac832ec47b15096739ae8ca9, type: 3}
+  - {fileID: 3273487216420146736, guid: a7fbcda3e1623ce459ac16c49c4a1e25, type: 3}
+  - {fileID: 1351996209854147235, guid: fbc2b1b5c8a4e144db61c72f41b6b15c, type: 3}
+  - {fileID: 3437523254897788514, guid: b22f0b9964b6e334698ae9aef7878c91, type: 3}
   - {fileID: 4666676978773489870, guid: 15b03c070c57edd44a09de491de1ba58, type: 3}
   spawnBase: {fileID: 0}
   spawnHeight: 0.5
@@ -906,7 +906,7 @@ GameObject:
   - component: {fileID: 1053163405}
   - component: {fileID: 1053163409}
   m_Layer: 0
-  m_Name: GreenBackground
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

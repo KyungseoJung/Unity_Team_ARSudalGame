@@ -9,7 +9,7 @@ public class ItemDragger2D : MonoBehaviour
     Vector3 offset;                   //#4-2: 마우스 위치와 오브젝트 위치의 차이
 
     [Header("화면 여백 (픽셀)")]      //#4-2: 화면 가장자리 여백 설정
-    public float screenMargin = 50f;  //#4-2
+    public float screenMargin = 10f;  //#4-2
 
     void Awake()
     {
