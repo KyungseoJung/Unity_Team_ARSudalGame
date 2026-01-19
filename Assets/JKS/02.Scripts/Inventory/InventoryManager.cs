@@ -33,6 +33,7 @@ public class InventoryManager : MonoBehaviour
     {
         // 초기화 (최초 1회만 실행된다고 가정)
         // 실제 게임에서는 별도 SaveManager가 있는게 좋지만 일단 여기 유지
+        PlayerPrefs.DeleteAll();
         if (!PlayerPrefs.HasKey("Initialized"))
         {
             for (int i = 0; i < 5; i++) PlayerPrefs.SetInt("ITEM_" + i, 0);
