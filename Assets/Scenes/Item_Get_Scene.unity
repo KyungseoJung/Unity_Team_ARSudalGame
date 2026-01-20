@@ -1195,6 +1195,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4014566392180543594, guid: b21699ce167f68940a5b300fa11c5967, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 76489618}
+    - target: {fileID: 4014566392180543594, guid: b21699ce167f68940a5b300fa11c5967, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleInventory
+      objectReference: {fileID: 0}
     - target: {fileID: 6431334496584948131, guid: b21699ce167f68940a5b300fa11c5967, type: 3}
       propertyPath: m_Name
       value: InventoryPanel

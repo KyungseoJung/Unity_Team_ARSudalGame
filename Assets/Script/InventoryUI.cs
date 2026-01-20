@@ -68,6 +68,8 @@ public class InventoryUI : MonoBehaviour
         InventoryManager manager = InventoryManager.Instance;
         if (manager == null) return;
 
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
         // 2. 데이터 확인 후 슬롯 생성
         for (int i = 0; i < manager.itemPrefabs.Length; i++)
         {
@@ -81,13 +83,18 @@ public class InventoryUI : MonoBehaviour
                 if (slotScript != null)
                 {
                     slotScript.Setup(i, "Item " + i);
+                    Button slotBtn = slot.GetComponent<Button>();
 
                     // 슬롯 클릭 이벤트 연결 (클릭 시 스폰 + 창 닫기)
-                    int index = i; // 클로저 문제 방지용 로컬 변수
-                    slot.GetComponent<Button>().onClick.AddListener(() => {
-                        manager.SpawnItem(index);
-                        ToggleInventory(); // 아이템 소환 후 인벤토리 닫기
-                    });
+
+                    if (currentSceneName != "Item_Get_Scene")
+                    {
+                        int index = i;
+                        slotBtn.onClick.AddListener(() => {
+                            manager.SpawnItem(index);
+                            ToggleInventory();
+                        });
+                    }
                 }
             }
         }
