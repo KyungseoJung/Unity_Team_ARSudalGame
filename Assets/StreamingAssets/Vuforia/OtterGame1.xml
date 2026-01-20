@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig>
+  <Tracking>
+    <ImageTarget name="Wood" size="140.000000 93.296875" />
+    <ImageTarget name="Mountain" size="140.000000 93.406250" />
+    <ImageTarget name="Tree" size="140.000000 93.296875" />
+    <ImageTarget name="Stone" size="140.000000 78.750000" />
+  </Tracking>
+</QCARConfig>
