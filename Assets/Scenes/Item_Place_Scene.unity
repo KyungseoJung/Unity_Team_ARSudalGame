@@ -675,10 +675,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2d612bb7363d594a8d20153aaa4e6a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSaveManager
-  items:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  itemPrefabs:
+  - {fileID: 3684237265513853406, guid: 3f3b1ac0ac832ec47b15096739ae8ca9, type: 3}
+  - {fileID: 3273487216420146736, guid: a7fbcda3e1623ce459ac16c49c4a1e25, type: 3}
+  - {fileID: 1351996209854147235, guid: fbc2b1b5c8a4e144db61c72f41b6b15c, type: 3}
+  - {fileID: 3437523254897788514, guid: b22f0b9964b6e334698ae9aef7878c91, type: 3}
+  - {fileID: 4666676978773489870, guid: 15b03c070c57edd44a09de491de1ba58, type: 3}
 --- !u!1 &937807752
 GameObject:
   m_ObjectHideFlags: 0

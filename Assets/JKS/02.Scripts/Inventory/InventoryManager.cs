@@ -33,7 +33,8 @@ public class InventoryManager : MonoBehaviour
     {
         // 초기화 (최초 1회만 실행된다고 가정)
         // 실제 게임에서는 별도 SaveManager가 있는게 좋지만 일단 여기 유지
-        PlayerPrefs.DeleteAll();
+        // PlayerPrefs.DeleteAll(); 
+        // ┗> 배치된 아이템 위치를 저장하고 다시 불러오기 위해, 이 코드는 일단 주석처리함
         if (!PlayerPrefs.HasKey("Initialized"))
         {
             for (int i = 0; i < 5; i++) PlayerPrefs.SetInt("ITEM_" + i, 0);
@@ -48,6 +49,8 @@ public class InventoryManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha0)) AcquireItem(ItemType.RED);
         if (Input.GetKeyDown(KeyCode.Alpha1)) AcquireItem(ItemType.ORANGE);
         if (Input.GetKeyDown(KeyCode.Alpha2)) AcquireItem(ItemType.YELLOW);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) AcquireItem(ItemType.GREEN);
+        if (Input.GetKeyDown(KeyCode.Alpha4)) AcquireItem(ItemType.BLUE);
     }
 
     // ====================================================
@@ -63,6 +66,13 @@ public class InventoryManager : MonoBehaviour
 
         // ★ 핵심: 데이터가 변했으니 UI에게 업데이트하라고 알림
         OnInventoryUpdated?.Invoke();
+
+        // 위의 코드는 아래 코드와 동일
+        // if (OnInventoryUpdated != null)
+        // {
+        //     OnInventoryUpdated.Invoke();
+        // }
+
     }
 
     public bool HasItem(int index)
@@ -88,6 +98,12 @@ public class InventoryManager : MonoBehaviour
 
         // 아이템 생성 후 인벤토리를 닫고 싶다면 UI 쪽에서 처리하거나,
         // 여기서 이벤트를 보낼 수도 있습니다. (여기서는 UI가 알아서 닫도록 유도)
+
+        //#2 아이템 배치 저장 목적
+        var placed = go.GetComponent<PlacedItem>();
+        placed.itemIndex = index;
+
+
     }
 
     public void SelectItem(PlacedItem item)

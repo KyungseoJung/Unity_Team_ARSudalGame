@@ -7,6 +7,7 @@ public class PlacedItem : MonoBehaviour
     public Color selectedColor = Color.yellow;   //#4-2: 선택시 표시 색
     // //#6-1: 선택 표시용 오브젝트(자식)
     [SerializeField] private GameObject selectionRing; // "SelectionRing"
+    public int itemIndex;   //#2 아이템 배치 저장 목적
 
 
     void Awake()                    //#4-2

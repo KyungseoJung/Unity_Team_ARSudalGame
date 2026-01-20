@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class ItemSaveManager : MonoBehaviour
 {
-    // //#2 각 아이템들 위치를 JSON으로 저장하기. 어플 실행할 땐, 항상 가장 마지막 위치를 불러오기.
-    // 이름으로 매칭하기 때문에, 아이템들간의 이름이 서로 겹치지 않도록 주의.
-    [Header("저장할 아이템들 (큐브들)")]
-    public Transform[] items;
+    // #2 인벤토리에서 쓰는 것과 같은 순서의 프리팹 배열을 Inspector에 넣어줘야 함
+    // ㄴ어떤 아이템인지를 숫자(index)로 저장하기 때문!!! ㄴ 그리고 저장된 아이템 로드할 때 필요해서 프리팹으로 넣어두는 것
+    [Header("아이템 프리팹 목록 (InventoryManager와 동일 순서)")]
+    public GameObject[] itemPrefabs;
 
-    const string SaveKey = "ItemPositions_v1";
+    const string SaveKey = "ItemPositions_v2"; // v1과 구분 (이전 데이터와 충돌 방지)
 
     [Serializable]
     public class ItemEntry
     {
-        public string name;
-        public Vector3 position;
+        public int index;        // 어떤 아이템인지 (prefab index)
+        public Vector3 position; // 어디에 있는지
+        public Quaternion rotation; // (선택) 회전도 저장하고 싶으면
+        public Vector3 scale;       // (선택) 스케일도 저장하고 싶으면
     }
 
     [Serializable]
@@ -29,19 +31,16 @@ public class ItemSaveManager : MonoBehaviour
         LoadAll();
     }
 
-    // 앱이 종료될 때 자동 저장 (에디터 / PC)
     void OnApplicationQuit()
     {
         SaveAll();
     }
 
+
     // 모바일에서 홈버튼 눌러서 나갈 때 같은 상황
     void OnApplicationPause(bool pause)
     {
-        if (pause)
-        {
-            SaveAll();
-        }
+        if (pause) SaveAll();
     }
 
     [ContextMenu("Save Now")]
@@ -49,13 +48,21 @@ public class ItemSaveManager : MonoBehaviour
     {
         SaveData data = new SaveData();
 
-        foreach (var t in items)
+        // 씬에 있는 배치 아이템 전부 수집
+        PlacedItem[] placedItems = FindObjectsOfType<PlacedItem>();
+
+        foreach (var p in placedItems)
         {
-            if (t == null) continue;
+            if (p == null) continue;
 
             ItemEntry e = new ItemEntry();
-            e.name = t.name;               // 이름으로 구분
-            e.position = t.position;
+            e.index = p.itemIndex;
+            e.position = p.transform.position;
+
+            // (선택) 회전/스케일까지 저장해두면 방꾸미기 느낌이 더 좋아짐
+            e.rotation = p.transform.rotation;
+            e.scale = p.transform.localScale;
+
             data.items.Add(e);
         }
 
@@ -72,26 +79,49 @@ public class ItemSaveManager : MonoBehaviour
         if (!PlayerPrefs.HasKey(SaveKey))
         {
             Debug.Log("ItemSaveManager: No save found, use default positions.");
-            return; // 첫 실행 같은 경우
+            return;
         }
 
         string json = PlayerPrefs.GetString(SaveKey);
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-        // 이름 기준으로 매칭해서 위치 되돌리기
+        // 기존 배치 아이템 제거 (중복 방지)
+        foreach (var p in FindObjectsOfType<PlacedItem>())
+        {
+            Destroy(p.gameObject);
+        }
+
+        // 저장된 데이터대로 다시 생성
         foreach (var entry in data.items)
         {
-            // items 배열에서 같은 이름 가진 Transform 찾기
-            foreach (var t in items)
+            if (entry.index < 0 || entry.index >= itemPrefabs.Length)
             {
-                if (t != null && t.name == entry.name)
-                {
-                    t.position = entry.position;
-                    break;
-                }
+                Debug.LogWarning($"Invalid item index in save: {entry.index}");
+                continue;
             }
+
+            GameObject go = Instantiate(itemPrefabs[entry.index], entry.position, entry.rotation);
+
+            // (선택) 스케일 복원
+            go.transform.localScale = entry.scale;
+
+            // PlacedItem 세팅
+            var placed = go.GetComponent<PlacedItem>();
+            if (placed == null) placed = go.AddComponent<PlacedItem>();
+            placed.itemIndex = entry.index;
+
+            // 드래그 컴포넌트가 필요하면 붙이기
+            if (go.GetComponent<ItemDragger2D>() == null) go.AddComponent<ItemDragger2D>();
         }
 
         Debug.Log("ItemSaveManager: Loaded\n" + json);
+    }
+
+    [ContextMenu("Clear Save")]
+    public void ClearSave()
+    {
+        PlayerPrefs.DeleteKey(SaveKey);
+        PlayerPrefs.Save();
+        Debug.Log("ItemSaveManager: Save cleared");
     }
 }
