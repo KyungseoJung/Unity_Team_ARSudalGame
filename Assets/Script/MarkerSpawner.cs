@@ -1,16 +1,19 @@
 ﻿using UnityEngine;
 using Vuforia;
 
-public class ScreenFixedSpawner : MonoBehaviour
+public class MarkerSpawner : MonoBehaviour
 {
     [Header("Settings")]
-    public GameObject contentPrefab; // 수달 프리팹
-    public float spawnDistance = 0.5f; // 카메라 앞 0.5m
+    public GameObject contentPrefab;
+    public float spawnDistance = 0.5f;
+
+    [Header("Size Control")]
+    [Range(0.1f, 1.0f)]
+    public float screenFillRatio = 0.4f; // 화면 세로 높이의 40%만큼 차지하게 설정
 
     [Header("Fine Tuning")]
-    // 만약 중앙이 안 맞으면 이 값들을 조절해서 맞추세요 (모델 피벗 보정용)
     public Vector3 positionOffset = Vector3.zero;
-    public Vector3 rotationOffset = new Vector3(0, 180, 0); // 기본적으로 카메라 마주보기
+    public Vector3 rotationOffset = new Vector3(0, 180, 0);
 
     private bool hasSpawned = false;
     private ObserverBehaviour observerBehaviour;
@@ -36,7 +39,7 @@ public class ScreenFixedSpawner : MonoBehaviour
     {
         if (GameManager.Instance.CanSpawn() == false)
         {
-            Debug.Log("🚫 이미 다른 오브젝트가 있어서 소환할 수 없습니다.");
+            Debug.Log("🚫 이미 소환됨");
             return;
         }
 
@@ -44,21 +47,54 @@ public class ScreenFixedSpawner : MonoBehaviour
 
         // 1. 생성
         GameObject obj = Instantiate(contentPrefab, camTrans.position, Quaternion.identity);
-
-        // 2. 카메라의 자식으로 등록 (화면 고정의 핵심)
         obj.transform.SetParent(camTrans);
 
-        // 3. 위치 고정 (Local Position 사용)
-        // (0, 0, 거리)는 수학적으로 카메라의 정중앙입니다.
-        // 여기에 offset을 더해서 모델의 피벗 위치를 보정합니다.
-        obj.transform.localPosition = new Vector3(0, 0, spawnDistance) + positionOffset;
-
-        // 4. 회전 고정
+        // 2. 회전 & 기본 위치 설정 (스케일 계산을 위해 먼저 배치)
         obj.transform.localRotation = Quaternion.Euler(rotationOffset);
-        GameManager.Instance.RegisterObject(obj);
+        obj.transform.localPosition = new Vector3(0, 0, spawnDistance);
 
+        // 렌더러 가져오기 (크기 계산용)
+        Renderer rend = obj.GetComponent<Renderer>();
+        if (rend == null) rend = obj.GetComponentInChildren<Renderer>();
+
+        if (rend != null)
+        {
+            // ================================================================
+            // ★ [추가된 부분 1] 화면 비율에 맞춰 스케일 자동 조절 (Auto-Scaling)
+            // ================================================================
+
+            // A. 현재 거리에서 카메라가 볼 수 있는 '실제 월드 높이' 계산 (공식)
+            float frustumHeight = 2.0f * spawnDistance * Mathf.Tan(Camera.main.fieldOfView * 0.5f * Mathf.Deg2Rad);
+
+            // B. 우리가 원하는 물체의 목표 크기 (화면 높이의 N%)
+            float targetSize = frustumHeight * screenFillRatio;
+
+            // C. 현재 물체의 크기 (Bounds의 최대 축 사용)
+            float currentSize = Mathf.Max(rend.bounds.size.x, rend.bounds.size.y, rend.bounds.size.z);
+
+            // D. 비율 계산 (목표 / 현재)
+            if (currentSize > 0)
+            {
+                float scaleFactor = targetSize / currentSize;
+                obj.transform.localScale *= scaleFactor;
+            }
+
+            // ================================================================
+            // ★ [추가된 부분 2] 스케일 변경 후 중앙 정렬 (Auto-Centering)
+            // ================================================================
+            // 스케일이 변하면 Bounds도 변하므로, 스케일 조정 후에 위치를 다시 잡아야 정확함
+
+            Vector3 centerOffset = rend.bounds.center - obj.transform.position;
+            obj.transform.position -= centerOffset;
+        }
+
+        // 3. 미세 위치 조정 적용
+        obj.transform.localPosition += positionOffset;
+
+        GameManager.Instance.RegisterObject(obj);
         hasSpawned = true;
-        Debug.Log("✨ 수달 화면 중앙 고정 완료!");
+
+        Debug.Log($"✨ 소환 완료! (화면 비율: {screenFillRatio * 100}%)");
     }
 
     void OnDestroy()
