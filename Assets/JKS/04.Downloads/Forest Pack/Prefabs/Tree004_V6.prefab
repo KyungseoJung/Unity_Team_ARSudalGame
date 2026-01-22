@@ -125,8 +125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 686d0143964dab04e9aed2b224d19cd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RubbableObject
-  itemName: "\uC544\uAE30 \uC218\uB2EC"
-  itemType: 0
+  itemName: 
+  itemType: 1
   totalRubAmount: 50
   cleanEffect: {fileID: 0}
   dirtyRenderer: {fileID: 0}

@@ -33,7 +33,7 @@ public class InventoryManager : MonoBehaviour
     {
         // 초기화 (최초 1회만 실행된다고 가정)
         // 실제 게임에서는 별도 SaveManager가 있는게 좋지만 일단 여기 유지
-        // PlayerPrefs.DeleteAll(); 
+        PlayerPrefs.DeleteAll(); 
         // ┗> 배치된 아이템 위치를 저장하고 다시 불러오기 위해, 이 코드는 일단 주석처리함
         if (!PlayerPrefs.HasKey("Initialized"))
         {
