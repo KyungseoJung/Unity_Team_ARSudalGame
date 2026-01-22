@@ -29,6 +29,7 @@ public class RubbableObject : MonoBehaviour
     // ★ InputManager가 이 함수를 호출합니다.
     public void AddRub(float amount)
     {
+        // Debug.Log("Test");
         if (isCompleted) return;
 
         currentRub += amount;

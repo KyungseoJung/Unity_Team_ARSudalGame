@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 1136316114067449025}
   - component: {fileID: 2891863146758803467}
   - component: {fileID: -5306151856118655420}
-  m_Layer: 0
+  - component: {fileID: -1734993180235363867}
+  m_Layer: 6
   m_Name: 01_Tree002_V2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,3 +114,20 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 2552786528676645040, guid: 810b71f38fe0d514a913fe8e01fbc695, type: 3}
+--- !u!114 &-1734993180235363867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3684237265513853406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 686d0143964dab04e9aed2b224d19cd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RubbableObject
+  itemName: 
+  itemType: 0
+  totalRubAmount: 50
+  cleanEffect: {fileID: 0}
+  dirtyRenderer: {fileID: 0}

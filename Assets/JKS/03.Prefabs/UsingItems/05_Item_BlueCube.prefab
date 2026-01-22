@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2105391144870497911}
   - component: {fileID: 7286953025312232978}
   - component: {fileID: 825590783396663454}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 05_Item_BlueCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 5252802429893853092}
   - component: {fileID: 4508367916813916493}
   - component: {fileID: 245758553519116108}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SelectionRing
   m_TagString: Untagged
   m_Icon: {fileID: 0}

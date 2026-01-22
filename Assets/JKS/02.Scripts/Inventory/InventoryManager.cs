@@ -20,7 +20,7 @@ public class InventoryManager : MonoBehaviour
     PlacedItem currentSelected;
     int frontOrderCounter = 0;
 
-    public enum ItemType { OTTER, TREE, STREAM, STONE, MOUNTAIN }
+    public enum ItemType { TREE, MOUNTAIN, STONE, WOOD, OTTER }
 
     private void Awake()
     {
@@ -33,11 +33,17 @@ public class InventoryManager : MonoBehaviour
     {
         // 초기화 (최초 1회만 실행된다고 가정)
         // 실제 게임에서는 별도 SaveManager가 있는게 좋지만 일단 여기 유지
-        PlayerPrefs.DeleteAll(); 
+        // PlayerPrefs.DeleteAll(); 
         // ┗> 배치된 아이템 위치를 저장하고 다시 불러오기 위해, 이 코드는 일단 주석처리함
         if (!PlayerPrefs.HasKey("Initialized"))
         {
-            for (int i = 0; i < 5; i++) PlayerPrefs.SetInt("ITEM_" + i, 0);
+            // for (int i = 0; i < 5; i++) PlayerPrefs.SetInt("ITEM_" + i, 0);
+            //#7 아이템 이름 변경 -----------------------
+            foreach (ItemType type in Enum.GetValues(typeof(ItemType)))
+            {
+                PlayerPrefs.SetInt(GetItemKey(type), 0);
+            }
+
             PlayerPrefs.SetInt("Initialized", 1);
             PlayerPrefs.Save();
         }
@@ -45,12 +51,12 @@ public class InventoryManager : MonoBehaviour
 
     private void Update()
     {
-        // 테스트용 입력 (데이터 획득 로직)
-        if (Input.GetKeyDown(KeyCode.Alpha0)) AcquireItem(ItemType.OTTER);
-        if (Input.GetKeyDown(KeyCode.Alpha1)) AcquireItem(ItemType.TREE);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) AcquireItem(ItemType.STREAM);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) AcquireItem(ItemType.STONE);
-        if (Input.GetKeyDown(KeyCode.Alpha4)) AcquireItem(ItemType.MOUNTAIN);
+        // // 테스트용 입력 (데이터 획득 로직)
+        // if (Input.GetKeyDown(KeyCode.Alpha0)) AcquireItem(ItemType.OTTER);
+        // if (Input.GetKeyDown(KeyCode.Alpha1)) AcquireItem(ItemType.TREE);
+        // if (Input.GetKeyDown(KeyCode.Alpha2)) AcquireItem(ItemType.PLANT);
+        // if (Input.GetKeyDown(KeyCode.Alpha3)) AcquireItem(ItemType.STONE);
+        // if (Input.GetKeyDown(KeyCode.Alpha4)) AcquireItem(ItemType.MOUNTAIN);
     }
 
     // ====================================================
@@ -58,10 +64,14 @@ public class InventoryManager : MonoBehaviour
     // ====================================================
     public void AcquireItem(ItemType itemType)
     {
-        int index = (int)itemType;
-        PlayerPrefs.SetInt("ITEM_" + index, 1);
-        PlayerPrefs.Save();
+        // int index = (int)itemType;
+        // PlayerPrefs.SetInt("ITEM_" + index, 1);
+        //#7 아이템 이름 변경 : 이제는 아이템 이름으로 설정 ------------------
+        string key = GetItemKey(itemType);
+        PlayerPrefs.SetInt(key, 1);
 
+
+        PlayerPrefs.Save();
         Debug.Log($"Item acquired: {itemType}");
 
         // ★ 핵심: 데이터가 변했으니 UI에게 업데이트하라고 알림
@@ -75,9 +85,22 @@ public class InventoryManager : MonoBehaviour
 
     }
 
+    public bool HasItem(ItemType type)
+    {
+        //#7 아이템 이름 변경 -----------------------
+        // return PlayerPrefs.GetInt("ITEM_" + index, 0) == 1;
+        return PlayerPrefs.GetInt(GetItemKey(type), 0) == 1;
+        // 아이템을 가지고 있으면 true/ 없으면 false 리턴~~
+    }
+    //#7 int 버전도 만들어줘서, 기존에 InventoryUI.cs와 연결된 부분을 그대로 유지해주자
     public bool HasItem(int index)
     {
-        return PlayerPrefs.GetInt("ITEM_" + index, 0) == 1;
+        return HasItem((ItemType)index);
+    }
+
+    private string GetItemKey(ItemType type)    //#7 아이템 이름 변경 : 이제는 아이템 이름으로 설정 ------------------
+    {
+        return $"ITEM_{type}";
     }
 
     // ====================================================
@@ -88,7 +111,7 @@ public class InventoryManager : MonoBehaviour
         Vector3 basePos = (spawnBase != null) ? spawnBase.position : Vector3.zero;
         Vector3 spawnPos = basePos + Vector3.up * spawnHeight;
 
-
+        Debug.Log("아이템 소환: " + itemPrefabs[index]);
  
         GameObject go = Instantiate(itemPrefabs[index], spawnPos, Quaternion.identity);
 

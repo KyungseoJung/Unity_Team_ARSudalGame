@@ -5,17 +5,17 @@ using UnityEngine.SceneManagement;
 public class InventoryUI : MonoBehaviour
 {
     [Header("UI References")]
-    public GameObject inventoryPanel;  // ÀÎº¥Åä¸® ÀüÃ¼ ÆĞ³Î
-    public Transform slotsArea;        // ½½·ÔµéÀÌ »ı¼ºµÉ ºÎ¸ğ Transform
-    public GameObject slotPrefab;      // ½½·Ô UI ÇÁ¸®ÆÕ
+    public GameObject inventoryPanel;  // ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½Ã¼ ï¿½Ğ³ï¿½
+    public Transform slotsArea;        // ï¿½ï¿½ï¿½Ôµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¸ï¿½ Transform
+    public GameObject slotPrefab;      // ï¿½ï¿½ï¿½ï¿½ UI ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     private void Start()
     {
-        // ½ÃÀÛÇÒ ¶§ UI ÃÊ±âÈ­
-        inventoryPanel.SetActive(false); // ±âº»ÀûÀ¸·Î ´İ¾ÆµÒ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ UI ï¿½Ê±ï¿½È­
+        inventoryPanel.SetActive(false); // ï¿½âº»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½İ¾Æµï¿½
         RefreshUI();
 
-        // ¡Ú ÇÙ½É: ¸Å´ÏÀúÀÇ ÀÌº¥Æ® ±¸µ¶ (µ¥ÀÌÅÍ°¡ º¯ÇÏ¸é ³ª¿¡°Ô ¾Ë·ÁÁà)
+        // ï¿½ï¿½ ï¿½Ù½ï¿½: ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½ï¿½)
         if (InventoryManager.Instance != null)
         {
             InventoryManager.Instance.OnInventoryUpdated += RefreshUI;
@@ -24,14 +24,14 @@ public class InventoryUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        // ¾ÀÀÌ ¹Ù²î°Å³ª °´Ã¼°¡ ÆÄ±«µÉ ¶§ ±¸µ¶ ÇØÁ¦ (¸Ş¸ğ¸® ´©¼ö ¹æÁö)
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½Å³ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ä±ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Ş¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
         if (InventoryManager.Instance != null)
         {
             InventoryManager.Instance.OnInventoryUpdated -= RefreshUI;
         }
     }
 
-    // ÀÎº¥Åä¸® ¿­°í ´İ±â (¹öÆ° ¿¬°á¿ë)
+    // ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ ï¿½İ±ï¿½ (ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½)
     public void ToggleInventory()
     {
         bool isActive = !inventoryPanel.activeSelf;
@@ -39,7 +39,7 @@ public class InventoryUI : MonoBehaviour
 
         if (isActive)
         {
-            RefreshUI(); // ¿­ ¶§ ÃÖ½Å »óÅÂ·Î °»½Å
+            RefreshUI(); // ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
     }
 
@@ -56,10 +56,10 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    // ½½·Ô ±×¸®±â (GenerateSlots)
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ (GenerateSlots)
     void RefreshUI()
     {
-        // 1. ±âÁ¸ ½½·Ô »èÁ¦
+        // 1. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         foreach (Transform child in slotsArea)
         {
             Destroy(child.gameObject);
@@ -70,22 +70,25 @@ public class InventoryUI : MonoBehaviour
 
         string currentSceneName = SceneManager.GetActiveScene().name;
 
-        // 2. µ¥ÀÌÅÍ È®ÀÎ ÈÄ ½½·Ô »ı¼º
+        // 2. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         for (int i = 0; i < manager.itemPrefabs.Length; i++)
         {
-            // ¸Å´ÏÀú¿¡°Ô "³ª ÀÌ ¾ÆÀÌÅÛ ÀÖ¾î?" ¶ó°í ¹°¾îº½
+            // ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ "ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½?" ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½îº½
             if (manager.HasItem(i))
             {
                 GameObject slot = Instantiate(slotPrefab, slotsArea);
 
-                // ½½·Ô ½ºÅ©¸³Æ® ¼³Á¤
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
                 InventorySlot slotScript = slot.GetComponent<InventorySlot>();
                 if (slotScript != null)
                 {
-                    slotScript.Setup(i, "Item " + i);
+                    // slotScript.Setup(i, "Item " + i);
+                    //#7 ì•„ì´í…œ ì´ë¦„ ë³€ê²½ -----------------------
+                    var typeName = ((InventoryManager.ItemType)i).ToString();
+                    slotScript.Setup(i, typeName);
                     Button slotBtn = slot.GetComponent<Button>();
 
-                    // ½½·Ô Å¬¸¯ ÀÌº¥Æ® ¿¬°á (Å¬¸¯ ½Ã ½ºÆù + Ã¢ ´İ±â)
+                    // ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ (Å¬ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ + Ã¢ ï¿½İ±ï¿½)
 
                     if (currentSceneName != "Item_Get_Scene")
                     {
@@ -100,7 +103,7 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    // "È¸¼öÇÏ±â" ¹öÆ°¿¡ ¿¬°áÇÒ ÇÔ¼ö
+    // "È¸ï¿½ï¿½ï¿½Ï±ï¿½" ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     public void OnReturnButtonClicked()
     {
         InventoryManager.Instance.ReturnSelectedItem();

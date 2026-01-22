@@ -3,33 +3,33 @@ using UnityEngine;
 public class InteractionManager : MonoBehaviour
 {
     [Header("Settings")]
-    public LayerMask interactableLayer; // RubbableObject°¡ ÀÖ´Â ·¹ÀÌ¾î
-    public float rubSensitivity = 5.0f; // ¹®Áö¸§ °­µµ
+    public LayerMask interactableLayer; // RubbableObjectï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½
+    public float rubSensitivity = 5.0f; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     private Vector3 lastMousePosition;
 
     void Update()
     {
-        // ¸¶¿ì½º Å¬¸¯(µå·¡±×) ÁßÀÏ ¶§
+        // ï¿½ï¿½ï¿½ì½º Å¬ï¿½ï¿½(ï¿½å·¡ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
         if (Input.GetMouseButton(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            // ·¹ÀÌÄ³½ºÆ®·Î ¹°Ã¼ °¨Áöv
+            // ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½v
             if (Physics.Raycast(ray, out hit, 100f, interactableLayer))
             {
-                // °¨ÁöµÈ ¹°Ã¼¿¡ RubbableObject°¡ ÀÖ´ÂÁö È®ÀÎ
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ RubbableObjectï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
                 RubbableObject target = hit.collider.GetComponent<RubbableObject>();
 
                 if (target != null)
                 {
-                    // ¸¶¿ì½º ¿òÁ÷ÀÓ(delta) ¸¸Å­ ¹®Áö¸§ ¼öÄ¡ Àü´Þ
+                    // ï¿½ï¿½ï¿½ì½º ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(delta) ï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
                     float mouseDelta = (Input.mousePosition - lastMousePosition).magnitude;
 
                     if (mouseDelta > 0)
                     {
-                        // ³Ê¹« ºü¸¥ ¿òÁ÷ÀÓ º¸Á¤ µîÀ» ¿øÇÏ¸é ¿©±â¼­ Á¶Àý
+                        // ï¿½Ê¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½â¼­ ï¿½ï¿½ï¿½ï¿½
                         target.AddRub(mouseDelta * rubSensitivity * Time.deltaTime);
                     }
                 }
