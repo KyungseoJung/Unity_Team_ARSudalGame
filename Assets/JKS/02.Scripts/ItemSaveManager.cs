@@ -49,7 +49,9 @@ public class ItemSaveManager : MonoBehaviour
         SaveData data = new SaveData();
 
         // 씬에 있는 배치 아이템 전부 수집
-        PlacedItem[] placedItems = FindObjectsOfType<PlacedItem>();
+        // PlacedItem[] placedItems = FindObjectsOfType<PlacedItem>();
+        //#8 노란 경고 고치기 -----------
+        PlacedItem[] placedItems = FindObjectsByType<PlacedItem>(FindObjectsSortMode.None);
 
         foreach (var p in placedItems)
         {
@@ -86,10 +88,16 @@ public class ItemSaveManager : MonoBehaviour
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
         // 기존 배치 아이템 제거 (중복 방지)
-        foreach (var p in FindObjectsOfType<PlacedItem>())
+        // foreach (var p in FindObjectsOfType<PlacedItem>())
+        // {
+        //     Destroy(p.gameObject);
+        // }
+        //#8 노란 경고 고치기 -----------
+        foreach (var p in FindObjectsByType<PlacedItem>(FindObjectsSortMode.None))
         {
             Destroy(p.gameObject);
         }
+
 
         // 저장된 데이터대로 다시 생성
         foreach (var entry in data.items)

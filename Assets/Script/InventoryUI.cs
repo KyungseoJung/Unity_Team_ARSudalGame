@@ -106,6 +106,15 @@ public class InventoryUI : MonoBehaviour
     // "ȸ���ϱ�" ��ư�� ������ �Լ�
     public void OnReturnButtonClicked()
     {
-        InventoryManager.Instance.ReturnSelectedItem();
+        // InventoryManager.Instance.ReturnSelectedItem();
+        //#8 아무것도 안 누르고 Return 눌렀을 때, 빨간 에러 발생하는 것 고치기
+        var manager = InventoryManager.Instance;
+        if (manager == null)
+        {
+            Debug.LogWarning("InventoryUI: InventoryManager.Instance is null (Return ignored).");
+            return;
+        }
+
+        manager.ReturnSelectedItem();
     }
 }
