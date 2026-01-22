@@ -50,8 +50,14 @@ public class InventoryUI : MonoBehaviour
         {
             SceneManager.LoadScene("Item_Place_Scene");
         }
-        else
+        else if(sceneName == "Item_Place_Scene")
         {
+            // 씬 이동 전에 현재 배치 씬이라면 저장
+            var saver = FindFirstObjectByType<ItemSaveManager>();
+            if (saver != null)
+            {
+                saver.SaveAll();
+            }
             SceneManager.LoadScene("Item_Get_Scene");
         }
     }
