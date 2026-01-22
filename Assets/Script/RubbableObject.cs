@@ -1,69 +1,63 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using System;
 
 public class RubbableObject : MonoBehaviour
 {
     [Header("Settings")]
-    public string itemName = "아기 수달"; // 인벤토리에 들어갈 이름
-    public float totalRubAmount = 50f;    // 깨끗해지기 위해 필요한 문지름 총량
-    public GameObject cleanEffect;        // 완료 시 터질 이펙트 (반짝임)
+    public string itemName;
+    public InventoryManager.ItemType itemType;
+    public float totalRubAmount = 50f;
+    public GameObject cleanEffect;
 
     [Header("Visuals")]
-    public Renderer dirtyRenderer; // 더러운 모델의 렌더러 (투명도 조절용)
+    public Renderer dirtyRenderer;
 
     private float currentRub = 0f;
     private bool isCompleted = false;
+    private MaterialPropertyBlock propBlock; // 성능 최적화용
 
-    public event Action<string> OnCleaningCompleted;
+    // 완료되었을 때 외부(매니저)에 알리는 이벤트
+    public event Action<RubbableObject> OnCleaningCompleted;
 
     void Start()
     {
-        // 시작 시 더러운 상태(불투명)로 초기화
+        propBlock = new MaterialPropertyBlock();
+        itemName = transform.name;
         UpdateAlpha(1.0f);
     }
 
-    // InputManager에서 호출할 함수
+    // ★ InputManager가 이 함수를 호출합니다.
     public void AddRub(float amount)
     {
         if (isCompleted) return;
 
-        // 문지른 만큼 수치 증가
         currentRub += amount;
-
-        // 진행도 (1.0 = 시작, 0.0 = 완료)
         float progress = 1.0f - (currentRub / totalRubAmount);
         progress = Mathf.Clamp01(progress);
 
-        // 시각적 업데이트 (투명도 조절)
         UpdateAlpha(progress);
 
-        // 청소 완료 체크
         if (progress <= 0f)
         {
             CompleteCleaning();
         }
     }
+
     void UpdateAlpha(float alpha)
     {
         if (dirtyRenderer != null)
         {
-            // 1. 머티리얼 복사본 가져오기 (자동 생성됨)
-            Material mat = dirtyRenderer.material;
+            // MaterialPropertyBlock을 사용하여 배칭 깨짐 방지 & 성능 향상
+            dirtyRenderer.GetPropertyBlock(propBlock);
 
-            // 2. URP인지 레거시인지 확인해서 프로퍼티 이름 결정
-            string propertyName = "_BaseColor"; // URP 기본 이름
-            if (!mat.HasProperty(propertyName))
-            {
-                propertyName = "_Color"; // 레거시(Built-in) 이름
-            }
+            // 쉐이더 프로퍼티 이름은 사용중인 쉐이더에 맞춰 수정 필요 (_BaseColor or _Color)
+            Color currentColor = dirtyRenderer.sharedMaterial.color;
+            currentColor.a = alpha;
 
-            // 3. 색상 가져와서 알파값만 바꾸고 다시 넣기
-            if (mat.HasProperty(propertyName))
-            {
-                Color color = mat.GetColor(propertyName);
-                color.a = alpha;
-                mat.SetColor(propertyName, color);
-            }
+            // URP Lit Shader 기준 "_BaseColor", Legacy는 "_Color"
+            propBlock.SetColor("_BaseColor", currentColor);
+
+            dirtyRenderer.SetPropertyBlock(propBlock);
         }
     }
 
@@ -71,32 +65,16 @@ public class RubbableObject : MonoBehaviour
     {
         isCompleted = true;
 
-        // 1. 더러운 껍데기 완전히 끄기
         if (dirtyRenderer) dirtyRenderer.gameObject.SetActive(false);
+        if (cleanEffect) Instantiate(cleanEffect, transform.position, Quaternion.identity);
 
-        /*
-         * 
-        // 2. 인벤토리에 추가 (SimpleInventory가 있다면)
-        if (SimpleInventory.Instance != null)
-        {
-            SimpleInventory.Instance.AddItem(itemName);
-        }
-        else
-        {
-            Debug.Log($"✨ {itemName} 획득! (인벤토리 시스템 없음)");
-        }
-        */
+        Debug.Log("✨ 청소 완료!");
 
-        // 3. 이펙트 재생
-        if (cleanEffect)
-            Instantiate(cleanEffect, transform.position, Quaternion.identity);
+        // ★ "나 끝났어!"라고 외치기 (매니저가 듣고 인벤토리에 넣음)
+        OnCleaningCompleted?.Invoke(this);
 
-        // 4. (선택) 수달이 기뻐하는 애니메이션 재생 등 추가 가능
-
-        // 5. 사라지게 만들기
-        OnCleaningCompleted?.Invoke(itemName);
-        Destroy(gameObject);
+        // 바로 파괴하지 않고 매니저가 처리하도록 하거나, 잠시 뒤 파괴
+        // Destroy(gameObject); // 여기서 바로 파괴하면 이벤트 전달에 문제가 생길 수 있음
+        gameObject.SetActive(false);
     }
-
-
 }

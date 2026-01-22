@@ -29,39 +29,40 @@ public class GameManager : MonoBehaviour
     {
         currentActiveObject = obj;
 
-        // ★ 핵심 연결 고리! ★
         RubbableObject rubObj = obj.GetComponent<RubbableObject>();
         if (rubObj != null)
         {
-            // "수달아, 네가 청소 끝났다고 방송(Event)하면, 
-            // 내가 인벤토리 매니저한테 연락해서 아이템 넣으라고 시킬게."
-            rubObj.OnCleaningCompleted += HandleItemCollected;
+            // 1. 기존에 혹시 연결된게 있다면 중복 방지를 위해 끊어줌 (안전장치)
+            rubObj.OnCleaningCompleted -= HandleCleaningComplete;
 
-            // 나중에 수달이 사라지면 나한테도 알려줘 (내 자리 비우게)
-            rubObj.OnCleaningCompleted += HandleObjectDestroyed;
+            // 2. 이벤트 구독: "청소 끝나면 HandleCleaningComplete 함수를 실행해!"
+            rubObj.OnCleaningCompleted += HandleCleaningComplete;
+
+            Debug.Log($"[GameManager] {rubObj.itemName} 추적 시작");
         }
     }
 
-    // 인벤토리에 추가하라고 시키는 함수
-    void HandleItemCollected(string itemName)
+    // ★ 수달이 청소를 끝내고(OnCleaningCompleted) 호출할 함수
+    // RubbableObject 스크립트에서 invoke할 때 자기 자신(this)을 매개변수로 넘겨줘야 함
+    void HandleCleaningComplete(RubbableObject completedItem)
     {
-        Debug.Log("얻은 아이템 이름! " + itemName);
+        Debug.Log($"[GameManager] 청소 완료 확인: {completedItem.itemName}");
+
+        // 1. 인벤토리에 아이템 추가
         if (InventoryManager.Instance != null)
-        { 
-            //InventoryManager.Instance.AddItem(itemName); 추후 인벤토리매니저에서 아이템 추가 함수 생기면 수정
+        {
+            // 수달이 가지고 있는 itemType 정보를 넘겨줌
+            InventoryManager.Instance.AcquireItem(completedItem.itemType);
         }
-    }
 
-    // 자리 비우는 함수
-    void HandleObjectDestroyed(string itemName) // 매개변수 맞춰줌
-    {
-        UnregisterObject();
-    }
+        // 2. 현재 활성화된 오브젝트 비우기 (이제 다음 수달 소환 가능)
+        if (currentActiveObject == completedItem.gameObject)
+        {
+            currentActiveObject = null;
+        }
 
-    // 수집 완료해서 사라질 때 해제하기
-    public void UnregisterObject()
-    {
-        currentActiveObject = null;
-        Debug.Log("🔓 오브젝트 해제됨: 이제 다른 소환 가능!");
+        // 3. 수달 퇴장 처리 (이펙트 후 파괴는 RubbableObject 내부에서 하거나 여기서 처리)
+        // RubbableObject.CompleteCleaning() 안에서 Destroy를 하고 있다면 
+        // 여기서는 아무것도 안 해도 됩니다.
     }
 }

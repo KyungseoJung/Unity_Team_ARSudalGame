@@ -20,7 +20,7 @@ public class InventoryManager : MonoBehaviour
     PlacedItem currentSelected;
     int frontOrderCounter = 0;
 
-    public enum ItemType { RED, ORANGE, YELLOW, GREEN, BLUE }
+    public enum ItemType { OTTER, TREE, STREAM, STONE, MOUNTAIN }
 
     private void Awake()
     {
@@ -46,11 +46,11 @@ public class InventoryManager : MonoBehaviour
     private void Update()
     {
         // 테스트용 입력 (데이터 획득 로직)
-        if (Input.GetKeyDown(KeyCode.Alpha0)) AcquireItem(ItemType.RED);
-        if (Input.GetKeyDown(KeyCode.Alpha1)) AcquireItem(ItemType.ORANGE);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) AcquireItem(ItemType.YELLOW);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) AcquireItem(ItemType.GREEN);
-        if (Input.GetKeyDown(KeyCode.Alpha4)) AcquireItem(ItemType.BLUE);
+        if (Input.GetKeyDown(KeyCode.Alpha0)) AcquireItem(ItemType.OTTER);
+        if (Input.GetKeyDown(KeyCode.Alpha1)) AcquireItem(ItemType.TREE);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) AcquireItem(ItemType.STREAM);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) AcquireItem(ItemType.STONE);
+        if (Input.GetKeyDown(KeyCode.Alpha4)) AcquireItem(ItemType.MOUNTAIN);
     }
 
     // ====================================================
