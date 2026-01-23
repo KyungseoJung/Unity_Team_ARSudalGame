@@ -148,6 +148,11 @@ public class InventoryManager : MonoBehaviour
         OnSelectionChanged?.Invoke(currentSelected);
     }
 
+    public PlacedItem GetSelected() //#9-2 선택한 아이템에 대해서만 크기 변경되도록
+    {
+        return currentSelected;
+    }
+    
     public void ClearSelection()
     {
         if (currentSelected != null)
