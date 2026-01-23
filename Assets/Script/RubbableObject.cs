@@ -8,6 +8,8 @@ public class RubbableObject : MonoBehaviour
     public InventoryManager.ItemType itemType;
     public float totalRubAmount = 50f;
     public GameObject cleanEffect;
+    [Range(0.1f, 5.0f)] // 슬라이더로 편하게 조절하도록 범위 지정
+    public float effectScaleMultiplier = 1.0f;
 
     [Header("Visuals")]
     public Renderer dirtyRenderer;
@@ -29,10 +31,18 @@ public class RubbableObject : MonoBehaviour
     // ★ InputManager가 이 함수를 호출합니다.
     public void AddRub(float amount)
     {
-        // Debug.Log("Test");
         if (isCompleted) return;
 
-        currentRub += amount;
+        // 1. 입력받은 amount(delta)를 감쇠시켜 적용합니다. 
+        // New Input System의 delta는 값이 매우 크기 때문에 0.01~0.1 정도를 곱하는 것이 적당합니다.
+        float adjustedAmount = amount * 0.05f;
+
+        // 2. 한 프레임에 너무 많은 양이 쌓이지 않도록 제한 (순간적인 텔레포트 등 방어)
+        adjustedAmount = Mathf.Min(adjustedAmount, 2.0f);
+
+        currentRub += adjustedAmount;
+
+        // 3. 진행도 계산
         float progress = 1.0f - (currentRub / totalRubAmount);
         progress = Mathf.Clamp01(progress);
 
@@ -67,8 +77,11 @@ public class RubbableObject : MonoBehaviour
         isCompleted = true;
 
         if (dirtyRenderer) dirtyRenderer.gameObject.SetActive(false);
-        if (cleanEffect) Instantiate(cleanEffect, transform.position, Quaternion.identity);
-
+        if (cleanEffect)
+        {
+            GameObject effect = Instantiate(cleanEffect, transform.position, Quaternion.identity);
+            Destroy(effect, 333.0f);
+        }
         Debug.Log("✨ 청소 완료!");
 
         // ★ "나 끝났어!"라고 외치기 (매니저가 듣고 인벤토리에 넣음)
