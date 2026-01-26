@@ -48,6 +48,18 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"[GameManager] 청소 완료 확인: {completedItem.itemName}");
 
+        UIManager.Instance.ShowAcquirePopup(completedItem.itemName);
+
+        if (completedItem.mySpawner != null)
+        {
+            completedItem.mySpawner.MarkAsCollected();
+        }
+        else
+        {
+            // 예외 상황: 혹시 모르니 전체 리셋 (기존 방식)
+            ResetAllTrackingSystems();
+        }
+
         // 1. 인벤토리에 아이템 추가
         if (InventoryManager.Instance != null)
         {
@@ -60,10 +72,6 @@ public class GameManager : MonoBehaviour
         {
             currentActiveObject = null;
         }
-        ResetAllTrackingSystems();
-        // 3. 수달 퇴장 처리 (이펙트 후 파괴는 RubbableObject 내부에서 하거나 여기서 처리)
-        // RubbableObject.CompleteCleaning() 안에서 Destroy를 하고 있다면 
-        // 여기서는 아무것도 안 해도 됩니다.
     }
     private void ResetAllTrackingSystems()
     {

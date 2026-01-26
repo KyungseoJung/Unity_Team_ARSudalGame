@@ -3,13 +3,17 @@ using Vuforia;
 
 public class MarkerSpawner : MonoBehaviour
 {
+    [Header("Marker Settings")]
+    public string markerID;
+    public bool isCollected = false;    // ★ [추가] 수집 완료 여부
+
     [Header("Settings")]
     public GameObject contentPrefab;
     public float spawnDistance = 0.5f;
 
     [Header("Size Control")]
     [Range(0.1f, 1.0f)]
-    public float screenFillRatio = 0.4f; // 화면 세로 높이의 40%만큼 차지하게 설정
+    public float screenFillRatio = 0.4f;
 
     [Header("Fine Tuning")]
     public Vector3 positionOffset = Vector3.zero;
@@ -18,17 +22,26 @@ public class MarkerSpawner : MonoBehaviour
     public bool hasSpawned = false;
     private ObserverBehaviour observerBehaviour;
 
-    void Start()
+void Start()
     {
         observerBehaviour = GetComponent<ObserverBehaviour>();
-        if (observerBehaviour)
+        
+        // [저장된 데이터 로드] 이전에 수집했었다면 바로 끄기
+        if (PlayerPrefs.GetInt(markerID, 0) == 1)
         {
-            observerBehaviour.OnTargetStatusChanged += OnTargetStatusChanged;
+            isCollected = true;
+            if (observerBehaviour) observerBehaviour.enabled = false;
+            return;
         }
+
+        if (observerBehaviour)
+            observerBehaviour.OnTargetStatusChanged += OnTargetStatusChanged;
     }
 
     private void OnTargetStatusChanged(ObserverBehaviour behaviour, TargetStatus targetStatus)
     {
+        if (isCollected) return; // 수집 완료 시 원천 차단
+
         if (!hasSpawned && (targetStatus.Status == Status.TRACKED || targetStatus.Status == Status.EXTENDED_TRACKED))
         {
             SpawnAndLock();
@@ -37,11 +50,7 @@ public class MarkerSpawner : MonoBehaviour
 
     void SpawnAndLock()
     {
-        if (GameManager.Instance.CanSpawn() == false)
-        {
-            Debug.Log("🚫 이미 소환됨");
-            return;
-        }
+        if (GameManager.Instance.CanSpawn() == false || isCollected) return;
 
         Transform camTrans = Camera.main.transform;
 
@@ -49,69 +58,85 @@ public class MarkerSpawner : MonoBehaviour
         GameObject obj = Instantiate(contentPrefab, camTrans.position, Quaternion.identity);
         obj.transform.SetParent(camTrans);
 
-        // 2. 회전 & 기본 위치 설정 (스케일 계산을 위해 먼저 배치)
+        // 2. 기본 배치 및 회전
         obj.transform.localRotation = Quaternion.Euler(rotationOffset);
         obj.transform.localPosition = new Vector3(0, 0, spawnDistance);
 
-        // 렌더러 가져오기 (크기 계산용)
+        RubbableObject rubScript = obj.GetComponent<RubbableObject>();
+        if (rubScript != null)
+        {
+            rubScript.mySpawner = this; // RubbableObject에 이 변수를 추가해야 함
+        }
+
+        // 렌더러 기반 스케일 조절
         Renderer rend = obj.GetComponent<Renderer>();
         if (rend == null) rend = obj.GetComponentInChildren<Renderer>();
 
         if (rend != null)
         {
-            // ================================================================
-            // ★ [추가된 부분 1] 화면 비율에 맞춰 스케일 자동 조절 (Auto-Scaling)
-            // ================================================================
-
-            // A. 현재 거리에서 카메라가 볼 수 있는 '실제 월드 높이' 계산 (공식)
+            // Auto-Scaling 로직
             float frustumHeight = 2.0f * spawnDistance * Mathf.Tan(Camera.main.fieldOfView * 0.5f * Mathf.Deg2Rad);
-
-            // B. 우리가 원하는 물체의 목표 크기 (화면 높이의 N%)
             float targetSize = frustumHeight * screenFillRatio;
-
-            // C. 현재 물체의 크기 (Bounds의 최대 축 사용)
             float currentSize = Mathf.Max(rend.bounds.size.x, rend.bounds.size.y, rend.bounds.size.z);
 
-            // D. 비율 계산 (목표 / 현재)
             if (currentSize > 0)
             {
                 float scaleFactor = targetSize / currentSize;
                 obj.transform.localScale *= scaleFactor;
             }
 
-            // ================================================================
-            // ★ [추가된 부분 2] 스케일 변경 후 중앙 정렬 (Auto-Centering)
-            // ================================================================
-            // 스케일이 변하면 Bounds도 변하므로, 스케일 조정 후에 위치를 다시 잡아야 정확함
-
+            // 중앙 정렬
             Vector3 centerOffset = rend.bounds.center - obj.transform.position;
             obj.transform.position -= centerOffset;
+
+            // ★ [추가] UI 매니저를 통해 정수리 이름표 띄우기 (소환 시 1회 계산)
+            if (UIManager.Instance != null)
+            {
+                string itemName = obj.name.Replace("(Clone)", "");
+                UIManager.Instance.ShowOtterInfo(itemName);
+            }
         }
 
-        // 3. 미세 위치 조정 적용
+        // 3. 미세 위치 조정
         obj.transform.localPosition += positionOffset;
 
-        var observer = GetComponent<Vuforia.ObserverBehaviour>();
-        if (observer != null)
+        // 4. 소환 즉시 마커 인식 일시 중지 (각도/조명 떨림 방지)
+        if (observerBehaviour != null)
         {
-            observer.enabled = false;
-            Debug.Log("<color=yellow>마커 트래킹이 중지되었습니다. 이제 물체가 고정됩니다.</color>");
+            observerBehaviour.enabled = false;
+            Debug.Log("<color=yellow>마커 트래킹 일시 중지 (오브젝트 고정)</color>");
         }
+
+        if (observerBehaviour) observerBehaviour.enabled = false;
 
         GameManager.Instance.RegisterObject(obj);
         hasSpawned = true;
+    }
 
-        Debug.Log($"✨ 소환 완료! (화면 비율: {screenFillRatio * 100}%)");
+    // ★ [추가] 수집 완료 시 GameManager가 호출할 함수
+    public void MarkAsCollected()
+    {
+        isCollected = true;
+        hasSpawned = false;
+
+        // 마커 기능을 영구적으로 꺼서 다시는 인식되지 않게 함
+        if (observerBehaviour != null)
+        {
+            observerBehaviour.enabled = false;
+        }
+        Debug.Log($"<color=red>✔수집 완료: 마커가 비활성화되었습니다.</color>");
     }
 
     public void ResetTracking()
     {
-        var observer = GetComponent<Vuforia.ObserverBehaviour>();
-        if (observer != null)
+        // ★ 이미 수집된 마커는 리셋되지 않음
+        if (isCollected) return;
+
+        if (observerBehaviour != null)
         {
-            observer.enabled = true; // 트래킹 다시 켜기
-            hasSpawned = false;      // 소환 상태 초기화
-            Debug.Log("🔄 [Marker] 트래킹이 초기화되었습니다. 새로운 마커를 찾습니다.");
+            observerBehaviour.enabled = true;
+            hasSpawned = false;
+            Debug.Log("🔄 [Marker] 트래킹 리셋");
         }
     }
 

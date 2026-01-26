@@ -8,8 +8,7 @@ public class RubbableObject : MonoBehaviour
     public InventoryManager.ItemType itemType;
     public float totalRubAmount = 50f;
     public GameObject cleanEffect;
-    [Range(0.1f, 5.0f)] // 슬라이더로 편하게 조절하도록 범위 지정
-    public float effectScaleMultiplier = 1.0f;
+    public MarkerSpawner mySpawner; // 나를 소환한 마커 스포너 참조
 
     [Header("Visuals")]
     public Renderer dirtyRenderer;
@@ -83,11 +82,6 @@ public class RubbableObject : MonoBehaviour
     void CompleteCleaning()
     {
         isCompleted = true;
-
-        if (UIManager.Instance != null)
-        {
-            UIManager.Instance.ShowAcquirePopup(itemName);
-        }
 
         if (dirtyRenderer) dirtyRenderer.gameObject.SetActive(false);
         if (cleanEffect)
