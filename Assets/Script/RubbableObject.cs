@@ -18,6 +18,10 @@ public class RubbableObject : MonoBehaviour
     private bool isCompleted = false;
     private MaterialPropertyBlock propBlock; // 성능 최적화용
 
+    [Header("UI Settings")]
+    public static GameObject nameTagPrefab; // 모든 수달이 공유하는 이름표 프리팹
+
+    public float nameTagHeight = 0.5f;     // 머리 위 높이 조절
     // 완료되었을 때 외부(매니저)에 알리는 이벤트
     public event Action<RubbableObject> OnCleaningCompleted;
 
@@ -25,6 +29,10 @@ public class RubbableObject : MonoBehaviour
     {
         propBlock = new MaterialPropertyBlock();
         itemName = transform.name;
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.ShowOtterInfo(itemName);
+        }
         UpdateAlpha(1.0f);
     }
 
@@ -76,11 +84,16 @@ public class RubbableObject : MonoBehaviour
     {
         isCompleted = true;
 
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.ShowAcquirePopup(itemName);
+        }
+
         if (dirtyRenderer) dirtyRenderer.gameObject.SetActive(false);
         if (cleanEffect)
         {
             GameObject effect = Instantiate(cleanEffect, transform.position, Quaternion.identity);
-            Destroy(effect, 333.0f);
+            //Destroy(effect, 3.0f);
         }
         Debug.Log("✨ 청소 완료!");
 

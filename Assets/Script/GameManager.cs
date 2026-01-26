@@ -60,9 +60,20 @@ public class GameManager : MonoBehaviour
         {
             currentActiveObject = null;
         }
-
+        ResetAllTrackingSystems();
         // 3. 수달 퇴장 처리 (이펙트 후 파괴는 RubbableObject 내부에서 하거나 여기서 처리)
         // RubbableObject.CompleteCleaning() 안에서 Destroy를 하고 있다면 
         // 여기서는 아무것도 안 해도 됩니다.
+    }
+    private void ResetAllTrackingSystems()
+    {
+        // 최신 유니티 방식: 씬에 있는 모든 스포너를 찾아 초기화
+        // (마커가 여러 개일 수도 있으므로 FindAny보다는 Objects(복수형)가 안전합니다)
+        MarkerSpawner[] spawners = Object.FindObjectsByType<MarkerSpawner>(FindObjectsSortMode.None);
+
+        foreach (var spawner in spawners)
+        {
+            spawner.ResetTracking();
+        }
     }
 }

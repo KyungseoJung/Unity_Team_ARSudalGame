@@ -15,7 +15,7 @@ public class MarkerSpawner : MonoBehaviour
     public Vector3 positionOffset = Vector3.zero;
     public Vector3 rotationOffset = new Vector3(0, 180, 0);
 
-    private bool hasSpawned = false;
+    public bool hasSpawned = false;
     private ObserverBehaviour observerBehaviour;
 
     void Start()
@@ -91,10 +91,28 @@ public class MarkerSpawner : MonoBehaviour
         // 3. 미세 위치 조정 적용
         obj.transform.localPosition += positionOffset;
 
+        var observer = GetComponent<Vuforia.ObserverBehaviour>();
+        if (observer != null)
+        {
+            observer.enabled = false;
+            Debug.Log("<color=yellow>마커 트래킹이 중지되었습니다. 이제 물체가 고정됩니다.</color>");
+        }
+
         GameManager.Instance.RegisterObject(obj);
         hasSpawned = true;
 
         Debug.Log($"✨ 소환 완료! (화면 비율: {screenFillRatio * 100}%)");
+    }
+
+    public void ResetTracking()
+    {
+        var observer = GetComponent<Vuforia.ObserverBehaviour>();
+        if (observer != null)
+        {
+            observer.enabled = true; // 트래킹 다시 켜기
+            hasSpawned = false;      // 소환 상태 초기화
+            Debug.Log("🔄 [Marker] 트래킹이 초기화되었습니다. 새로운 마커를 찾습니다.");
+        }
     }
 
     void OnDestroy()
