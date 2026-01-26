@@ -5,7 +5,7 @@ public class MarkerSpawner : MonoBehaviour
 {
     [Header("Marker Settings")]
     public string markerID;
-    public bool isCollected = false;    // ★ [추가] 수집 완료 여부
+    private bool isCollected = false;    // ★ [추가] 수집 완료 여부
 
     [Header("Settings")]
     public GameObject contentPrefab;
@@ -25,8 +25,9 @@ public class MarkerSpawner : MonoBehaviour
 void Start()
     {
         observerBehaviour = GetComponent<ObserverBehaviour>();
-        
+
         // [저장된 데이터 로드] 이전에 수집했었다면 바로 끄기
+        markerID = contentPrefab.name;
         if (PlayerPrefs.GetInt(markerID, 0) == 1)
         {
             isCollected = true;
