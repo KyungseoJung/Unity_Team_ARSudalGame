@@ -237,6 +237,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce00c6f59f31a6c43a9fa29e36b469e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MarkerSpawner
+  markerID: 
+  isCollected: 0
   contentPrefab: {fileID: 3684237265513853406, guid: 3f3b1ac0ac832ec47b15096739ae8ca9, type: 3}
   spawnDistance: 0.5
   screenFillRatio: 0.4
@@ -380,6 +382,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce00c6f59f31a6c43a9fa29e36b469e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MarkerSpawner
+  markerID: 
+  isCollected: 0
   contentPrefab: {fileID: 3004099091394828957, guid: 1af3b2c47167bcf4a940aea9ba1f2557, type: 3}
   spawnDistance: 1
   screenFillRatio: 0.4
@@ -1228,6 +1232,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce00c6f59f31a6c43a9fa29e36b469e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MarkerSpawner
+  markerID: 
+  isCollected: 0
   contentPrefab: {fileID: 3437523254897788514, guid: b22f0b9964b6e334698ae9aef7878c91, type: 3}
   spawnDistance: 0.5
   screenFillRatio: 0.4
@@ -1456,6 +1462,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce00c6f59f31a6c43a9fa29e36b469e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MarkerSpawner
+  markerID: 
+  isCollected: 0
   contentPrefab: {fileID: 1351996209854147235, guid: fbc2b1b5c8a4e144db61c72f41b6b15c, type: 3}
   spawnDistance: 0.5
   screenFillRatio: 0.4
@@ -1599,6 +1607,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce00c6f59f31a6c43a9fa29e36b469e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MarkerSpawner
+  markerID: 
+  isCollected: 0
   contentPrefab: {fileID: 3273487216420146736, guid: a7fbcda3e1623ce459ac16c49c4a1e25, type: 3}
   spawnDistance: 0.5
   screenFillRatio: 0.4
@@ -1822,12 +1832,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 44.8
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 16
+  m_fontSizeMax: 60
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
@@ -1925,6 +1935,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce00c6f59f31a6c43a9fa29e36b469e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MarkerSpawner
+  markerID: 
+  isCollected: 0
   contentPrefab: {fileID: 1598889615691920821, guid: f4773e18a4d0c944198f34b04ee49c5f, type: 3}
   spawnDistance: 1
   screenFillRatio: 0.4
@@ -2120,12 +2132,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16
+  m_fontSize: 44.8
   m_fontSizeBase: 16
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 16
+  m_fontSizeMax: 60
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256

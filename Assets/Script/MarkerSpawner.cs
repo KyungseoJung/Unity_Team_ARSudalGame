@@ -30,6 +30,7 @@ void Start()
         if (PlayerPrefs.GetInt(markerID, 0) == 1)
         {
             isCollected = true;
+            Debug.Log("이미 수집된 마커입니다");
             if (observerBehaviour) observerBehaviour.enabled = false;
             return;
         }
