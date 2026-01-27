@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
         // 2. 인스턴스 할당 및 씬 전환 시 파괴 방지
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        PlayerPrefs.DeleteAll();
     }
 
     // Q: 지금 소환해도 되나요?
