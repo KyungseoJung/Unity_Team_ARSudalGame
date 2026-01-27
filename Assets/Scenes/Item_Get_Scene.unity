@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 26378374}
   - component: {fileID: 26378375}
   m_Layer: 0
-  m_Name: ImageTarget_Tree
+  m_Name: ImageTarget_01Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -239,7 +239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MarkerSpawner
   markerID: 
   isCollected: 0
-  contentPrefab: {fileID: 3684237265513853406, guid: 3f3b1ac0ac832ec47b15096739ae8ca9, type: 3}
+  contentPrefab: {fileID: 9138715246512713945, guid: 255da2351ea0b414a885635ce9aa49d2, type: 3}
   spawnDistance: 0.5
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
@@ -1128,7 +1128,7 @@ GameObject:
   - component: {fileID: 756172636}
   - component: {fileID: 756172637}
   m_Layer: 0
-  m_Name: ImageTarget_Plant
+  m_Name: ImageTarget_02Wood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1234,7 +1234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MarkerSpawner
   markerID: 
   isCollected: 0
-  contentPrefab: {fileID: 3437523254897788514, guid: b22f0b9964b6e334698ae9aef7878c91, type: 3}
+  contentPrefab: {fileID: 6164344849767601719, guid: 06a4fd2307f0ee641afe082abe8d8b3b, type: 3}
   spawnDistance: 0.5
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
@@ -1339,9 +1339,9 @@ Transform:
   - {fileID: 37082336}
   - {fileID: 1407325856}
   - {fileID: 26378372}
+  - {fileID: 756172634}
   - {fileID: 963245817}
   - {fileID: 907342260}
-  - {fileID: 756172634}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &907342256
@@ -1358,7 +1358,7 @@ GameObject:
   - component: {fileID: 907342262}
   - component: {fileID: 907342263}
   m_Layer: 0
-  m_Name: ImageTarget_Stone
+  m_Name: ImageTarget_04Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1503,7 +1503,7 @@ GameObject:
   - component: {fileID: 963245819}
   - component: {fileID: 963245820}
   m_Layer: 0
-  m_Name: ImageTarget_Mountain
+  m_Name: ImageTarget_03Mountain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1609,11 +1609,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MarkerSpawner
   markerID: 
   isCollected: 0
-  contentPrefab: {fileID: 3273487216420146736, guid: a7fbcda3e1623ce459ac16c49c4a1e25, type: 3}
+  contentPrefab: {fileID: 1502018486269965791, guid: 436c7dc8bf0c23d48a951eb0727064b7, type: 3}
   spawnDistance: 0.5
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
-  rotationOffset: {x: 0, y: 180, z: 0}
+  rotationOffset: {x: 0, y: 90, z: 0}
   hasSpawned: 0
 --- !u!114 &963245820
 MonoBehaviour:

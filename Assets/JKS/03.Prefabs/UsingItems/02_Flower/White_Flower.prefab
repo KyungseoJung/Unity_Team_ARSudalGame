@@ -107,8 +107,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RubbableObject
   itemName: 
-  itemType: 2
-  totalRubAmount: 50
+  itemType: 1
+  totalRubAmount: 300
   cleanEffect: {fileID: 0}
   mySpawner: {fileID: 0}
   dirtyRenderer: {fileID: 0}

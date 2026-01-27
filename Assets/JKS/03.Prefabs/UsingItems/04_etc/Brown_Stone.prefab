@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3437523254897788514
+--- !u!1 &1351996209854147235
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,25 +8,25 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2665948033558224088}
-  - component: {fileID: 1391755263780623229}
-  - component: {fileID: 3797789304424261559}
-  - component: {fileID: 7285267669307830806}
-  - component: {fileID: -1369771686162431939}
+  - component: {fileID: 1839880767513538585}
+  - component: {fileID: 3325708600759336892}
+  - component: {fileID: 703613860206627702}
+  - component: {fileID: 4857156779888148771}
+  - component: {fileID: 8445858871165094947}
   m_Layer: 6
-  m_Name: Log
+  m_Name: Brown_Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2665948033558224088
+--- !u!4 &1839880767513538585
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3437523254897788514}
+  m_GameObject: {fileID: 1351996209854147235}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -35,21 +35,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1391755263780623229
+--- !u!33 &3325708600759336892
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3437523254897788514}
-  m_Mesh: {fileID: 2406863115841164027, guid: 297b10068ee81e14c9a4b4c3fae88775, type: 3}
---- !u!23 &3797789304424261559
+  m_GameObject: {fileID: 1351996209854147235}
+  m_Mesh: {fileID: 2326393510636921199, guid: 90b7ea9fd67e9f34097c78dc03203784, type: 3}
+--- !u!23 &703613860206627702
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3437523254897788514}
+  m_GameObject: {fileID: 1351996209854147235}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -68,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8745349979396697067, guid: 297b10068ee81e14c9a4b4c3fae88775, type: 3}
+  - {fileID: -6922793697723135513, guid: 90b7ea9fd67e9f34097c78dc03203784, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -91,13 +91,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7285267669307830806
+--- !u!64 &4857156779888148771
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3437523254897788514}
+  m_GameObject: {fileID: 1351996209854147235}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -112,14 +112,14 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 2406863115841164027, guid: 297b10068ee81e14c9a4b4c3fae88775, type: 3}
---- !u!114 &-1369771686162431939
+  m_Mesh: {fileID: 2326393510636921199, guid: 90b7ea9fd67e9f34097c78dc03203784, type: 3}
+--- !u!114 &8445858871165094947
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3437523254897788514}
+  m_GameObject: {fileID: 1351996209854147235}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 686d0143964dab04e9aed2b224d19cd2, type: 3}
@@ -128,6 +128,7 @@ MonoBehaviour:
   itemName: 
   itemType: 3
   totalRubAmount: 500
-  cleanEffect: {fileID: 2353600328335836179, guid: ceec7516237b4104b94300043ca39784, type: 3}
-  effectScaleMultiplier: 1
+  cleanEffect: {fileID: 2433282508537954060, guid: 3ef3ae421f71c5c4e97fe12dc2fc6312, type: 3}
+  mySpawner: {fileID: 0}
   dirtyRenderer: {fileID: 0}
+  nameTagHeight: 0.5
