@@ -2772,11 +2772,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
   itemPrefabs:
-  - {fileID: 3684237265513853406, guid: 3f3b1ac0ac832ec47b15096739ae8ca9, type: 3}
-  - {fileID: 3273487216420146736, guid: a7fbcda3e1623ce459ac16c49c4a1e25, type: 3}
+  - {fileID: 9138715246512713945, guid: 255da2351ea0b414a885635ce9aa49d2, type: 3}
+  - {fileID: 6164344849767601719, guid: 06a4fd2307f0ee641afe082abe8d8b3b, type: 3}
+  - {fileID: 1502018486269965791, guid: 436c7dc8bf0c23d48a951eb0727064b7, type: 3}
   - {fileID: 1351996209854147235, guid: fbc2b1b5c8a4e144db61c72f41b6b15c, type: 3}
   - {fileID: 3437523254897788514, guid: b22f0b9964b6e334698ae9aef7878c91, type: 3}
-  - {fileID: 4666676978773489870, guid: 15b03c070c57edd44a09de491de1ba58, type: 3}
   spawnBase: {fileID: 0}
   spawnHeight: 0.5
 --- !u!4 &2111240059
