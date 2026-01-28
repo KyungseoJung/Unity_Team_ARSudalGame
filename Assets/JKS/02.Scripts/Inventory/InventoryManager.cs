@@ -20,7 +20,7 @@ public class InventoryManager : MonoBehaviour
     PlacedItem currentSelected;
     int frontOrderCounter = 0;
 
-    public enum ItemType { TREE, MOUNTAIN, STONE, WOOD, OTTER }
+    public enum ItemType { Blue_ConeTree, Blue_Flower, Blue_Fish, Brown_Stone, OTTER }
 
     private void Awake()
     {
