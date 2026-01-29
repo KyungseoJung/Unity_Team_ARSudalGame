@@ -3,59 +3,62 @@ using System;
 
 public class RubbableObject : MonoBehaviour
 {
-    [Header("Settings")]
+    [Header("Item Info")]
     public string itemName;
     public InventoryManager.ItemType itemType;
-    public float totalRubAmount = 50f;
-    public GameObject cleanEffect;
-    public MarkerSpawner mySpawner; // 나를 소환한 마커 스포너 참조
 
-    [Header("Visuals")]
-    public Renderer dirtyRenderer;
-
-    private float currentRub = 0f;
+    [Header("Cleaning Settings")]
+    [Tooltip("5초 정도 걸리게 하려면 0.00005f 내외로 조절하세요.")]
+    public float cleaningSensitivity = 0.00005f;
+    private float currentDirt = 1.0f; // 1.0(더러움) -> 0.0(깨끗함)
     private bool isCompleted = false;
-    private MaterialPropertyBlock propBlock; // 성능 최적화용
 
-    [Header("UI Settings")]
-    public static GameObject nameTagPrefab; // 모든 수달이 공유하는 이름표 프리팹
+    [Header("Visual References")]
+    [Tooltip("여기에 'Dirt_Overlay' 자식 오브젝트의 Renderer를 넣으세요.")]
+    public Renderer dirtyRenderer;
+    public GameObject cleanEffect;
+    public MarkerSpawner mySpawner;
 
-    public float nameTagHeight = 0.5f;     // 머리 위 높이 조절
-    // 완료되었을 때 외부(매니저)에 알리는 이벤트
+    [Header("Internal References")]
+    private MaterialPropertyBlock propBlock;
+    private static readonly int BaseColorID = Shader.PropertyToID("_BaseColor");
+
     public event Action<RubbableObject> OnCleaningCompleted;
 
-    void Start()
+    void Awake()
     {
         propBlock = new MaterialPropertyBlock();
         itemName = transform.name;
+    }
+
+    void Start()
+    {
         if (UIManager.Instance != null)
         {
             UIManager.Instance.ShowOtterInfo(itemName);
         }
+
+        // 시작할 때 껍데기를 완전히 불투명(더러움)하게 설정
         UpdateAlpha(1.0f);
     }
 
-    // ★ InputManager가 이 함수를 호출합니다.
+    /// <summary>
+    /// InteractionManager에서 호출되는 함수 (amount는 마우스 Delta * Sensitivity)
+    /// </summary>
     public void AddRub(float amount)
     {
-        if (isCompleted) return;
+        if (isCompleted || currentDirt <= 0) return;
 
-        // 1. 입력받은 amount(delta)를 감쇠시켜 적용합니다. 
-        // New Input System의 delta는 값이 매우 크기 때문에 0.01~0.1 정도를 곱하는 것이 적당합니다.
-        float adjustedAmount = amount * 0.05f;
+        // 1. 더러움 수치 감소 (amount가 크므로 매우 작은 감도를 곱함)
+        currentDirt -= amount * cleaningSensitivity;
+        Debug.Log("호에엥 " + currentDirt);
+        currentDirt = Mathf.Clamp01(currentDirt);
 
-        // 2. 한 프레임에 너무 많은 양이 쌓이지 않도록 제한 (순간적인 텔레포트 등 방어)
-        adjustedAmount = Mathf.Min(adjustedAmount, 2.0f);
+        // 2. 시각적 업데이트 (껍데기의 투명도 조절)
+        UpdateAlpha(currentDirt);
 
-        currentRub += adjustedAmount;
-
-        // 3. 진행도 계산
-        float progress = 1.0f - (currentRub / totalRubAmount);
-        progress = Mathf.Clamp01(progress);
-
-        UpdateAlpha(progress);
-
-        if (progress <= 0f)
+        // 3. 완료 체크 (거의 다 닦였을 때)
+        if (currentDirt <= 0.01f)
         {
             CompleteCleaning();
         }
@@ -65,37 +68,38 @@ public class RubbableObject : MonoBehaviour
     {
         if (dirtyRenderer != null)
         {
-            // MaterialPropertyBlock을 사용하여 배칭 깨짐 방지 & 성능 향상
+            // MaterialPropertyBlock을 사용하여 원본 에셋 수정 없이 개별 오브젝트만 조절
             dirtyRenderer.GetPropertyBlock(propBlock);
 
-            // 쉐이더 프로퍼티 이름은 사용중인 쉐이더에 맞춰 수정 필요 (_BaseColor or _Color)
-            Color currentColor = dirtyRenderer.sharedMaterial.color;
+            // 껍데기 셰이더의 컬러를 가져와서 알파값만 수정
+            // (주의: 껍데기 셰이더의 Surface Type이 Transparent여야 합니다)
+            Color currentColor = Color.white;
             currentColor.a = alpha;
+            Debug.Log("Current Color = " + alpha);
 
-            // URP Lit Shader 기준 "_BaseColor", Legacy는 "_Color"
-            propBlock.SetColor("_BaseColor", currentColor);
-
+            propBlock.SetFloat("_Alpha", alpha);
             dirtyRenderer.SetPropertyBlock(propBlock);
         }
     }
 
     void CompleteCleaning()
     {
+        if (isCompleted) return;
         isCompleted = true;
 
+        // 더러운 껍데기 완전히 제거
         if (dirtyRenderer) dirtyRenderer.gameObject.SetActive(false);
+
+        // 청소 완료 효과
         if (cleanEffect)
         {
-            GameObject effect = Instantiate(cleanEffect, transform.position, Quaternion.identity);
-            //Destroy(effect, 3.0f);
+            Instantiate(cleanEffect, transform.position, Quaternion.identity);
         }
-        Debug.Log("✨ 청소 완료!");
 
-        // ★ "나 끝났어!"라고 외치기 (매니저가 듣고 인벤토리에 넣음)
+        Debug.Log($"✨ {itemName} 청소 완료!");
         OnCleaningCompleted?.Invoke(this);
 
-        // 바로 파괴하지 않고 매니저가 처리하도록 하거나, 잠시 뒤 파괴
-        // Destroy(gameObject); // 여기서 바로 파괴하면 이벤트 전달에 문제가 생길 수 있음
+        // 오브젝트 비활성화 (매니저가 수집 처리)
         gameObject.SetActive(false);
     }
 }
