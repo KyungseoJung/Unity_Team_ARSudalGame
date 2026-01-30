@@ -127,9 +127,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RubbableObject
   itemName: 
-  itemType: 0
-  totalRubAmount: 300
+  itemType: 2
+  cleaningSensitivity: 0.00005
+  currentDirt: 1
+  dirtyMaterial: {fileID: 0}
+  overlayScale: 1.01
   cleanEffect: {fileID: 0}
   mySpawner: {fileID: 0}
-  dirtyRenderer: {fileID: 0}
-  nameTagHeight: 0.5

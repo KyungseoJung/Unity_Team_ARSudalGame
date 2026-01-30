@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig>
   <Tracking>
-    <ImageTarget name="blue_conetree" size="140.000000 78.750000" />
-    <ImageTarget name="blue_conetree_dirty" size="140.000000 78.750000" />
+    <ImageTarget name="Mushroom" size="140.000000 78.750000" />
+    <ImageTarget name="Grass" size="140.000000 78.750000" />
+    <ImageTarget name="Log" size="140.000000 78.750000" />
+    <ImageTarget name="Red_Fish" size="140.000000 78.750000" />
+    <ImageTarget name="Green_Fish" size="140.000000 78.750000" />
+    <ImageTarget name="White_Flower" size="140.000000 78.750000" />
+    <ImageTarget name="Red_Flower" size="140.000000 78.750000" />
+    <ImageTarget name="Green_ConeTree" size="140.000000 78.750000" />
+    <ImageTarget name="Blue_CubeTree" size="140.000000 78.750000" />
+    <ImageTarget name="Blue_Fish" size="140.000000 78.750000" />
+    <ImageTarget name="Blue_Flower" size="140.000000 78.750000" />
+    <ImageTarget name="Blue_ConeTree" size="140.000000 78.750000" />
   </Tracking>
 </QCARConfig>
