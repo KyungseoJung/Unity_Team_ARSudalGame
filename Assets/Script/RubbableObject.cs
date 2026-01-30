@@ -111,4 +111,22 @@ public class RubbableObject : MonoBehaviour
         // 원본(나무 등)은 남겨두고 싶다면 아래 줄을 주석 처리, 수집형이라면 유지
          gameObject.SetActive(false); 
     }
+
+    public void ApplyCleanedState()
+    {
+        // 1. 껍데기 제거 로직
+        Transform overlay = transform.Find("Generated_DirtOverlay");
+        if (overlay != null)
+        {
+            overlay.gameObject.SetActive(false);
+            overlay.SetParent(null);
+            Destroy(overlay.gameObject);
+        }
+
+        // 2. 물고기 회전 로직
+        if (CompareTag("Fish"))
+        {
+            transform.rotation = Quaternion.Euler(0, 90, 0);
+        }
+    }
 }

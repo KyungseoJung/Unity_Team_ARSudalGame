@@ -115,20 +115,7 @@ public class InventoryManager : MonoBehaviour
      
         GameObject go = Instantiate(itemPrefabs[index], spawnPos, Quaternion.identity);
 
-        Transform overlayTransform = go.transform.Find("Generated_DirtOverlay");
-
-        if (overlayTransform != null)
-        {
-            Debug.Log("🧼 자식 오브젝트 발견: " + overlayTransform.name);
-            // 1. 즉시 비활성화 (저장 로직이 이 녀석을 무시하게 만듦)
-            overlayTransform.gameObject.SetActive(false);
-
-            // 2. 부모 관계를 즉시 끊기 (childCount에서 즉시 빠짐)
-            overlayTransform.SetParent(null);
-
-            // 3. 실제 삭제 예약
-            Destroy(overlayTransform.gameObject);
-        }
+        go.GetComponent<RubbableObject>()?.ApplyCleanedState();
 
         // 필요한 컴포넌트 부착 로직 유지
         if (go.GetComponent<ItemDragger2D>() == null) go.AddComponent<ItemDragger2D>();
