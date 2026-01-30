@@ -8,20 +8,23 @@ public class RubbableObject : MonoBehaviour
     public InventoryManager.ItemType itemType;
 
     [Header("Cleaning Settings")]
-    [Tooltip("5초 정도 걸리게 하려면 0.00005f 내외로 조절하세요.")]
     public float cleaningSensitivity = 0.00005f;
-    private float currentDirt = 1.0f; // 1.0(더러움) -> 0.0(깨끗함)
+    [SerializeField] private float currentDirt = 1.0f;
     private bool isCompleted = false;
 
+    [Header("Auto Overlay Settings")]
+    public Material dirtyMaterial;
+    public float overlayScale = 1.01f; // 1.1은 너무 클 수 있어 1.01 권장
+
     [Header("Visual References")]
-    [Tooltip("여기에 'Dirt_Overlay' 자식 오브젝트의 Renderer를 넣으세요.")]
-    public Renderer dirtyRenderer;
+    private Renderer dirtyRenderer; // 자동으로 생성될 껍데기 렌더러
     public GameObject cleanEffect;
     public MarkerSpawner mySpawner;
 
-    [Header("Internal References")]
     private MaterialPropertyBlock propBlock;
-    private static readonly int BaseColorID = Shader.PropertyToID("_BaseColor");
+    private static readonly int AlphaID = Shader.PropertyToID("_Alpha");
+   // private static readonly int ColorID = Shader.PropertyToID("_DirtColor");
+   // private static readonly int MainTexID = Shader.PropertyToID("_MainTex");
 
     public event Action<RubbableObject> OnCleaningCompleted;
 
@@ -29,55 +32,65 @@ public class RubbableObject : MonoBehaviour
     {
         propBlock = new MaterialPropertyBlock();
         itemName = transform.name;
+
+        // ★ 핵심: 실행 시 껍데기 자동 생성
+        CreateDirtOverlay();
     }
 
-    void Start()
+    private void CreateDirtOverlay()
     {
-        if (UIManager.Instance != null)
-        {
-            UIManager.Instance.ShowOtterInfo(itemName);
-        }
+        // 1. 원본 메쉬 렌더러 찾기
+        MeshRenderer originRenderer = GetComponentInChildren<MeshRenderer>();
+        MeshFilter originFilter = GetComponentInChildren<MeshFilter>();
 
-        // 시작할 때 껍데기를 완전히 불투명(더러움)하게 설정
+        if (originRenderer == null || originFilter == null) return;
+
+        // 2. 새로운 자식 오브젝트 생성
+        GameObject overlayObj = new GameObject("Generated_DirtOverlay");
+        overlayObj.transform.SetParent(originRenderer.transform);
+
+        // 위치와 회전은 원본과 똑같이, 스케일만 살짝 키우기
+        overlayObj.transform.localPosition = Vector3.zero;
+        overlayObj.transform.localRotation = Quaternion.identity;
+        overlayObj.transform.localScale = Vector3.one * overlayScale;
+
+        // 3. 메쉬 정보 복사
+        MeshFilter mf = overlayObj.AddComponent<MeshFilter>();
+        mf.sharedMesh = originFilter.sharedMesh;
+
+        // 4. 렌더러 추가 및 머터리얼 설정
+        dirtyRenderer = overlayObj.AddComponent<MeshRenderer>();
+
+        // 껍데기용 새 머터리얼 생성 및 셰이더 할당
+        Material dirtMat = dirtyMaterial;
+
+        // 원본 머터리얼 개수만큼 슬롯을 채워줍니다
+        Material[] mats = new Material[originRenderer.sharedMaterials.Length];
+        for (int i = 0; i < mats.Length; i++) mats[i] = dirtMat;
+        dirtyRenderer.materials = mats;
+
+        // 초기 알파값 적용
         UpdateAlpha(1.0f);
     }
 
-    /// <summary>
-    /// InteractionManager에서 호출되는 함수 (amount는 마우스 Delta * Sensitivity)
-    /// </summary>
     public void AddRub(float amount)
     {
         if (isCompleted || currentDirt <= 0) return;
 
-        // 1. 더러움 수치 감소 (amount가 크므로 매우 작은 감도를 곱함)
         currentDirt -= amount * cleaningSensitivity;
-        Debug.Log("호에엥 " + currentDirt);
         currentDirt = Mathf.Clamp01(currentDirt);
 
-        // 2. 시각적 업데이트 (껍데기의 투명도 조절)
         UpdateAlpha(currentDirt);
 
-        // 3. 완료 체크 (거의 다 닦였을 때)
-        if (currentDirt <= 0.01f)
-        {
-            CompleteCleaning();
-        }
+        if (currentDirt <= 0.01f) CompleteCleaning();
     }
 
     void UpdateAlpha(float alpha)
     {
         if (dirtyRenderer != null)
         {
-            // MaterialPropertyBlock을 사용하여 원본 에셋 수정 없이 개별 오브젝트만 조절
             dirtyRenderer.GetPropertyBlock(propBlock);
-
-            // 껍데기 셰이더의 컬러를 가져와서 알파값만 수정
-            // (주의: 껍데기 셰이더의 Surface Type이 Transparent여야 합니다)
-            Color currentColor = Color.white;
-            currentColor.a = alpha;
-            Debug.Log("Current Color = " + alpha);
-
-            propBlock.SetFloat("_Alpha", alpha);
+            propBlock.SetFloat(AlphaID, alpha); // image_335771.png의 _Alpha와 연결
             dirtyRenderer.SetPropertyBlock(propBlock);
         }
     }
@@ -87,19 +100,10 @@ public class RubbableObject : MonoBehaviour
         if (isCompleted) return;
         isCompleted = true;
 
-        // 더러운 껍데기 완전히 제거
         if (dirtyRenderer) dirtyRenderer.gameObject.SetActive(false);
+        if (cleanEffect) Instantiate(cleanEffect, transform.position, Quaternion.identity);
 
-        // 청소 완료 효과
-        if (cleanEffect)
-        {
-            Instantiate(cleanEffect, transform.position, Quaternion.identity);
-        }
-
-        Debug.Log($"✨ {itemName} 청소 완료!");
         OnCleaningCompleted?.Invoke(this);
-
-        // 오브젝트 비활성화 (매니저가 수집 처리)
         gameObject.SetActive(false);
     }
 }
