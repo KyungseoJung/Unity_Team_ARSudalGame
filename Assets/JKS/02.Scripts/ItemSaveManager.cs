@@ -110,6 +110,7 @@ public class ItemSaveManager : MonoBehaviour
 
             GameObject go = Instantiate(itemPrefabs[entry.index], entry.position, entry.rotation);
 
+            go.GetComponent<RubbableObject>()?.ApplyCleanedState();
             // (선택) 스케일 복원
             go.transform.localScale = entry.scale;
 

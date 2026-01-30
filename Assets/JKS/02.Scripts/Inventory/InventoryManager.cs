@@ -113,8 +113,10 @@ public class InventoryManager : MonoBehaviour
         Vector3 spawnPos = basePos + Vector3.up * spawnHeight;
 
         Debug.Log("아이템 소환: " + itemPrefabs[index]);
- 
+     
         GameObject go = Instantiate(itemPrefabs[index], spawnPos, Quaternion.identity);
+
+        go.GetComponent<RubbableObject>()?.ApplyCleanedState();
 
         // 필요한 컴포넌트 부착 로직 유지
         if (go.GetComponent<ItemDragger2D>() == null) go.AddComponent<ItemDragger2D>();
