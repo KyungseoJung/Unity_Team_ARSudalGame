@@ -100,10 +100,15 @@ public class RubbableObject : MonoBehaviour
         if (isCompleted) return;
         isCompleted = true;
 
-        if (dirtyRenderer) dirtyRenderer.gameObject.SetActive(false);
-        if (cleanEffect) Instantiate(cleanEffect, transform.position, Quaternion.identity);
+        // 3. 이펙트 생성
+        if (cleanEffect)
+        {
+            Instantiate(cleanEffect, transform.position, Quaternion.identity);
+        }
 
         OnCleaningCompleted?.Invoke(this);
-        gameObject.SetActive(false);
+
+        // 원본(나무 등)은 남겨두고 싶다면 아래 줄을 주석 처리, 수집형이라면 유지
+         gameObject.SetActive(false); 
     }
 }

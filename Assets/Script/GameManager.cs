@@ -48,7 +48,8 @@ public class GameManager : MonoBehaviour
     // RubbableObject 스크립트에서 invoke할 때 자기 자신(this)을 매개변수로 넘겨줘야 함
     void HandleCleaningComplete(RubbableObject completedItem)
     {
-        Debug.Log($"[GameManager] 청소 완료 확인: {completedItem.itemName}");
+        Debug.Log($"[GameManager] 청소 완료 확인: {completedItem.itemName}" + completedItem.transform.childCount);
+
 
         UIManager.Instance.ShowAcquirePopup(completedItem.itemName);
 
