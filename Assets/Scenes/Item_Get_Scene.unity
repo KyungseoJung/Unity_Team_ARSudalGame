@@ -198,13 +198,13 @@ MonoBehaviour:
   PreviewVisible: 1
   RuntimeOcclusion: 0
   RuntimeCollider: 0
-  mTrackableName: Tree
+  mTrackableName: blue_conetree
   mInitializedInEditor: 1
-  mDataSetPath: Vuforia/OtterGame1.xml
-  mAspectRatio: 0.6664063
+  mDataSetPath: Vuforia/OtterGame1_Prefabs.xml
+  mAspectRatio: 0.5625
   mImageTargetType: 0
   mWidth: 140
-  mHeight: 93.296875
+  mHeight: 78.75
   mRuntimeTexture: {fileID: 0}
   mMotionHint: 1
   mTrackingOptimization: 0
@@ -259,8 +259,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
   mObserverBehaviour: {fileID: 26378371}
   mHiddenRoot: {fileID: 0}
-  mTargetName: Tree
-  mDatasetName: Vuforia/OtterGame1.xml
+  mTargetName: blue_conetree
+  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
   mCastedBehaviour: {fileID: 26378371}
   mMeshFilter: {fileID: 0}
   mMeshRenderer: {fileID: 0}
@@ -2299,7 +2299,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 221.53845
+  m_PreferredWidth: 239.50516
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1

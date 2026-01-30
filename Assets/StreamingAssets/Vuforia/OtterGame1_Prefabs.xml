@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig>
+  <Tracking>
+    <ImageTarget name="blue_conetree" size="140.000000 78.750000" />
+    <ImageTarget name="blue_conetree_dirty" size="140.000000 78.750000" />
+  </Tracking>
+</QCARConfig>
