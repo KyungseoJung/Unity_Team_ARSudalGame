@@ -609,10 +609,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemSaveManager
   itemPrefabs:
   - {fileID: 9138715246512713945, guid: 255da2351ea0b414a885635ce9aa49d2, type: 3}
+  - {fileID: 1898819963494740863, guid: 0d0ee1aefa2e7454f87f7fa231403c0d, type: 3}
+  - {fileID: 684074287466399670, guid: 75747a58453665c4a98a9a7ebb36400e, type: 3}
   - {fileID: 6164344849767601719, guid: 06a4fd2307f0ee641afe082abe8d8b3b, type: 3}
+  - {fileID: 600159831248363254, guid: 269dc66b0c69ac44a8d24925560010ef, type: 3}
+  - {fileID: 2290130958689772583, guid: 2505feab2ea3da841ab66d584aeba0fa, type: 3}
   - {fileID: 1502018486269965791, guid: 436c7dc8bf0c23d48a951eb0727064b7, type: 3}
-  - {fileID: 1351996209854147235, guid: fbc2b1b5c8a4e144db61c72f41b6b15c, type: 3}
+  - {fileID: 8162174092254546070, guid: 60aceceb697894944a50e7a5a2afa28d, type: 3}
+  - {fileID: 7493080291266779876, guid: cda2a6af7cd8b3348890a702f9ef2fd8, type: 3}
+  - {fileID: 6715111504538621108, guid: 2d289725d90f6a54aba5ca8f3219db4d, type: 3}
   - {fileID: 3437523254897788514, guid: b22f0b9964b6e334698ae9aef7878c91, type: 3}
+  - {fileID: 7423025010195984700, guid: 2af10dd70c6dc144e83d3c46a4151b64, type: 3}
 --- !u!1 &937807752
 GameObject:
   m_ObjectHideFlags: 0
