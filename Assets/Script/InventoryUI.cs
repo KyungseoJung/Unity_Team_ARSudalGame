@@ -9,6 +9,8 @@ public class InventoryUI : MonoBehaviour
     public Transform slotsArea;        // ���Ե��� ������ �θ� Transform
     public GameObject slotPrefab;      // ���� UI ������
 
+    public string inventoryHelpMessage = "학회장에서 수달과 자연요소들을 수집해 자신만의 수달을 꾸며주십쇼";
+
     private void Start()
     {
         // ������ �� UI �ʱ�ȭ
@@ -122,5 +124,23 @@ public class InventoryUI : MonoBehaviour
         }
 
         manager.ReturnSelectedItem();
+    }
+
+    public void OnInfoButtonClicked()
+    {
+        if (UIManager.Instance != null)
+        {
+            // UIManager에게 "이 메세지를 띄워줘"라고 명령
+            UIManager.Instance.ShowGeneralInfo(inventoryHelpMessage);
+        }
+    }
+
+    public void OnInfoButtonCloseClicked()
+    {
+        if (UIManager.Instance != null)
+        {
+            // UIManager에게 "이 메세지를 띄워줘"라고 명령
+            UIManager.Instance.HideInfoPanel();
+        }
     }
 }
