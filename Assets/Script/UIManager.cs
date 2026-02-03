@@ -44,6 +44,7 @@ public class UIManager : MonoBehaviour
     {
         StopAllCoroutines(); // 진행 중인 팝업 예약 종료
 
+        GameManager.Instance.SetVuforiaActive(false);
         infoText.text = message; // 전달받은 메세지로 변경
         infoPanel.SetActive(true); // 패널 활성화
 
@@ -53,6 +54,7 @@ public class UIManager : MonoBehaviour
 
     public void HideInfoPanel()
     {
+        GameManager.Instance.SetVuforiaActive(true);
         infoPanel.SetActive(false);
     }
 

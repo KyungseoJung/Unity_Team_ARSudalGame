@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Vuforia;
 
 public class GameManager : MonoBehaviour
 {
@@ -48,10 +49,11 @@ public class GameManager : MonoBehaviour
     // RubbableObject 스크립트에서 invoke할 때 자기 자신(this)을 매개변수로 넘겨줘야 함
     void HandleCleaningComplete(RubbableObject completedItem)
     {
-        Debug.Log($"[GameManager] 청소 완료 확인: {completedItem.itemName}" + completedItem.transform.childCount);
+        Debug.Log($"[GameManager] 청소 완료 확인: {completedItem.itemName}");
 
+        string cleanedName = completedItem.itemName.Replace("(Clone)", "");
 
-        UIManager.Instance.ShowAcquirePopup(completedItem.itemName);
+        UIManager.Instance.ShowAcquirePopup(cleanedName);
 
         if (completedItem.mySpawner != null)
         {
@@ -86,5 +88,11 @@ public class GameManager : MonoBehaviour
         {
             spawner.ResetTracking();
         }
+    }
+
+    public void SetVuforiaActive(bool isActive)
+    {
+        // VuforiaBehaviour가 인식 엔진을 담당합니다.
+        VuforiaBehaviour.Instance.enabled = isActive;
     }
 }
