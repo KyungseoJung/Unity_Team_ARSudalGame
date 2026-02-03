@@ -17,7 +17,8 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        PlayerPrefs.DeleteAll();
+        // PlayerPrefs.DeleteAll();
+        // 주석처리
     }
 
     // Q: 지금 소환해도 되나요?
