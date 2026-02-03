@@ -92,8 +92,19 @@ public class InventoryUI : MonoBehaviour
                 {
                     // slotScript.Setup(i, "Item " + i);
                     //#7 아이템 이름 변경 -----------------------
-                    var typeName = ((InventoryManager.ItemType)i).ToString();
-                    slotScript.Setup(i, typeName);
+                    // var typeName = ((InventoryManager.ItemType)i).ToString();
+                    // slotScript.Setup(i, typeName);
+                    //#10 인벤토리 각 슬롯에 아이템 이미지 나타나도록 하기 
+                    Sprite icon = null;
+                    if (manager.itemIcons != null && i < manager.itemIcons.Length)
+                    {
+                        icon = manager.itemIcons[i];
+                    }
+
+                    // 이름은 이제 안 쓰고 싶으면 null로 넘기면 됨
+                    slotScript.Setup(i, icon, null);
+
+
                     Button slotBtn = slot.GetComponent<Button>();
 
                     // ���� Ŭ�� �̺�Ʈ ���� (Ŭ�� �� ���� + â �ݱ�)

@@ -8,6 +8,9 @@ public class InventoryManager : MonoBehaviour
     [Header("Data & Prefabs")]
     public GameObject[] itemPrefabs;   // 아이템 프리팹 (데이터)
 
+    [Header("UI Icons (same order as itemPrefabs)")]
+    public Sprite[] itemIcons;         //#10 인벤토리 슬롯에 "텍스트" 대신 "이미지" 넣기
+
     [Header("World Interaction")]
     public Transform spawnBase;        // 아이템 스폰 위치
     public float spawnHeight = 0.5f;

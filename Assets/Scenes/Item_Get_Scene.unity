@@ -3519,7 +3519,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 221.53845
+  m_PreferredWidth: 239.50516
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -4144,7 +4144,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 221.53845
+  m_PreferredWidth: 239.50516
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -4449,7 +4449,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 221.53845
+  m_PreferredWidth: 239.50516
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -5241,6 +5241,19 @@ MonoBehaviour:
   - {fileID: 6715111504538621108, guid: 2d289725d90f6a54aba5ca8f3219db4d, type: 3}
   - {fileID: 3437523254897788514, guid: b22f0b9964b6e334698ae9aef7878c91, type: 3}
   - {fileID: 7423025010195984700, guid: 2af10dd70c6dc144e83d3c46a4151b64, type: 3}
+  itemIcons:
+  - {fileID: 21300000, guid: 4b1fc0c2c57d8924e8f9f56d3a23d40d, type: 3}
+  - {fileID: 21300000, guid: 1c5bb0a35c0482349aff455e4820fe11, type: 3}
+  - {fileID: 21300000, guid: 3de8307552c5d4f4f8c6ecdf13760baa, type: 3}
+  - {fileID: 21300000, guid: 3be1e690bd173de4a9a813a257864c5f, type: 3}
+  - {fileID: 21300000, guid: 496913c7a5128264087a61affd1383d4, type: 3}
+  - {fileID: 21300000, guid: 28df26bb903ab68478b42365577fef2a, type: 3}
+  - {fileID: 21300000, guid: 94320b6167a875347a5d5d749c8db43d, type: 3}
+  - {fileID: 21300000, guid: f3a14f1fd78e75a478b10b0907d8ddf6, type: 3}
+  - {fileID: 21300000, guid: 4ace7c3108c098745b1b823776c8b1e0, type: 3}
+  - {fileID: 21300000, guid: 366a708d1bf5a15429bf011d56712fbd, type: 3}
+  - {fileID: 21300000, guid: 08432e1ee499b3741a70b6ffbceb73fe, type: 3}
+  - {fileID: 21300000, guid: 7e297916a786b814697fa7c426fd1b6c, type: 3}
   spawnBase: {fileID: 0}
   spawnHeight: 0.5
 --- !u!4 &2111240059
