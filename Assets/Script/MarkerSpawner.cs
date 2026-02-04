@@ -121,8 +121,8 @@ void Start()
         isCollected = true;
         hasSpawned = false;
 
-        //PlayerPrefs.SetInt(markerID, 1); 추후 해당 주석을 풀면 앱을 다시 실행하거나 씬을 전환해도 한번 수집한 마커는 인식이 되지 않음
-        //PlayerPrefs.Save(); // 즉시 물리적인 파일로 저장 (안전을 위해)
+        PlayerPrefs.SetInt(markerID, 1); //추후 해당 주석을 풀면 앱을 다시 실행하거나 씬을 전환해도 한번 수집한 마커는 인식이 되지 않음
+        PlayerPrefs.Save(); // 즉시 물리적인 파일로 저장 (안전을 위해)
 
         // 마커 기능을 영구적으로 꺼서 다시는 인식되지 않게 함
         if (observerBehaviour != null)
