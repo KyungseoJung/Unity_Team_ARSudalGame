@@ -1045,7 +1045,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4547401075664178157, guid: f69b5055ff71ccf4998488d3adb0d611, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 241.5
+      value: 241.49278
       objectReference: {fileID: 0}
     - target: {fileID: 6265496905049538076, guid: f69b5055ff71ccf4998488d3adb0d611, type: 3}
       propertyPath: m_Value
@@ -1070,6 +1070,14 @@ PrefabInstance:
     - target: {fileID: 6976128171391124914, guid: f69b5055ff71ccf4998488d3adb0d611, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ToggleInventory
+      objectReference: {fileID: 0}
+    - target: {fileID: 7013670882134475239, guid: f69b5055ff71ccf4998488d3adb0d611, type: 3}
+      propertyPath: m_CellSize.x
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 7013670882134475239, guid: f69b5055ff71ccf4998488d3adb0d611, type: 3}
+      propertyPath: m_CellSize.y
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 7399048426908820892, guid: f69b5055ff71ccf4998488d3adb0d611, type: 3}
       propertyPath: m_AnchorMax.y
