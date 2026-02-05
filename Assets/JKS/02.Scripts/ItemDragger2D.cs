@@ -1,189 +1,186 @@
 using UnityEngine;
-// #8 fix: 모바일 빌드 - 손가락 터치 안되는 현상 고치기
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-//#9 아이템 크기 변경 (두 손가락을 이용해서)
 using UnityEngine.InputSystem.EnhancedTouch;
+using System.Collections.Generic;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 [RequireComponent(typeof(Collider))]
-public class ItemDragger2D : MonoBehaviour
+public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [Header("References")]
-    public Camera cam; // 비워두면 MainCamera 사용
+    public Camera cam;
+    private ItemSaveManager saveManager;
 
     [Header("Clamp (pixels)")]
-    public float screenMargin = 10f; // 화면 가장자리 여백
+    public float screenMargin = 10f;
 
     // 드래그 상태
     bool isDragging = false;
     float depth;
     Vector3 offset;
 
-    //#9 아이템 크기 변경 (두 손가락을 이용해서) -------------------
     [Header("Pinch Scale")]
     public bool enablePinchScale = true;
-    public float pinchSensitivity = 0.005f;  // 값이 크면 확대가 빠름
+    public float pinchSensitivity = 0.005f;
     public float minScale = 0.5f;
     public float maxScale = 0.9f;
 
     float pinchStartDist;
     Vector3 pinchStartScale;
     bool isPinching = false;
+    static ItemDragger2D active;
 
-    static ItemDragger2D active;   //#9-1 현재 조작 중인 아이템만 크기가 조작되도록!!! (전역 1개)
-
-
-    // "내 오브젝트를 눌렀을 때만" 드래그 시작하기 위한 플래그
     bool pointerDownOnMe = false;
+    private TrashCanArea currentHoveredTrash;
 
     void Awake()
     {
-        if (cam == null) cam = Camera.main; // AR카메라에 MainCamera 태그가 있어야 잡힘
+        if (cam == null) cam = Camera.main;
+        saveManager = FindFirstObjectByType<ItemSaveManager>();
     }
 
     void Update()
     {
+        // 1. 핀치 줌 로직 (기존 유지)
+        HandlePinchScale();
 
-        //#9 아이템 크기 변경 (두 손가락을 이용해서) ----------------------------
-        // 드래그보다 핀치 우선 처리
-        if (enablePinchScale)
+        if (Pointer.current == null || isPinching) return;
+
+        // 2. 드래그 로직 (New Input System 기반)
+        HandleMouseOrSingleTouch();
+    }
+
+    private void HandlePinchScale()
+    {
+        if (!enablePinchScale || Touch.activeTouches.Count < 2)
         {
-            // 터치 2개면 핀치로 간주
-            if (Touch.activeTouches.Count >= 2)
+            if (isPinching)
             {
-                //#9-2 ----------------------
-                // 선택된 아이템만 핀치 허용
-                var manager = InventoryManager.Instance;
-                if (manager == null) return;
-
-                var selected = manager.GetSelected();
-                if (selected == null || selected.gameObject != gameObject)
-                {
-                    // 선택이 없거나, 내가 선택된 아이템이 아니면 핀치 금지
-                    isPinching = false;
-                    return;
-                }
-
-                //#9-1 한 아이템씩만 크기 조작되도록 ----------------------
-                // 이미 조작중인 아이템이 있다면
-                if (active != null && active != this)
-                {
-                    return;
-                } 
-                // 지금 조작중인 아이템이 없다면(선택된 아이템 기준으로 시작하고 싶다면) "이 아이템이 조작자"로 선점
-                if (active == null) 
-                {
-                    active = this;
-                }
-
-
-
-                // UI 위에서 시작된 터치는 무시하고 싶으면(선택) 더 복잡해지니,
-                // 일단 기존 UI 방지 로직만 적용:
-                if (IsPointerOverUI()) return;
-
-                var t0 = Touch.activeTouches[0];
-                var t1 = Touch.activeTouches[1];
-
-                Vector2 p0 = t0.screenPosition;
-                Vector2 p1 = t1.screenPosition;
-
-                float dist = Vector2.Distance(p0, p1);
-
-                // 핀치 시작
-                if (!isPinching)
-                {
-                    isPinching = true;
-                    isDragging = false; // 핀치 중에는 드래그 끔
-
-                    pinchStartDist = dist;
-                    pinchStartScale = transform.localScale;
-                    return;
-                }
-
-                // 핀치 진행
-                float delta = dist - pinchStartDist;
-                float scaleFactor = 1f + (delta * pinchSensitivity);
-
-                Vector3 target = pinchStartScale * scaleFactor;
-
-                // 최소/최대 제한(균일 스케일)
-                float clamped = Mathf.Clamp(target.x, minScale, maxScale);
-                transform.localScale = new Vector3(clamped, clamped, clamped);
-
-                return; // 핀치 중이면 여기서 종료(드래그 로직 실행 안 함)
+                isPinching = false;
+                if (active == this) active = null;
             }
-            else
-            {
-                //#9-1 한 아이템씩만 크기 조작되도록
-                // 터치가 2개에서 1개/0개로 줄면 핀치 종료
-                if (isPinching)
-                {
-                    isPinching = false;
-                    if (active == this)   // 해제
-                    {
-                        active = null;
-                    }
-                }
-            }
-        }
-
-
-        if (Pointer.current == null) 
-        {
             return;
         }
-        // 카메라가 런타임에 바뀌는 프로젝트(AR)면 매 프레임 보정
-        if (cam == null) cam = Camera.main;
 
-        // 1) 포인터 눌림 시작
+        // 선택된 아이템 체크 및 핀치 계산 (기존 로직 동일)
+        var manager = InventoryManager.Instance;
+        if (manager == null || manager.GetSelected()?.gameObject != gameObject) return;
+
+        if (active != null && active != this) return;
+        if (active == null) active = this;
+
+        if (IsPointerOverUI()) return;
+
+        var t0 = Touch.activeTouches[0];
+        var t1 = Touch.activeTouches[1];
+        float dist = Vector2.Distance(t0.screenPosition, t1.screenPosition);
+
+        if (!isPinching)
+        {
+            isPinching = true;
+            isDragging = false;
+            pinchStartDist = dist;
+            pinchStartScale = transform.localScale;
+            return;
+        }
+
+        float scaleFactor = 1f + ((dist - pinchStartDist) * pinchSensitivity);
+        float clamped = Mathf.Clamp(pinchStartScale.x * scaleFactor, minScale, maxScale);
+        transform.localScale = new Vector3(clamped, clamped, clamped);
+    }
+
+    private void HandleMouseOrSingleTouch()
+    {
         if (Pointer.current.press.wasPressedThisFrame)
         {
-            // UI 위 클릭/터치면 월드 드래그 시작하지 않음
             if (IsPointerOverUI()) return;
 
             pointerDownOnMe = IsPointerOnThisObject(Pointer.current.position.ReadValue());
             if (pointerDownOnMe)
             {
                 StartDrag(Pointer.current.position.ReadValue());
-                // (선택) 드래그 시작과 동시에 선택 처리
                 var placed = GetComponent<PlacedItem>();
                 if (placed != null && InventoryManager.Instance != null)
                     InventoryManager.Instance.SelectItem(placed);
             }
         }
 
-        // 2) 누르고 있는 동안 이동
         if (Pointer.current.press.isPressed && isDragging)
         {
             MoveTo(Pointer.current.position.ReadValue());
         }
 
-        // 3) 포인터 떼면 종료
         if (Pointer.current.press.wasReleasedThisFrame)
         {
+            // [중요] 여기서 인터페이스의 OnEndDrag와 유사한 처리를 수행하거나 
+            // 아래 인터페이스 구현부를 통해 쓰레기통을 체크합니다.
+            if (isDragging) CheckTrashCan();
             EndDrag();
             pointerDownOnMe = false;
         }
     }
 
+    // --- 쓰레기통 삭제 로직 (인터페이스 활용 및 통합) ---
+
+    public void OnBeginDrag(PointerEventData eventData) { /* 시각 효과 필요 시 작성 */ }
+
+    public void OnDrag(PointerEventData eventData) { /* Update에서 이동을 처리하므로 비워둠 */ }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        // 인터페이스를 통한 쓰레기통 체크 (모바일 멀티터치 대응용)
+        if (eventData.pointerCurrentRaycast.gameObject != null)
+        {
+            if (eventData.pointerCurrentRaycast.gameObject.name == "TrashCan")
+            {
+                DeleteProcess();
+            }
+        }
+    }
+
+    private void CheckTrashCan()
+    {
+        // 포인터 기반 쓰레기통 체크 (PC/단일 터치 대응용)
+        var eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Pointer.current.position.ReadValue();
+        var results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+
+        foreach (var r in results)
+        {
+            if (r.gameObject.name == "TrashCan")
+            {
+                DeleteProcess();
+                break;
+            }
+        }
+    }
+
+    private void DeleteProcess()
+    {
+        Debug.Log("🗑️ 아이템 삭제 및 저장 중...");
+        isDragging = false;
+        if (currentHoveredTrash != null)
+        {
+            currentHoveredTrash.OnHoverExit();
+            currentHoveredTrash = null;
+        }
+        Destroy(gameObject);
+        if (saveManager != null)
+        {
+            saveManager.Invoke("SaveAll", 0.1f);
+        }
+    }
+
+    // --- 기존 드래그 헬퍼 로직 유지 ---
+
     void StartDrag(Vector2 screenPos)
     {
-        active = this;  //#9-1
-
-        if (cam == null) 
-        {
-            return;
-        }
-        
+        active = this;
         isDragging = true;
-
-        // 현재 오브젝트의 화면좌표(z) 깊이 확보
         Vector3 sp = cam.WorldToScreenPoint(transform.position);
         depth = sp.z;
-
-        // 포인터 아래 월드 좌표 계산
         Vector3 worldUnderPointer = cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, depth));
         offset = transform.position - worldUnderPointer;
     }
@@ -191,69 +188,78 @@ public class ItemDragger2D : MonoBehaviour
     void EndDrag()
     {
         isDragging = false;
-        if (active == this) //#9-1
-        {
-            active = null;
-        }
+        if (active == this) active = null;
     }
 
     void MoveTo(Vector2 screenPos)
     {
-        if (cam == null) return;
-
-        // 화면 밖으로 못 나가게 clamp
         float x = Mathf.Clamp(screenPos.x, screenMargin, Screen.width - screenMargin);
         float y = Mathf.Clamp(screenPos.y, screenMargin, Screen.height - screenMargin);
-
         Vector3 world = cam.ScreenToWorldPoint(new Vector3(x, y, depth));
         transform.position = world + offset;
-    }
 
-    // --- Helpers ------------------------------------------------------------
+        CheckTrashHover(screenPos);
+    }
 
     bool IsPointerOnThisObject(Vector2 screenPos)
     {
-        if (cam == null) return false;
-
         Ray ray = cam.ScreenPointToRay(screenPos);
-
-        // 3D Collider 기반 Raycast
-        if (Physics.Raycast(ray, out RaycastHit hit, 1000f))
-        {
-            return hit.transform == transform;
-        }
-        return false;
+        return Physics.Raycast(ray, out RaycastHit hit, 1000f) && hit.transform == transform;
     }
 
     bool IsPointerOverUI()
     {
-        // EventSystem 없으면 UI 체크 불가
         if (EventSystem.current == null) return false;
-
-        // New Input System의 Pointer는 PointerId를 제공
-        // -1일 수 있어도, 아래 RaycastAll로 대부분 커버 가능
-        // 우선 간단 체크:
-        if (EventSystem.current.IsPointerOverGameObject())
-            return true;
-
-        // 더 확실한 방식: UI Raycast 결과가 있으면 UI 위로 판단
         var eventData = new PointerEventData(EventSystem.current);
         eventData.position = Pointer.current.position.ReadValue();
-
-        var results = new System.Collections.Generic.List<RaycastResult>();
+        var results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, results);
         return results.Count > 0;
     }
 
-    //#9 아이템 크기 변경 (두 손가락을 이용해서) -----------------------------------
-    void OnEnable()
+    // 실시간 쓰레기통 감지 함수
+    void CheckTrashHover(Vector2 screenPos)
     {
-        EnhancedTouchSupport.Enable();
+        if (EventSystem.current == null) return;
+
+        // UI 레이캐스트 실행
+        var eventData = new PointerEventData(EventSystem.current);
+        eventData.position = screenPos;
+        var results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+
+        TrashCanArea foundTrash = null;
+
+        foreach (var r in results)
+        {
+            if (r.gameObject.name == "TrashCan")
+            {
+                foundTrash = r.gameObject.GetComponent<TrashCanArea>();
+                break;
+            }
+        }
+
+        // 상태 변화 감지 (새로 들어옴 / 나감)
+        if (foundTrash != currentHoveredTrash)
+        {
+            if (currentHoveredTrash != null)
+            {
+                currentHoveredTrash.OnHoverExit();
+            }
+
+            currentHoveredTrash = foundTrash;
+
+            if (currentHoveredTrash != null)
+            {
+                currentHoveredTrash.OnHoverEnter();
+                // --- [핵심 추가] 쓰레기통 영역에 처음 진입했을 때 진동 발생 ---
+#if UNITY_ANDROID || UNITY_IOS
+                //Handheld.Vibrate(); // 삭제 성공 피드백
+#endif
+            }
+        }
     }
 
-    void OnDisable()
-    {
-        EnhancedTouchSupport.Disable();
-    }
-
+    void OnEnable() { EnhancedTouchSupport.Enable(); }
+    void OnDisable() { EnhancedTouchSupport.Disable(); }
 }
