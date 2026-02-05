@@ -272,6 +272,7 @@ GameObject:
   - component: {fileID: 802879163}
   - component: {fileID: 802879165}
   - component: {fileID: 802879164}
+  - component: {fileID: 802879166}
   m_Layer: 5
   m_Name: TrashCan
   m_TagString: Untagged
@@ -338,6 +339,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 802879162}
   m_CullTransparentMesh: 1
+--- !u!114 &802879166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802879162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a99854175b075814ebfd4300b435a0d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrashCanArea
 --- !u!1 &897953008
 GameObject:
   m_ObjectHideFlags: 0
@@ -1124,7 +1137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1899504209965644395
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1394,7 +1407,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4547401075664178157, guid: f69b5055ff71ccf4998488d3adb0d611, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4547401075664178157, guid: f69b5055ff71ccf4998488d3adb0d611, type: 3}
       propertyPath: m_AnchoredPosition.y
