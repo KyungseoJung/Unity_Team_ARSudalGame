@@ -2799,18 +2799,18 @@ MonoBehaviour:
   - {fileID: 3437523254897788514, guid: b22f0b9964b6e334698ae9aef7878c91, type: 3}
   - {fileID: 7423025010195984700, guid: 2af10dd70c6dc144e83d3c46a4151b64, type: 3}
   itemIcons:
-  - {fileID: 21300000, guid: 4b1fc0c2c57d8924e8f9f56d3a23d40d, type: 3}
-  - {fileID: 21300000, guid: 1c5bb0a35c0482349aff455e4820fe11, type: 3}
-  - {fileID: 21300000, guid: 3de8307552c5d4f4f8c6ecdf13760baa, type: 3}
-  - {fileID: 21300000, guid: 3be1e690bd173de4a9a813a257864c5f, type: 3}
-  - {fileID: 21300000, guid: 496913c7a5128264087a61affd1383d4, type: 3}
-  - {fileID: 21300000, guid: 28df26bb903ab68478b42365577fef2a, type: 3}
-  - {fileID: 21300000, guid: 94320b6167a875347a5d5d749c8db43d, type: 3}
-  - {fileID: 21300000, guid: f3a14f1fd78e75a478b10b0907d8ddf6, type: 3}
-  - {fileID: 21300000, guid: 4ace7c3108c098745b1b823776c8b1e0, type: 3}
-  - {fileID: 21300000, guid: 366a708d1bf5a15429bf011d56712fbd, type: 3}
-  - {fileID: 21300000, guid: 08432e1ee499b3741a70b6ffbceb73fe, type: 3}
-  - {fileID: 21300000, guid: 7e297916a786b814697fa7c426fd1b6c, type: 3}
+  - {fileID: 21300000, guid: 7492ed6033fc5234286ec7be506d0fbf, type: 3}
+  - {fileID: 21300000, guid: 76abda47053c2944f8092fe20be514b5, type: 3}
+  - {fileID: 21300000, guid: 3afc9c469567a1045bfb32729d0e5925, type: 3}
+  - {fileID: 21300000, guid: ae4450e17f5b0904284915b772f17cfa, type: 3}
+  - {fileID: 21300000, guid: d4252872e3e749a4abdd67c27a92d426, type: 3}
+  - {fileID: 21300000, guid: f72706364f6805842b0945f4446c55bb, type: 3}
+  - {fileID: 21300000, guid: 54e87eb8bb7893849881c6eb4f49a28b, type: 3}
+  - {fileID: 21300000, guid: 80cae99770d1e074385032165dda7cd0, type: 3}
+  - {fileID: 21300000, guid: d9d5a26c6eba9a0459539536c79001d7, type: 3}
+  - {fileID: 21300000, guid: a6e55db97bc672e4f91c0de603dc4772, type: 3}
+  - {fileID: 21300000, guid: d89f53a190f9ee649be615e7074595fd, type: 3}
+  - {fileID: 21300000, guid: c485cd104c51b1a4d829f41f2f28e3cf, type: 3}
   spawnBase: {fileID: 0}
   spawnHeight: 0.5
 --- !u!4 &2111240059
@@ -3568,7 +3568,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2424856879406873872}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.99999756
+  m_Size: 0.99999166
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3796,8 +3796,8 @@ MonoBehaviour:
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 70, y: 70}
-  m_Spacing: {x: 10, y: 10}
+  m_CellSize: {x: 60, y: 70}
+  m_Spacing: {x: 15, y: 15}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!1 &2521287411484914890
@@ -3854,7 +3854,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 241.49945}
+  m_AnchoredPosition: {x: 0, y: 241.49599}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &2750867891640300494
@@ -4350,7 +4350,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 270.56366
+  m_PreferredWidth: 269.99997
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -4822,7 +4822,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 270.56366
+  m_PreferredWidth: 269.99997
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -5509,7 +5509,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 240.50105
+  m_PreferredWidth: 239.99998
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
