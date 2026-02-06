@@ -772,7 +772,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9078433900758829347, guid: 3c838f24692d42b4d91ce59fb0aa0e62, type: 3}
       propertyPath: m_Name
-      value: Background_01default
+      value: Background_01_default
       objectReference: {fileID: 0}
     - target: {fileID: 9078433900758829347, guid: 3c838f24692d42b4d91ce59fb0aa0e62, type: 3}
       propertyPath: m_IsActive
