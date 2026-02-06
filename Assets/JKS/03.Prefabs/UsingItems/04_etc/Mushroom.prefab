@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8936018636338745577}
   - component: {fileID: 508178870828863325}
   - component: {fileID: -7683896711770190466}
+  - component: {fileID: 1495054874953215469}
   m_Layer: 6
   m_Name: Mushroom
   m_TagString: Untagged
@@ -135,3 +136,25 @@ MonoBehaviour:
   overlayScale: 1.01
   cleanEffect: {fileID: 0}
   mySpawner: {fileID: 0}
+--- !u!95 &1495054874953215469
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7423025010195984700}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 55e1172434d882d40a8236bbc048ff3c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
