@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5660139122867025890}
   - component: {fileID: 985532423460466884}
   - component: {fileID: 3139624140384518410}
+  - component: {fileID: 5381307738765365206}
   m_Layer: 6
   m_Name: Blue_Flower
   m_TagString: Untagged
@@ -137,3 +138,25 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -4915616926705787658, guid: 1f5ec413581414c4d94988ec0ac68f67, type: 3}
+--- !u!95 &5381307738765365206
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6164344849767601719}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6d0e859f52b8f2b4ab8b86b21732303b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

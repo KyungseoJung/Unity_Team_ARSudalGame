@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2891863146758803467}
   - component: {fileID: -5306151856118655420}
   - component: {fileID: -1734993180235363867}
+  - component: {fileID: -5032948252959874351}
   m_Layer: 6
   m_Name: Green_RoundTree
   m_TagString: Untagged
@@ -134,3 +135,25 @@ MonoBehaviour:
   overlayScale: 1.01
   cleanEffect: {fileID: 2353600328335836179, guid: ceec7516237b4104b94300043ca39784, type: 3}
   mySpawner: {fileID: 0}
+--- !u!95 &-5032948252959874351
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3684237265513853406}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a669c419b78cc4346b63ff4a27ff0f25, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

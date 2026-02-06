@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3164255969015403357}
   - component: {fileID: 1493366646616965994}
   - component: {fileID: 111538983158736397}
+  - component: {fileID: 8052602830846386858}
   m_Layer: 6
   m_Name: Yellow_Flower
   m_TagString: Untagged
@@ -163,3 +164,25 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 1312488039872172972, guid: 9a5260498946dfc479706f4453ece5a2, type: 3}
+--- !u!95 &8052602830846386858
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5474842169237121371}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6d0e859f52b8f2b4ab8b86b21732303b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

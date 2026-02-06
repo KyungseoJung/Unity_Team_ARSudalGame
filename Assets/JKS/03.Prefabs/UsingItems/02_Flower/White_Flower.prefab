@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 344755758362756594}
   - component: {fileID: 7960476451651604278}
   - component: {fileID: -7126989599077462485}
+  - component: {fileID: 8565998077032681760}
   m_Layer: 6
   m_Name: White_Flower
   m_TagString: Untagged
@@ -136,3 +137,25 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -320649239660251333, guid: 4dc8928c21c3ed1488bd372a8af3a443, type: 3}
+--- !u!95 &8565998077032681760
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2290130958689772583}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6d0e859f52b8f2b4ab8b86b21732303b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
