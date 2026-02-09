@@ -9,7 +9,7 @@ public class InventoryUI : MonoBehaviour
     public Transform slotsArea;        // ���Ե��� ������ �θ� Transform
     public GameObject slotPrefab;      // ���� UI ������
 
-    public string inventoryHelpMessage = "학회장에서 수달과 자연요소들을 수집해 자신만의 수달을 꾸며주세요";
+    private string inventoryHelpMessage = "학회장에서 수달과 자연환경을 찾아 수집 후 자신만의 수달을 위한 자연환경을 꾸며주세요!";
 
     private void Start()
     {
