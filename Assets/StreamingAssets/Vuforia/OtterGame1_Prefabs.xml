@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig>
   <Tracking>
+    <ImageTarget name="TheARC_scan" size="140.000000 78.750000" />
+    <ImageTarget name="83tower_scan" size="140.000000 78.750000" />
     <ImageTarget name="Mushroom" size="140.000000 78.750000" />
     <ImageTarget name="Grass" size="140.000000 78.750000" />
     <ImageTarget name="Log" size="140.000000 78.750000" />
