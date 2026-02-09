@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4069525677467097491}
   - component: {fileID: 6600723644594976031}
   - component: {fileID: -4886129291398516716}
+  - component: {fileID: 6671655985312829945}
   m_Layer: 6
   m_Name: Red_Fish
   m_TagString: Fish
@@ -136,3 +137,18 @@ MonoBehaviour:
   overlayScale: 1.01
   cleanEffect: {fileID: 0}
   mySpawner: {fileID: 0}
+--- !u!114 &6671655985312829945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7493080291266779876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d787dff24e5e9441b5b0453966f193d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FakeSwim
+  swimSpeed: 3
+  yawAmount: 15
+  rollAmount: 5

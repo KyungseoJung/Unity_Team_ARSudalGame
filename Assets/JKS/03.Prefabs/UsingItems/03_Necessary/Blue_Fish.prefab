@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1150065194556441691}
   - component: {fileID: 2519400465043652436}
   - component: {fileID: 7305225858280147779}
+  - component: {fileID: 2372767882470985809}
   m_Layer: 6
   m_Name: Blue_Fish
   m_TagString: Fish
@@ -136,3 +137,18 @@ MonoBehaviour:
   overlayScale: 1.01
   cleanEffect: {fileID: 0}
   mySpawner: {fileID: 0}
+--- !u!114 &2372767882470985809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502018486269965791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d787dff24e5e9441b5b0453966f193d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FakeSwim
+  swimSpeed: 5
+  yawAmount: 15
+  rollAmount: 5
