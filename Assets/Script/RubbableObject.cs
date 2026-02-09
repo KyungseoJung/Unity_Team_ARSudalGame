@@ -9,7 +9,7 @@ public class RubbableObject : MonoBehaviour
 
     [Header("Cleaning Settings")]
     public float cleaningSensitivity = 0.00005f;
-    [SerializeField] private float currentDirt = 1.0f;
+    [SerializeField] private float currentDirt = 5.0f;
     private bool isCompleted = false;
 
     [Header("Auto Overlay Settings")]

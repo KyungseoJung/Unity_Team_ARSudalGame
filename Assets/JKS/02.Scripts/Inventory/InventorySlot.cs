@@ -27,7 +27,7 @@ public class InventorySlot : MonoBehaviour
         // 1) 자식 Icon(Image)을 우선 찾기 (프리팹 구조가 "Icon" 자식일 때)
         if (iconImage == null)
         {
-            var iconTf = transform.Find("Icon");
+            var iconTf = transform.Find("ItemImage");
             if (iconTf != null) iconImage = iconTf.GetComponent<Image>();
         }
 
