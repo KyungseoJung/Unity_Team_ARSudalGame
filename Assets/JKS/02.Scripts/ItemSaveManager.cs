@@ -120,7 +120,14 @@ public class ItemSaveManager : MonoBehaviour
             placed.itemIndex = entry.index;
 
             // 드래그 컴포넌트가 필요하면 붙이기
-            if (go.GetComponentInChildren<ItemDragger2D>() == null) go.AddComponent<ItemDragger2D>();
+            var col = go.GetComponentInChildren<Collider>(true);
+            GameObject dragHost = (col != null) ? col.gameObject : go;
+
+            var dragger = dragHost.GetComponent<ItemDragger2D>();
+            if (dragger == null) dragger = dragHost.AddComponent<ItemDragger2D>();
+
+            // *** 드래그로 움직일 대상은 항상 "루트"
+            dragger.SetMoveTarget(go.transform);
         }
 
         Debug.Log("ItemSaveManager: Loaded\n" + json);
