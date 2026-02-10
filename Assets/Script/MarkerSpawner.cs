@@ -5,11 +5,11 @@ public class MarkerSpawner : MonoBehaviour
 {
     [Header("Marker Settings")]
     public string markerID;
-    public bool isCollected = false;    // ★ [추가] 수집 완료 여부
+    public bool isCollected = false;
 
     [Header("Settings")]
     public GameObject contentPrefab;
-    public float spawnDistance = 0.5f;
+    public float spawnDistance = 0.5f; // 카메라 앞 거리
 
     [Header("Size Control")]
     [Range(0.1f, 1.0f)]
@@ -19,19 +19,17 @@ public class MarkerSpawner : MonoBehaviour
     public Vector3 positionOffset = Vector3.zero;
     public Vector3 rotationOffset = new Vector3(0, 180, 0);
 
-    public bool hasSpawned = false;
     private ObserverBehaviour observerBehaviour;
+    private bool hasSpawned = false;
 
-void Start()
+    void Start()
     {
         observerBehaviour = GetComponent<ObserverBehaviour>();
 
-        // [저장된 데이터 로드] 이전에 수집했었다면 바로 끄기
         markerID = contentPrefab.name;
         if (PlayerPrefs.GetInt(markerID, 0) == 1)
         {
             isCollected = true;
-            Debug.Log("이미 수집된 마커입니다");
             if (observerBehaviour) observerBehaviour.enabled = false;
             return;
         }
@@ -42,7 +40,7 @@ void Start()
 
     private void OnTargetStatusChanged(ObserverBehaviour behaviour, TargetStatus targetStatus)
     {
-        if (isCollected) return; // 수집 완료 시 원천 차단
+        if (isCollected) return;
 
         if (!hasSpawned && (targetStatus.Status == Status.TRACKED || targetStatus.Status == Status.EXTENDED_TRACKED))
         {
@@ -56,98 +54,122 @@ void Start()
 
         Transform camTrans = Camera.main.transform;
 
-        // 1. 생성
-        GameObject obj = Instantiate(contentPrefab, camTrans.position, Quaternion.identity);
-        obj.transform.SetParent(camTrans);
+        // 1. 빈 부모(Wrapper) 생성
+        GameObject wrapper = new GameObject($"Wrapper_{contentPrefab.name}");
 
-        // 2. 기본 배치 및 회전
-        obj.transform.localRotation = Quaternion.Euler(rotationOffset);
-        obj.transform.localPosition = new Vector3(0, 0, spawnDistance);
+        // ★ [핵심 변경] 생성 즉시 카메라의 자식으로 넣습니다.
+        wrapper.transform.SetParent(camTrans);
 
-        RubbableObject rubScript = obj.GetComponent<RubbableObject>();
-        if (rubScript != null)
+        // ★ [핵심 변경] 월드 좌표가 아닌 '로컬 좌표'를 사용하여 카메라 정중앙 앞(Z축)에 배치합니다.
+        wrapper.transform.localPosition = new Vector3(0, 0, spawnDistance);
+
+        // 회전도 로컬 기준으로 설정 (카메라 기준 180도 돌리기 등)
+        wrapper.transform.localRotation = Quaternion.Euler(rotationOffset);
+        wrapper.transform.localScale = Vector3.one;
+
+        // 2. 실제 모델 생성 및 Wrapper 자식 설정
+        GameObject model = Instantiate(contentPrefab);
+        model.transform.SetParent(wrapper.transform);
+
+        // 모델 초기화 (일단 부모인 Wrapper의 원점에 둠)
+        model.transform.localPosition = Vector3.zero;
+        model.transform.localRotation = Quaternion.identity;
+        model.transform.localScale = Vector3.one;
+
+        // 3. Rubbable 연결
+        RubbableObject rubScript = model.GetComponent<RubbableObject>();
+        if (rubScript != null) rubScript.mySpawner = this;
+
+        // 4. ★ [자동 보정] 크기 조절 및 피벗(중심점) 맞추기
+        NormalizeSizeAndPivot(wrapper, model);
+
+        // 5. 사용자 지정 미세 조정 (Local 기준)
+        wrapper.transform.localPosition += positionOffset;
+
+        // 6. UI 표시
+        if (UIManager.Instance != null)
         {
-            rubScript.mySpawner = this; // RubbableObject에 이 변수를 추가해야 함
+            UIManager.Instance.ShowOtterInfo(model.name.Replace("(Clone)", ""));
         }
 
-        // 렌더러 기반 스케일 조절
-        Renderer rend = obj.GetComponent<Renderer>();
-        if (rend == null) rend = obj.GetComponentInChildren<Renderer>();
+        // 7. 마커 트래킹 중지
+        if (observerBehaviour != null) observerBehaviour.enabled = false;
 
-        if (rend != null)
-        {
-            // Auto-Scaling 로직
-            float frustumHeight = 2.0f * spawnDistance * Mathf.Tan(Camera.main.fieldOfView * 0.5f * Mathf.Deg2Rad);
-            float targetSize = frustumHeight * screenFillRatio;
-            float currentSize = Mathf.Max(rend.bounds.size.x, rend.bounds.size.y, rend.bounds.size.z);
-
-            if (currentSize > 0)
-            {
-                float scaleFactor = targetSize / currentSize;
-                obj.transform.localScale *= scaleFactor;
-            }
-
-            // 중앙 정렬
-            Vector3 centerOffset = rend.bounds.center - obj.transform.position;
-            obj.transform.position -= centerOffset;
-
-            // ★ [추가] UI 매니저를 통해 정수리 이름표 띄우기 (소환 시 1회 계산)
-            if (UIManager.Instance != null)
-            {
-                string itemName = obj.name.Replace("(Clone)", "");
-                UIManager.Instance.ShowOtterInfo(itemName);
-            }
-        }
-
-        // 3. 미세 위치 조정
-        obj.transform.localPosition += positionOffset;
-
-        // 4. 소환 즉시 마커 인식 일시 중지 (각도/조명 떨림 방지)
-        if (observerBehaviour != null)
-        {
-            observerBehaviour.enabled = false;
-            Debug.Log("<color=yellow>마커 트래킹 일시 중지 (오브젝트 고정)</color>");
-        }
-
-        if (observerBehaviour) observerBehaviour.enabled = false;
-
-        GameManager.Instance.RegisterObject(obj);
+        GameManager.Instance.RegisterObject(model);
         hasSpawned = true;
     }
 
-    // ★ [추가] 수집 완료 시 GameManager가 호출할 함수
+    void NormalizeSizeAndPivot(GameObject wrapper, GameObject model)
+    {
+        // 1. 모델의 전체 Bounds 구하기 (월드 기준)
+        Bounds totalBounds = GetTotalBounds(model);
+        if (totalBounds.size == Vector3.zero) return;
+
+        // --- 크기(Scale) 보정 ---
+        float frustumHeight = 2.0f * spawnDistance * Mathf.Tan(Camera.main.fieldOfView * 0.5f * Mathf.Deg2Rad);
+        float targetSize = frustumHeight * screenFillRatio;
+        float currentMaxSize = Mathf.Max(totalBounds.size.x, totalBounds.size.y, totalBounds.size.z);
+
+        if (currentMaxSize > 0)
+        {
+            float scaleFactor = targetSize / currentMaxSize;
+            wrapper.transform.localScale = Vector3.one * scaleFactor;
+        }
+
+        // --- 중심점(Pivot) 보정 ---
+        // 스케일이 변했으므로 Bounds를 다시 계산하는 것이 가장 안전함
+        totalBounds = GetTotalBounds(model);
+
+        // 모델의 '시각적 중심(Center)'이 Wrapper의 '원점(Position)'과 얼마나 차이나는지 계산
+        // ★ 중요: 부모(Wrapper) 기준 로컬 좌표계로 변환해서 계산해야 정확함
+        Vector3 centerInWrapperSpace = wrapper.transform.InverseTransformPoint(totalBounds.center);
+
+        // 모델을 반대 방향으로 이동시켜서 시각적 중심을 0,0,0에 맞춤
+        model.transform.localPosition = -centerInWrapperSpace;
+    }
+
+    Bounds GetTotalBounds(GameObject rootObj)
+    {
+        Bounds bounds = new Bounds(Vector3.zero, Vector3.zero);
+        bool hasBounds = false;
+        Renderer[] renderers = rootObj.GetComponentsInChildren<Renderer>();
+
+        foreach (Renderer rend in renderers)
+        {
+            if (!hasBounds)
+            {
+                bounds = rend.bounds;
+                hasBounds = true;
+            }
+            else
+            {
+                bounds.Encapsulate(rend.bounds);
+            }
+        }
+        return bounds;
+    }
+
     public void MarkAsCollected()
     {
         isCollected = true;
         hasSpawned = false;
-
-        PlayerPrefs.SetInt(markerID, 1); //추후 해당 주석을 풀면 앱을 다시 실행하거나 씬을 전환해도 한번 수집한 마커는 인식이 되지 않음
-        PlayerPrefs.Save(); // 즉시 물리적인 파일로 저장 (안전을 위해)
-
-        // 마커 기능을 영구적으로 꺼서 다시는 인식되지 않게 함
-        if (observerBehaviour != null)
-        {
-            observerBehaviour.enabled = false;
-        }
-        Debug.Log($"<color=red>✔수집 완료: 마커가 비활성화되었습니다.</color>");
+        PlayerPrefs.SetInt(markerID, 1);
+        PlayerPrefs.Save();
+        if (observerBehaviour != null) observerBehaviour.enabled = false;
     }
 
     public void ResetTracking()
     {
-        // ★ 이미 수집된 마커는 리셋되지 않음
         if (isCollected) return;
-
         if (observerBehaviour != null)
         {
             observerBehaviour.enabled = true;
             hasSpawned = false;
-            Debug.Log("🔄 [Marker] 트래킹 리셋");
         }
     }
 
     void OnDestroy()
     {
-        if (observerBehaviour)
-            observerBehaviour.OnTargetStatusChanged -= OnTargetStatusChanged;
+        if (observerBehaviour) observerBehaviour.OnTargetStatusChanged -= OnTargetStatusChanged;
     }
 }
