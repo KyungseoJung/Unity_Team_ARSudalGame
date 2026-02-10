@@ -134,6 +134,7 @@ public class RubbableObject : MonoBehaviour
     {
         // 1. 껍데기 제거 로직
         Transform overlay = transform.Find("Generated_DirtOverlay");
+
         if (overlay != null)
         {
             overlay.gameObject.SetActive(false);
@@ -145,6 +146,10 @@ public class RubbableObject : MonoBehaviour
         if (CompareTag("Fish"))
         {
             transform.rotation = Quaternion.Euler(0, 90, 0);
+        }
+        else if(CompareTag("Otter"))
+        {
+            transform.parent.rotation = Quaternion.Euler(0, 90, 0);
         }
     }
 }

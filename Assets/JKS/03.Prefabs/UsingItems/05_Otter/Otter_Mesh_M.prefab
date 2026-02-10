@@ -527,7 +527,7 @@ GameObject:
   - component: {fileID: 3565447883050018114}
   m_Layer: 0
   m_Name: Otter_Mesh_M
-  m_TagString: Untagged
+  m_TagString: Otter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1384,7 +1384,7 @@ GameObject:
   - component: {fileID: 4726684671160497601}
   m_Layer: 0
   m_Name: Otter_Mesh_M
-  m_TagString: Untagged
+  m_TagString: Otter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

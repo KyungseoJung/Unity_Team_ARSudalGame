@@ -1163,7 +1163,7 @@ GameObject:
   - component: {fileID: 8101935987110680010}
   m_Layer: 6
   m_Name: Otter_Mesh
-  m_TagString: Untagged
+  m_TagString: Otter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2274,7 +2274,7 @@ GameObject:
   - component: {fileID: 1218643661085386129}
   m_Layer: 6
   m_Name: Hairy-nosed_otter
-  m_TagString: Untagged
+  m_TagString: Otter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Fish
+  - Otter
   layers:
   - Default
   - TransparentFX

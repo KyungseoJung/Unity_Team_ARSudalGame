@@ -77,7 +77,7 @@ public class MarkerSpawner : MonoBehaviour
         model.transform.localScale = Vector3.one;
 
         // 3. Rubbable 연결
-        RubbableObject rubScript = model.GetComponent<RubbableObject>();
+        RubbableObject rubScript = model.GetComponentInChildren<RubbableObject>();
         if (rubScript != null) rubScript.mySpawner = this;
 
         // 4. ★ [자동 보정] 크기 조절 및 피벗(중심점) 맞추기

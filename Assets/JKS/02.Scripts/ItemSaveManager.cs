@@ -110,17 +110,17 @@ public class ItemSaveManager : MonoBehaviour
 
             GameObject go = Instantiate(itemPrefabs[entry.index], entry.position, entry.rotation);
 
-            go.GetComponent<RubbableObject>()?.ApplyCleanedState();
+            go.GetComponentInChildren<RubbableObject>()?.ApplyCleanedState();
             // (선택) 스케일 복원
             go.transform.localScale = entry.scale;
 
             // PlacedItem 세팅
-            var placed = go.GetComponent<PlacedItem>();
+            var placed = go.GetComponentInChildren<PlacedItem>();
             if (placed == null) placed = go.AddComponent<PlacedItem>();
             placed.itemIndex = entry.index;
 
             // 드래그 컴포넌트가 필요하면 붙이기
-            if (go.GetComponent<ItemDragger2D>() == null) go.AddComponent<ItemDragger2D>();
+            if (go.GetComponentInChildren<ItemDragger2D>() == null) go.AddComponent<ItemDragger2D>();
         }
 
         Debug.Log("ItemSaveManager: Loaded\n" + json);
