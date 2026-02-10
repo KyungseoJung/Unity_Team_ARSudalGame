@@ -839,6 +839,9 @@ MonoBehaviour:
   - {fileID: 6715111504538621108, guid: 2d289725d90f6a54aba5ca8f3219db4d, type: 3}
   - {fileID: 3437523254897788514, guid: b22f0b9964b6e334698ae9aef7878c91, type: 3}
   - {fileID: 7423025010195984700, guid: 2af10dd70c6dc144e83d3c46a4151b64, type: 3}
+  - {fileID: 6803928917542058852, guid: 61ea369a7a5c7ae4a900e7e95f0b3e5c, type: 3}
+  - {fileID: 6803928917542058852, guid: 6750b1289a757e64697e228f9fb28a0e, type: 3}
+  - {fileID: 6803928917542058852, guid: 2e44f24d78351ce4697bf22e2410481b, type: 3}
 --- !u!1 &937807752
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,11 +979,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1326558594518435087, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1326558594518435087, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2476779057390308779, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_AnchorMax.x
@@ -996,11 +999,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5128022885852965688, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5128022885852965688, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5128022885852965688, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1008,11 +1011,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6352690017348207615, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6352690017348207615, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6352690017348207615, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1020,11 +1023,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6352690017348207615, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6809722394234723116, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6809722394234723116, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1036,7 +1039,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6970104171223442146, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7518933161080322572, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_Pivot.x
@@ -1120,11 +1123,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7792052666991537363, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7792052666991537363, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7792052666991537363, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_AnchorMin.y
@@ -1842,7 +1845,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 221.53845
+  m_PreferredWidth: 240.4263
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1

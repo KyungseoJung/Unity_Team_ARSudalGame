@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig>
   <Tracking>
+    <ImageTarget name="African_clawless_Otter" size="140.000000 78.750000" />
+    <ImageTarget name="Hairy-nosed_Otter" size="140.000000 78.750000" />
+    <ImageTarget name="Eurasian_Otter" size="140.000000 78.750000" />
     <ImageTarget name="TheARC_scan" size="140.000000 78.750000" />
     <ImageTarget name="83tower_scan" size="140.000000 78.750000" />
     <ImageTarget name="Mushroom" size="140.000000 78.750000" />

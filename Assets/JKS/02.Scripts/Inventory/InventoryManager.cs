@@ -24,7 +24,7 @@ public class InventoryManager : MonoBehaviour
     int frontOrderCounter = 0;
 
     public enum ItemType { Blue_ConeTree, Blue_CubeTree, Green_ConeTree, Blue_Flower, Red_Flower, White_Flower, 
-                        Blue_Fish, Green_Fish, Red_Fish, Grass, Log, Mushroom, OTTER }
+                        Blue_Fish, Green_Fish, Red_Fish, Grass, Log, Mushroom, Eurasian_Otter, Hairy_nosed_Otter, African_clawless_Otter }
 
     private void Awake()
     {
