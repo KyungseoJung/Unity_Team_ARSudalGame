@@ -186,7 +186,11 @@ public class InventoryUI : MonoBehaviour
     private IEnumerator CaptureRoutine()
     {
         // 1. UI 숨기기
-        if (mainUI != null) { mainUI.SetActive(false); }
+        if (mainUI != null) 
+        { 
+            mainUI.SetActive(false);
+            buttonIcon.enabled = false;
+        }
 
         yield return new WaitForEndOfFrame();
 
@@ -203,6 +207,10 @@ public class InventoryUI : MonoBehaviour
         Object.Destroy(screenTexture);
 
         // 5. UI 다시 표시
-        if (mainUI != null) { mainUI.SetActive(true); }
+        if (mainUI != null) 
+        { 
+            mainUI.SetActive(true);
+            buttonIcon.enabled = true;
+        }
     }
 }
