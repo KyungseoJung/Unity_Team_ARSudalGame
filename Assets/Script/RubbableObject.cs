@@ -39,34 +39,52 @@ public class RubbableObject : MonoBehaviour
 
     private void CreateDirtOverlay()
     {
-        // 1. 원본 메쉬 렌더러 찾기
-        MeshRenderer originRenderer = GetComponentInChildren<MeshRenderer>();
-        MeshFilter originFilter = GetComponentInChildren<MeshFilter>();
+        // 1. 공통 부모 클래스인 Renderer로 찾기
+        Renderer originRenderer = GetComponentInChildren<Renderer>();
 
-        if (originRenderer == null || originFilter == null) return;
+        if (originRenderer == null)
+        {
+            Debug.LogWarning("렌더러를 찾을 수 없습니다.");
+            return;
+        }
 
-        // 2. 새로운 자식 오브젝트 생성
+        // 2. 새로운 자식 오브젝트 생성 및 기본 설정
         GameObject overlayObj = new GameObject("Generated_DirtOverlay");
         overlayObj.transform.SetParent(originRenderer.transform);
-
-        // 위치와 회전은 원본과 똑같이, 스케일만 살짝 키우기
         overlayObj.transform.localPosition = Vector3.zero;
         overlayObj.transform.localRotation = Quaternion.identity;
         overlayObj.transform.localScale = Vector3.one * overlayScale;
 
-        // 3. 메쉬 정보 복사
-        MeshFilter mf = overlayObj.AddComponent<MeshFilter>();
-        mf.sharedMesh = originFilter.sharedMesh;
+        // 3. 타입에 따른 분기 처리 (Skinned Mesh vs 일반 Mesh)
+        if (originRenderer is SkinnedMeshRenderer originSMR)
+        {
+            // --- SkinnedMeshRenderer 대응 ---
+            SkinnedMeshRenderer overlaySMR = overlayObj.AddComponent<SkinnedMeshRenderer>();
 
-        // 4. 렌더러 추가 및 머터리얼 설정
-        dirtyRenderer = overlayObj.AddComponent<MeshRenderer>();
+            // 중요: 메쉬뿐만 아니라 뼈대(Bones) 정보를 복사해야 애니메이션을 따라갑니다.
+            overlaySMR.sharedMesh = originSMR.sharedMesh;
+            overlaySMR.bones = originSMR.bones;
+            overlaySMR.rootBone = originSMR.rootBone;
 
-        // 껍데기용 새 머터리얼 생성 및 셰이더 할당
+            dirtyRenderer = overlaySMR;
+        }
+        else if (originRenderer is MeshRenderer originMR)
+        {
+            // --- 일반 MeshRenderer 대응 ---
+            MeshFilter originFilter = originMR.GetComponent<MeshFilter>();
+            if (originFilter == null) return;
+
+            MeshFilter mf = overlayObj.AddComponent<MeshFilter>();
+            mf.sharedMesh = originFilter.sharedMesh;
+
+            dirtyRenderer = overlayObj.AddComponent<MeshRenderer>();
+        }
+
+        // 4. 머터리얼 설정 (공통)
         Material dirtMat = dirtyMaterial;
-
-        // 원본 머터리얼 개수만큼 슬롯을 채워줍니다
         Material[] mats = new Material[originRenderer.sharedMaterials.Length];
         for (int i = 0; i < mats.Length; i++) mats[i] = dirtMat;
+
         dirtyRenderer.materials = mats;
 
         // 초기 알파값 적용
