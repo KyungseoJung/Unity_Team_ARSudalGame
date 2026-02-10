@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowOtterInfo(string name)
     {
-        nameText.text = name + "이 나타났습니다\n깨끗하게 씻겨서 수집해주세요!";
+        nameText.text = name + " has appeared!\nRub the screen to clean it and collect it!";
         nameTagPanel.SetActive(true);
     }
 
@@ -60,7 +60,7 @@ public class UIManager : MonoBehaviour
 
     IEnumerator PopupRoutine(string itemName)
     {
-        popupText.text = $"{itemName} 획득!";
+        popupText.text = $"{itemName} obtained!";
         popupPanel.SetActive(true);
         yield return new WaitForSeconds(2.0f);
         popupPanel.SetActive(false);

@@ -20,7 +20,7 @@ public class InventoryUI : MonoBehaviour
     public Sprite eyeOpen;     // 표시 중일 때 아이콘
     public Sprite eyeClosed;   // 숨김 중일 때 아이콘
 
-    private string inventoryHelpMessage = "학회장에서 수달과 자연환경을 찾아 수집 후 자신만의 수달을 위한 자연환경을 꾸며주세요!";
+    private string inventoryHelpMessage = "Find otters and nature items around the venue. Collect them and build a home for your otter!";
     private bool isVisible = true;
 
     private void Start()

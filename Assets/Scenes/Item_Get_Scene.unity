@@ -244,7 +244,6 @@ MonoBehaviour:
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 180, z: 0}
-  hasSpawned: 0
 --- !u!114 &26378375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,7 +388,6 @@ MonoBehaviour:
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 180, z: 0}
-  hasSpawned: 0
 --- !u!114 &37082340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -828,7 +826,7 @@ GameObject:
   - component: {fileID: 635990343}
   - component: {fileID: 635990342}
   - component: {fileID: 635990344}
-  - component: {fileID: 635990340}
+  - component: {fileID: 635990345}
   m_Layer: 0
   m_Name: ImageTarget_etc_Eurasian_otter
   m_TagString: Untagged
@@ -851,25 +849,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 872996916}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &635990340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 635990338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
-  mObserverBehaviour: {fileID: 635990343}
-  mHiddenRoot: {fileID: 0}
-  mTargetName: Eurasian_Otter
-  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
-  mCastedBehaviour: {fileID: 635990343}
-  mMeshFilter: {fileID: 0}
-  mMeshRenderer: {fileID: 0}
 --- !u!114 &635990342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -940,7 +919,7 @@ MonoBehaviour:
   mMotionHint: 1
   mTrackingOptimization: 0
   mTrackingOptimizationNeedsUpgrade: 0
-  mPreview: {fileID: 635990340}
+  mPreview: {fileID: 635990345}
 --- !u!114 &635990344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -960,7 +939,25 @@ MonoBehaviour:
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 90, z: 0}
-  hasSpawned: 0
+--- !u!114 &635990345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635990338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
+  mObserverBehaviour: {fileID: 635990343}
+  mHiddenRoot: {fileID: 0}
+  mTargetName: Eurasian_Otter
+  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
+  mCastedBehaviour: {fileID: 635990343}
+  mMeshFilter: {fileID: 0}
+  mMeshRenderer: {fileID: 0}
 --- !u!1 &756172630
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,7 +1083,6 @@ MonoBehaviour:
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 180, z: 0}
-  hasSpawned: 0
 --- !u!114 &756172637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1329,7 +1325,6 @@ MonoBehaviour:
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 180, z: 0}
-  hasSpawned: 0
 --- !u!114 &907342263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1474,7 +1469,6 @@ MonoBehaviour:
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 90, z: 0}
-  hasSpawned: 0
 --- !u!114 &963245820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1553,7 +1547,6 @@ MonoBehaviour:
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 180, z: 0}
-  hasSpawned: 0
 --- !u!114 &1311876937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1698,7 +1691,6 @@ MonoBehaviour:
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 180, z: 0}
-  hasSpawned: 0
 --- !u!114 &1349856531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1843,7 +1835,6 @@ MonoBehaviour:
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 180, z: 0}
-  hasSpawned: 0
 --- !u!114 &1386326629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1988,7 +1979,6 @@ MonoBehaviour:
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 90, z: 0}
-  hasSpawned: 0
 --- !u!114 &1395616372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2118,7 +2108,6 @@ MonoBehaviour:
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 180, z: 0}
-  hasSpawned: 0
 --- !u!114 &1407325854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2278,7 +2267,6 @@ MonoBehaviour:
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 90, z: 0}
-  hasSpawned: 0
 --- !u!114 &1485008216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2574,7 +2562,6 @@ MonoBehaviour:
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 180, z: 0}
-  hasSpawned: 0
 --- !u!114 &1628302406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2755,7 +2742,7 @@ GameObject:
   - component: {fileID: 2020369865}
   - component: {fileID: 2020369864}
   - component: {fileID: 2020369866}
-  - component: {fileID: 2020369862}
+  - component: {fileID: 2020369867}
   m_Layer: 0
   m_Name: ImageTarget_etc_Hairy-nosed_otter
   m_TagString: Untagged
@@ -2778,25 +2765,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 872996916}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2020369862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2020369860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
-  mObserverBehaviour: {fileID: 2020369865}
-  mHiddenRoot: {fileID: 0}
-  mTargetName: Hairy-nosed_Otter
-  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
-  mCastedBehaviour: {fileID: 2020369865}
-  mMeshFilter: {fileID: 0}
-  mMeshRenderer: {fileID: 0}
 --- !u!114 &2020369864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2867,7 +2835,7 @@ MonoBehaviour:
   mMotionHint: 1
   mTrackingOptimization: 0
   mTrackingOptimizationNeedsUpgrade: 0
-  mPreview: {fileID: 2020369862}
+  mPreview: {fileID: 2020369867}
 --- !u!114 &2020369866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2887,7 +2855,25 @@ MonoBehaviour:
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 90, z: 0}
-  hasSpawned: 0
+--- !u!114 &2020369867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020369860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
+  mObserverBehaviour: {fileID: 2020369865}
+  mHiddenRoot: {fileID: 0}
+  mTargetName: Hairy-nosed_Otter
+  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
+  mCastedBehaviour: {fileID: 2020369865}
+  mMeshFilter: {fileID: 0}
+  mMeshRenderer: {fileID: 0}
 --- !u!1 &2030360780
 GameObject:
   m_ObjectHideFlags: 0
@@ -2942,7 +2928,6 @@ MonoBehaviour:
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 180, z: 0}
-  hasSpawned: 0
 --- !u!114 &2030360784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3063,8 +3048,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackgroundState
   unlockedDefault: 1
-  unlockedTower: 1
-  unlockedARC: 1
+  unlockedTower: 0
+  unlockedARC: 0
   selected: 0
 --- !u!4 &2057085510
 Transform:
@@ -3093,7 +3078,7 @@ GameObject:
   - component: {fileID: 2086309813}
   - component: {fileID: 2086309812}
   - component: {fileID: 2086309814}
-  - component: {fileID: 2086309810}
+  - component: {fileID: 2086309815}
   m_Layer: 0
   m_Name: ImageTarget_etc_African_clawless_otter
   m_TagString: Untagged
@@ -3116,25 +3101,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 872996916}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2086309810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2086309808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
-  mObserverBehaviour: {fileID: 2086309813}
-  mHiddenRoot: {fileID: 0}
-  mTargetName: African_clawless_Otter
-  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
-  mCastedBehaviour: {fileID: 2086309813}
-  mMeshFilter: {fileID: 0}
-  mMeshRenderer: {fileID: 0}
 --- !u!114 &2086309812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3205,7 +3171,7 @@ MonoBehaviour:
   mMotionHint: 1
   mTrackingOptimization: 0
   mTrackingOptimizationNeedsUpgrade: 0
-  mPreview: {fileID: 2086309810}
+  mPreview: {fileID: 2086309815}
 --- !u!114 &2086309814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3225,7 +3191,25 @@ MonoBehaviour:
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 270, z: 0}
-  hasSpawned: 0
+--- !u!114 &2086309815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086309808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
+  mObserverBehaviour: {fileID: 2086309813}
+  mHiddenRoot: {fileID: 0}
+  mTargetName: African_clawless_Otter
+  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
+  mCastedBehaviour: {fileID: 2086309813}
+  mMeshFilter: {fileID: 0}
+  mMeshRenderer: {fileID: 0}
 --- !u!1 &2104998838
 GameObject:
   m_ObjectHideFlags: 0
@@ -3445,7 +3429,6 @@ MonoBehaviour:
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 180, z: 0}
-  hasSpawned: 0
 --- !u!114 &2108507848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4667,7 +4650,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 249.23076
+  m_PreferredWidth: 270.47958
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -4981,7 +4964,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 249.23076
+  m_PreferredWidth: 270.47958
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -5702,7 +5685,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 221.53845
+  m_PreferredWidth: 240.4263
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
