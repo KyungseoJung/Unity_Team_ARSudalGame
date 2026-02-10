@@ -1,5 +1,9 @@
 using UnityEngine;
 using System; // Action 이벤트를 위해 필요
+//#11 (수달의 특이한 구조 때문에 추가 작업)
+//    Collider가 자식(Otter_Mesh)에 있는 프리팹도 있기 때문에,
+//    "히트(클릭) 대상"은 Collider가 있는 Transform,
+//    "실제 이동/저장 대상"은 루트 Transform(go)로 분리해서 처리한다.
 
 public class InventoryManager : MonoBehaviour
 {
@@ -23,8 +27,12 @@ public class InventoryManager : MonoBehaviour
     PlacedItem currentSelected;
     int frontOrderCounter = 0;
 
-    public enum ItemType { Blue_ConeTree, Blue_CubeTree, Green_ConeTree, Blue_Flower, Red_Flower, White_Flower, 
-                        Blue_Fish, Green_Fish, Red_Fish, Grass, Log, Mushroom, Eurasian_Otter, Hairy_nosed_Otter, African_clawless_Otter }
+    public enum ItemType
+    {
+        Blue_ConeTree, Blue_CubeTree, Green_ConeTree, Blue_Flower, Red_Flower, White_Flower,
+        Blue_Fish, Green_Fish, Red_Fish, Grass, Log, Mushroom,
+        Eurasian_Otter, Hairy_nosed_Otter, African_clawless_Otter
+    }
 
     private void Awake()
     {
@@ -68,34 +76,24 @@ public class InventoryManager : MonoBehaviour
     // ====================================================
     public void AcquireItem(ItemType itemType)
     {
-        // int index = (int)itemType;
-        // PlayerPrefs.SetInt("ITEM_" + index, 1);
         //#7 아이템 이름 변경 : 이제는 아이템 이름으로 설정 ------------------
         string key = GetItemKey(itemType);
         PlayerPrefs.SetInt(key, 1);
-
 
         PlayerPrefs.Save();
         Debug.Log($"Item acquired: {itemType}");
 
         // ★ 핵심: 데이터가 변했으니 UI에게 업데이트하라고 알림
         OnInventoryUpdated?.Invoke();
-
-        // 위의 코드는 아래 코드와 동일
-        // if (OnInventoryUpdated != null)
-        // {
-        //     OnInventoryUpdated.Invoke();
-        // }
-
     }
 
     public bool HasItem(ItemType type)
     {
         //#7 아이템 이름 변경 -----------------------
-        // return PlayerPrefs.GetInt("ITEM_" + index, 0) == 1;
         return PlayerPrefs.GetInt(GetItemKey(type), 0) == 1;
         // 아이템을 가지고 있으면 true/ 없으면 false 리턴~~
     }
+
     //#7 int 버전도 만들어줘서, 기존에 InventoryUI.cs와 연결된 부분을 그대로 유지해주자
     public bool HasItem(int index)
     {
@@ -116,23 +114,31 @@ public class InventoryManager : MonoBehaviour
         Vector3 spawnPos = basePos + Vector3.up * spawnHeight;
 
         Debug.Log("아이템 소환: " + itemPrefabs[index]);
-     
+
         GameObject go = Instantiate(itemPrefabs[index], spawnPos, Quaternion.identity);
 
-        go.GetComponent<RubbableObject>()?.ApplyCleanedState();
+        //#11 여기부터--------------------------------------
+        // 1) 드래그 판정은 "Collider가 있는 오브젝트"가 하게 만들기
+        Transform hitT = FindColliderTransform(go);
 
-        // 필요한 컴포넌트 부착 로직 유지
-        if (go.GetComponent<ItemDragger2D>() == null) go.AddComponent<ItemDragger2D>();
-        if (go.GetComponent<PlacedItem>() == null) go.AddComponent<PlacedItem>();
+        // 2) PlacedItem은 루트(go)에 붙인다 (아이템 1개 단위로 저장/선택/삭제 기준)
+        var placed = go.GetComponent<PlacedItem>();
+        if (placed == null) placed = go.AddComponent<PlacedItem>();
+        placed.itemIndex = index;
+
+        // 3) ItemDragger2D는 hitT에 붙인다 (레이캐스트가 hitT에 맞으니까)
+        var dragger = hitT.GetComponent<ItemDragger2D>();
+        if (dragger == null) dragger = hitT.gameObject.AddComponent<ItemDragger2D>();
+
+        // 4) 핵심: 실제로 움직일 대상은 "루트"로 지정
+        dragger.SetMoveTarget(go.transform);
+        //#11 여기까지--------------------------------------
+
+        // 수달처럼 RubbableObject가 자식에 붙어있을 수 있으므로 InChildren로 처리
+        go.GetComponentInChildren<RubbableObject>(true)?.ApplyCleanedState();
 
         // 아이템 생성 후 인벤토리를 닫고 싶다면 UI 쪽에서 처리하거나,
         // 여기서 이벤트를 보낼 수도 있습니다. (여기서는 UI가 알아서 닫도록 유도)
-
-        //#2 아이템 배치 저장 목적
-        var placed = go.GetComponent<PlacedItem>();
-        placed.itemIndex = index;
-
-
     }
 
     public void SelectItem(PlacedItem item)
@@ -158,7 +164,7 @@ public class InventoryManager : MonoBehaviour
     {
         return currentSelected;
     }
-    
+
     public void ClearSelection()
     {
         if (currentSelected != null)
@@ -179,11 +185,29 @@ public class InventoryManager : MonoBehaviour
 
     void BringToFront(PlacedItem item)
     {
-        Renderer rend = item.GetComponent<Renderer>();
+        // 수달처럼 Renderer가 자식에 있는 경우도 있으니 InChildren로 찾는다
+        Renderer rend = item.GetComponentInChildren<Renderer>(true);
         if (rend == null) return;
 
         int baseQueue = 3000;
         frontOrderCounter++;
         rend.material.renderQueue = baseQueue + frontOrderCounter;
+    }
+
+    //#11 (수달의 특이한 구조 때문에 추가 작업)
+    //    Collider가 루트에 있으면 루트가 hitT,
+    //    아니면 자식 Collider(예: Otter_Mesh)가 hitT가 된다.
+    private Transform FindColliderTransform(GameObject root)    //#11
+    {
+        // 루트에 Collider 있으면 그게 타겟
+        var col = root.GetComponent<Collider>();
+        if (col != null) return col.transform;
+
+        // 자식에서 Collider 찾기(비활성 포함)
+        col = root.GetComponentInChildren<Collider>(true);
+        if (col != null) return col.transform;
+
+        // 없으면 루트
+        return root.transform;
     }
 }

@@ -34,10 +34,19 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     bool pointerDownOnMe = false;
     private TrashCanArea currentHoveredTrash;
 
+    //#11 (수달의 특이한 구조 때문에 추가 작업) Mesh Collider를 직접 찾아서 ItemDragger2D.cs와 PlacedItem.cs를 붙이도록
+    [SerializeField] private Transform moveTarget;
+    private Transform MoveT => moveTarget != null ? moveTarget : transform;
+
+
+
     void Awake()
     {
         if (cam == null) cam = Camera.main;
         saveManager = FindFirstObjectByType<ItemSaveManager>();
+
+        if (moveTarget == null) moveTarget = transform; //#11 기본은 자기 자신
+
     }
 
     void Update()
@@ -81,13 +90,16 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             isPinching = true;
             isDragging = false;
             pinchStartDist = dist;
-            pinchStartScale = transform.localScale;
+            // pinchStartScale = transform.localScale;
+            pinchStartScale = MoveT.localScale; //#11
+
             return;
         }
 
         float scaleFactor = 1f + ((dist - pinchStartDist) * pinchSensitivity);
         float clamped = Mathf.Clamp(pinchStartScale.x * scaleFactor, minScale, maxScale);
-        transform.localScale = new Vector3(clamped, clamped, clamped);
+        // transform.localScale = new Vector3(clamped, clamped, clamped);
+        MoveT.localScale = new Vector3(clamped, clamped, clamped);  //#11
     }
 
     private void HandleMouseOrSingleTouch()
@@ -100,7 +112,8 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             if (pointerDownOnMe)
             {
                 StartDrag(Pointer.current.position.ReadValue());
-                var placed = GetComponent<PlacedItem>();
+                // var placed = GetComponent<PlacedItem>();
+                var placed = GetComponentInParent<PlacedItem>();    //#11
                 if (placed != null && InventoryManager.Instance != null)
                     InventoryManager.Instance.SelectItem(placed);
             }
@@ -166,7 +179,9 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             currentHoveredTrash.OnHoverExit();
             currentHoveredTrash = null;
         }
-        Destroy(gameObject);
+        // Destroy(gameObject);
+        Destroy(MoveT.gameObject);  //#11
+
         if (saveManager != null)
         {
             saveManager.Invoke("SaveAll", 0.1f);
@@ -179,10 +194,16 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         active = this;
         isDragging = true;
-        Vector3 sp = cam.WorldToScreenPoint(transform.position);
+        // Vector3 sp = cam.WorldToScreenPoint(transform.position);
+        // depth = sp.z;
+        // Vector3 worldUnderPointer = cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, depth));
+        // offset = transform.position - worldUnderPointer;
+        //#11
+        Vector3 sp = cam.WorldToScreenPoint(MoveT.position);
         depth = sp.z;
         Vector3 worldUnderPointer = cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, depth));
-        offset = transform.position - worldUnderPointer;
+        offset = MoveT.position - worldUnderPointer;
+
     }
 
     void EndDrag()
@@ -195,8 +216,12 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         float x = Mathf.Clamp(screenPos.x, screenMargin, Screen.width - screenMargin);
         float y = Mathf.Clamp(screenPos.y, screenMargin, Screen.height - screenMargin);
+        // Vector3 world = cam.ScreenToWorldPoint(new Vector3(x, y, depth));
+        // transform.position = world + offset;
+        //#11
         Vector3 world = cam.ScreenToWorldPoint(new Vector3(x, y, depth));
-        transform.position = world + offset;
+        MoveT.position = world + offset;
+
 
         CheckTrashHover(screenPos);
     }
@@ -262,4 +287,10 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     void OnEnable() { EnhancedTouchSupport.Enable(); }
     void OnDisable() { EnhancedTouchSupport.Disable(); }
+
+    //#11 (수달의 특이한 구조 때문에 추가 작업) Mesh Collider를 직접 찾아서 ItemDragger2D.cs와 PlacedItem.cs를 붙이도록
+    public void SetMoveTarget(Transform t)
+    {
+        moveTarget = t;
+    }
 }
