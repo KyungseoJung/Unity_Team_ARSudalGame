@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
         // 주석처리
     }
 
@@ -29,22 +29,29 @@ public class GameManager : MonoBehaviour
     }
 
     // 소환했을 때 등록하기
-    public void RegisterObject(GameObject obj)
+public void RegisterObject(GameObject obj)
+{
+    currentActiveObject = obj;
+
+    // GetComponent 대신 GetComponentInChildren을 사용하여 자식들까지 탐색합니다.
+    RubbableObject rubObj = obj.GetComponentInChildren<RubbableObject>();
+    
+
+    if (rubObj != null)
     {
-        currentActiveObject = obj;
+        // 1. 기존에 혹시 연결된게 있다면 중복 방지를 위해 끊어줌
+        rubObj.OnCleaningCompleted -= HandleCleaningComplete;
 
-        RubbableObject rubObj = obj.GetComponent<RubbableObject>();
-        if (rubObj != null)
-        {
-            // 1. 기존에 혹시 연결된게 있다면 중복 방지를 위해 끊어줌 (안전장치)
-            rubObj.OnCleaningCompleted -= HandleCleaningComplete;
+        // 2. 이벤트 구독
+        rubObj.OnCleaningCompleted += HandleCleaningComplete;
 
-            // 2. 이벤트 구독: "청소 끝나면 HandleCleaningComplete 함수를 실행해!"
-            rubObj.OnCleaningCompleted += HandleCleaningComplete;
-
-            Debug.Log($"[GameManager] {rubObj.itemName} 추적 시작");
-        }
+        Debug.Log($"[GameManager] {rubObj.itemName} 추적 시작");
     }
+    else
+    {
+        Debug.LogWarning($"{obj.name}과 그 자식들에게서 RubbableObject를 찾을 수 없습니다!");
+    }
+}
 
     // ★ 수달이 청소를 끝내고(OnCleaningCompleted) 호출할 함수
     // RubbableObject 스크립트에서 invoke할 때 자기 자신(this)을 매개변수로 넘겨줘야 함
