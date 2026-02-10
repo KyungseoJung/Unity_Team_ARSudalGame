@@ -5718,6 +5718,10 @@ MonoBehaviour:
   inventoryPanel: {fileID: 4877672428745333380}
   slotsArea: {fileID: 1172654874}
   slotPrefab: {fileID: 7622044118349017849, guid: 549151e15f2f31345baa8cc8fe755fde, type: 3}
+  mainUI: {fileID: 0}
+  buttonIcon: {fileID: 0}
+  eyeOpen: {fileID: 0}
+  eyeClosed: {fileID: 0}
 --- !u!1 &8582974946194017053
 GameObject:
   m_ObjectHideFlags: 0

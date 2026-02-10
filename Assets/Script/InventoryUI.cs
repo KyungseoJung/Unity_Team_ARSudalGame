@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using System.IO;
+
 
 public class InventoryUI : MonoBehaviour
 {
@@ -174,7 +177,32 @@ public class InventoryUI : MonoBehaviour
         {
             buttonIcon.sprite = isVisible ? eyeOpen : eyeClosed;
         }
+    }
+    public void TakeScreenshot()
+    {
+        StartCoroutine(CaptureRoutine());
+    }
 
-        // 3. 햅틱 피드백 (선택 사항)
+    private IEnumerator CaptureRoutine()
+    {
+        // 1. UI 숨기기
+        if (mainUI != null) { mainUI.SetActive(false); }
+
+        yield return new WaitForEndOfFrame();
+
+        // 2. 스크린샷 텍스처 생성 (화면 크기만큼)
+        Texture2D screenTexture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+        screenTexture.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
+        screenTexture.Apply();
+
+        // 3. 갤러리에 저장 (Native Gallery 플러그인 기능)
+        // 첫 번째 인자: 텍스처, 두 번째 인자: 앨범 이름, 세 번째 인자: 파일 이름
+        NativeGallery.SaveImageToGallery(screenTexture, "MyARApp", "Screenshot_{0}.png");
+
+        // 4. 사용한 텍스처는 메모리에서 해제
+        Object.Destroy(screenTexture);
+
+        // 5. UI 다시 표시
+        if (mainUI != null) { mainUI.SetActive(true); }
     }
 }
