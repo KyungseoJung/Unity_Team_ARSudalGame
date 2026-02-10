@@ -110,17 +110,26 @@ public class ItemSaveManager : MonoBehaviour
 
             GameObject go = Instantiate(itemPrefabs[entry.index], entry.position, entry.rotation);
 
-            go.GetComponent<RubbableObject>()?.ApplyCleanedState();
-            // (선택) 스케일 복원
+            // *** (중요) RubbableObject는 루트가 아니라 자식에 있을 수 있음(수달)
+            go.GetComponentInChildren<RubbableObject>(true)?.ApplyCleanedState();
+
+            // 스케일 복원
             go.transform.localScale = entry.scale;
 
-            // PlacedItem 세팅
+            // PlacedItem은 "루트"에 유지(저장/관리 기준)
             var placed = go.GetComponent<PlacedItem>();
             if (placed == null) placed = go.AddComponent<PlacedItem>();
             placed.itemIndex = entry.index;
 
-            // 드래그 컴포넌트가 필요하면 붙이기
-            if (go.GetComponent<ItemDragger2D>() == null) go.AddComponent<ItemDragger2D>();
+            // *** (중요) 드래그는 "Collider가 있는 오브젝트"에 붙여야 함
+            var col = go.GetComponentInChildren<Collider>(true);
+            GameObject dragHost = (col != null) ? col.gameObject : go;
+
+            var dragger = dragHost.GetComponent<ItemDragger2D>();
+            if (dragger == null) dragger = dragHost.AddComponent<ItemDragger2D>();
+
+            // *** 드래그로 움직일 대상은 항상 "루트"
+            dragger.SetMoveTarget(go.transform);
         }
 
         Debug.Log("ItemSaveManager: Loaded\n" + json);
