@@ -113,7 +113,7 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             {
                 StartDrag(Pointer.current.position.ReadValue());
                 // var placed = GetComponent<PlacedItem>();
-                var placed = GetComponentInParent<PlacedItem>();    //#11
+                var placed = GetComponentInParent<PlacedItem>();    //#11 부모까지 탐색
                 if (placed != null && InventoryManager.Instance != null)
                     InventoryManager.Instance.SelectItem(placed);
             }
