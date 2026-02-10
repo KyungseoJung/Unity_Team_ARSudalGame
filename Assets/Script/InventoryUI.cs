@@ -190,6 +190,7 @@ public class InventoryUI : MonoBehaviour
         { 
             mainUI.SetActive(false);
             buttonIcon.enabled = false;
+            ToastManager.Instance.ShowToast("현재화면이 캡쳐되어 갤러리에 저장되었습니다!");
         }
 
         yield return new WaitForEndOfFrame();
