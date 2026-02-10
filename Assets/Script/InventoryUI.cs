@@ -9,7 +9,16 @@ public class InventoryUI : MonoBehaviour
     public Transform slotsArea;        // ���Ե��� ������ �θ� Transform
     public GameObject slotPrefab;      // ���� UI ������
 
+    [Header("Target UI")]
+    public GameObject mainUI; // 숨길 UI 부모
+
+    [Header("Button Visuals")]
+    public Image buttonIcon;   // 자식 Icon 이미지 연결
+    public Sprite eyeOpen;     // 표시 중일 때 아이콘
+    public Sprite eyeClosed;   // 숨김 중일 때 아이콘
+
     private string inventoryHelpMessage = "학회장에서 수달과 자연환경을 찾아 수집 후 자신만의 수달을 위한 자연환경을 꾸며주세요!";
+    private bool isVisible = true;
 
     private void Start()
     {
@@ -153,5 +162,19 @@ public class InventoryUI : MonoBehaviour
             // UIManager에게 "이 메세지를 띄워줘"라고 명령
             UIManager.Instance.HideInfoPanel();
         }
+    }
+    public void ToggleUIVisibleBtn()
+    {
+        isVisible = !isVisible;
+
+        mainUI.SetActive(isVisible);
+
+        // 2. 아이콘 교체
+        if (buttonIcon != null)
+        {
+            buttonIcon.sprite = isVisible ? eyeOpen : eyeClosed;
+        }
+
+        // 3. 햅틱 피드백 (선택 사항)
     }
 }
