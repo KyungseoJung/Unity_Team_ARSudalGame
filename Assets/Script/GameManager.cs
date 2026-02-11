@@ -59,9 +59,44 @@ public void RegisterObject(GameObject obj)
     {
         Debug.Log($"[GameManager] 청소 완료 확인: {completedItem.itemName}");
 
-        string cleanedName = completedItem.itemName.Replace("(Clone)", "");
+        // string cleanedName = completedItem.itemName.Replace("(Clone)", "");
+        // UIManager.Instance.ShowAcquirePopup(cleanedName);
+        // *** 루트 오브젝트 이름(= Hairy-nosed_otter)로 표시
 
-        UIManager.Instance.ShowAcquirePopup(cleanedName);
+        string displayName;
+
+        if (completedItem.CompareTag("Otter"))
+        {
+            // 1) Otter_Mesh에서 시작해서 부모로 올라가며,
+            //    "(Clone)"이 붙어있는 실체 프리팹(Eurasian_otter(Clone))을 찾는다.
+            Transform t = completedItem.transform;
+            Transform best = null;
+
+            while (t != null)
+            {
+                if (t.name.Contains("(Clone)"))
+                {
+                    best = t;            // Eurasian_otter(Clone) 같은 애를 잡음
+                    break;
+                }
+                t = t.parent;
+            }
+
+            displayName = (best != null) ? best.name : completedItem.transform.name;
+        }
+        else
+        {
+            displayName = completedItem.itemName;
+        }
+
+        // 2) 문자열 정리: Wrapper 제거 + (Clone) 제거 + _ -> 공백
+        displayName = displayName.Replace("Wrapper_", "");
+        displayName = displayName.Replace("(Clone)", "");
+        displayName = displayName.Replace("_", " ");
+        displayName = displayName.Trim();
+
+        UIManager.Instance.ShowAcquirePopup(displayName);
+
 
         if (completedItem.mySpawner != null)
         {
@@ -103,4 +138,5 @@ public void RegisterObject(GameObject obj)
         // VuforiaBehaviour가 인식 엔진을 담당합니다.
         VuforiaBehaviour.Instance.enabled = isActive;
     }
+
 }
