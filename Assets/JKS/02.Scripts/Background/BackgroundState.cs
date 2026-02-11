@@ -18,6 +18,9 @@ public class BackgroundState : MonoBehaviour
 
     [Header("Selected")]
     public BackgroundId selected = BackgroundId.Default_01;
+    
+    [Header("Debug Test - Reset Background")] // 테스트용 - 배경 초기화하기 위한 코드================================
+    public bool forceResetOnAwake = false;
 
     // UI/적용 스크립트가 갱신할 수 있도록 이벤트(선택)
     public event Action OnChanged;
@@ -40,7 +43,11 @@ public class BackgroundState : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        Load();          // ✅ 앱 재실행/씬전환에도 상태 복원
+
+        if (forceResetOnAwake)
+            ResetToFreshStart(true);
+        else
+            Load();          // 앱 재실행/씬전환에도 상태 복원
         OnChanged?.Invoke();
     }
 
@@ -141,11 +148,44 @@ public class BackgroundState : MonoBehaviour
             selected = BackgroundId.Default_01;
     }
 
-    // (테스트/디버그용)
+    // (테스트/디버그용) ===========================
     [ContextMenu("Clear Background Save")]
     public void ClearSave()
     {
         PlayerPrefs.DeleteKey(SaveKey);
         PlayerPrefs.Save();
     }
+    // 테스트용 - 배경 초기화하기 위한 코드 ===========================
+    public void ResetToFreshStart(bool saveImmediately = true)
+    {
+        // 1) 메모리 상태 초기화 (Default만 true)
+        unlockedDefault = true;
+        unlockedTower = false;
+        unlockedARC = false;
+
+        selected = BackgroundId.Default_01;
+
+        // 2) 저장 데이터 삭제
+        PlayerPrefs.DeleteKey(SaveKey);
+
+        // 3) 필요하면 즉시 저장(기본 true 추천)
+        if (saveImmediately)
+        {
+            Save();
+        }
+        else
+        {
+            PlayerPrefs.Save();
+        }
+
+        // 4) UI / BackgroundApplier 갱신
+        OnChanged?.Invoke();
+    }
+
+    [ContextMenu("Reset Background Progress (Default Only)")]
+    public void ResetFromContextMenu()
+    {
+        ResetToFreshStart(true);
+    }
+
 }
