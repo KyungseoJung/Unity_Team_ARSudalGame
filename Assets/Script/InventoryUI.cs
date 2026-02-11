@@ -190,7 +190,6 @@ public class InventoryUI : MonoBehaviour
         { 
             mainUI.SetActive(false);
             buttonIcon.enabled = false;
-            ToastManager.Instance.ShowToast("Screen captured! Saved to gallery.");
         }
 
         yield return new WaitForEndOfFrame();
@@ -213,5 +212,6 @@ public class InventoryUI : MonoBehaviour
             mainUI.SetActive(true);
             buttonIcon.enabled = true;
         }
+        ToastManager.Instance.ShowToast("Screen captured! Saved to gallery.");
     }
 }
