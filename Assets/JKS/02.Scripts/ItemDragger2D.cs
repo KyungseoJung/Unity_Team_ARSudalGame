@@ -23,8 +23,11 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [Header("Pinch Scale")]
     public bool enablePinchScale = true;
     public float pinchSensitivity = 0.005f;
-    public float minScale = 0.5f;
-    public float maxScale = 0.9f;
+
+    // *** "시작 스케일 기준 배수 제한" (NEW)
+    [Header("Pinch Scale Limits (Multiplier based on START scale)")]
+    public float minScaleMultiplier = 0.6f; // 시작 스케일의 0.6배까지
+    public float maxScaleMultiplier = 1.6f; // 시작 스케일의 1.6배까지
 
     float pinchStartDist;
     Vector3 pinchStartScale;
@@ -38,7 +41,8 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField] private Transform moveTarget;
     private Transform MoveT => moveTarget != null ? moveTarget : transform;
 
-
+    // *** 시작 스케일 저장 (NEW)
+    private Vector3 baseScale;
 
     void Awake()
     {
@@ -47,17 +51,41 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         if (moveTarget == null) moveTarget = transform; //#11 기본은 자기 자신
 
+        // *** 시작 스케일 저장 (NEW)
+        baseScale = MoveT.localScale;
     }
 
     void Update()
     {
-        // 1. 핀치 줌 로직 (기존 유지)
+        // 1. 핀치 줌 로직 (기존 유지 + 배수 제한 적용)
         HandlePinchScale();
 
         if (Pointer.current == null || isPinching) return;
 
         // 2. 드래그 로직 (New Input System 기반)
         HandleMouseOrSingleTouch();
+
+#if UNITY_EDITOR
+        // 에디터에서만: 마우스 휠로 스케일 테스트
+        if (enablePinchScale && Mouse.current != null && Mouse.current.scroll.ReadValue().y != 0)
+        {
+            var manager = InventoryManager.Instance; // *** manager 변수 없어서 추가
+            var placedRoot = GetComponentInParent<PlacedItem>();
+            if (placedRoot != null && manager != null && manager.GetSelected() == placedRoot)
+            {
+                float delta = Mouse.current.scroll.ReadValue().y > 0 ? 1.05f : 0.95f;
+
+                float s = MoveT.localScale.x * delta;
+
+                // *** 시작 스케일 기준 배수 제한 적용
+                float minAbs = baseScale.x * minScaleMultiplier;
+                float maxAbs = baseScale.x * maxScaleMultiplier;
+                s = Mathf.Clamp(s, minAbs, maxAbs);
+
+                MoveT.localScale = Vector3.one * s;
+            }
+        }
+#endif
     }
 
     private void HandlePinchScale()
@@ -72,9 +100,13 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             return;
         }
 
-        // 선택된 아이템 체크 및 핀치 계산 (기존 로직 동일)
+        // 선택된 아이템 체크 및 핀치 계산
         var manager = InventoryManager.Instance;
-        if (manager == null || manager.GetSelected()?.gameObject != gameObject) return;
+
+        // 선택된 아이템만 크기 변경되도록 (자식에 붙어있어도 동작하게)
+        var placedRoot = GetComponentInParent<PlacedItem>();
+        if (manager == null || placedRoot == null) return;
+        if (manager.GetSelected() != placedRoot) return;
 
         if (active != null && active != this) return;
         if (active == null) active = this;
@@ -90,16 +122,20 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             isPinching = true;
             isDragging = false;
             pinchStartDist = dist;
-            // pinchStartScale = transform.localScale;
             pinchStartScale = MoveT.localScale; //#11
-
             return;
         }
 
         float scaleFactor = 1f + ((dist - pinchStartDist) * pinchSensitivity);
-        float clamped = Mathf.Clamp(pinchStartScale.x * scaleFactor, minScale, maxScale);
-        // transform.localScale = new Vector3(clamped, clamped, clamped);
-        MoveT.localScale = new Vector3(clamped, clamped, clamped);  //#11
+
+        // *** 시작 스케일 기준 배수 제한
+        float minAbs = baseScale.x * minScaleMultiplier;
+        float maxAbs = baseScale.x * maxScaleMultiplier;
+
+        float target = pinchStartScale.x * scaleFactor;
+        float clamped = Mathf.Clamp(target, minAbs, maxAbs);
+
+        MoveT.localScale = new Vector3(clamped, clamped, clamped);
     }
 
     private void HandleMouseOrSingleTouch()
@@ -112,7 +148,7 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             if (pointerDownOnMe)
             {
                 StartDrag(Pointer.current.position.ReadValue());
-                // var placed = GetComponent<PlacedItem>();
+
                 var placed = GetComponentInParent<PlacedItem>();    //#11 부모까지 탐색
                 if (placed != null && InventoryManager.Instance != null)
                     InventoryManager.Instance.SelectItem(placed);
@@ -126,8 +162,6 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         if (Pointer.current.press.wasReleasedThisFrame)
         {
-            // [중요] 여기서 인터페이스의 OnEndDrag와 유사한 처리를 수행하거나 
-            // 아래 인터페이스 구현부를 통해 쓰레기통을 체크합니다.
             if (isDragging) CheckTrashCan();
             EndDrag();
             pointerDownOnMe = false;
@@ -135,14 +169,11 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     }
 
     // --- 쓰레기통 삭제 로직 (인터페이스 활용 및 통합) ---
-
     public void OnBeginDrag(PointerEventData eventData) { /* 시각 효과 필요 시 작성 */ }
-
     public void OnDrag(PointerEventData eventData) { /* Update에서 이동을 처리하므로 비워둠 */ }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        // 인터페이스를 통한 쓰레기통 체크 (모바일 멀티터치 대응용)
         if (eventData.pointerCurrentRaycast.gameObject != null)
         {
             if (eventData.pointerCurrentRaycast.gameObject.name == "TrashCan")
@@ -154,7 +185,6 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     private void CheckTrashCan()
     {
-        // 포인터 기반 쓰레기통 체크 (PC/단일 터치 대응용)
         var eventData = new PointerEventData(EventSystem.current);
         eventData.position = Pointer.current.position.ReadValue();
         var results = new List<RaycastResult>();
@@ -179,7 +209,7 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             currentHoveredTrash.OnHoverExit();
             currentHoveredTrash = null;
         }
-        // Destroy(gameObject);
+
         Destroy(MoveT.gameObject);  //#11
 
         if (saveManager != null)
@@ -189,21 +219,15 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     }
 
     // --- 기존 드래그 헬퍼 로직 유지 ---
-
     void StartDrag(Vector2 screenPos)
     {
         active = this;
         isDragging = true;
-        // Vector3 sp = cam.WorldToScreenPoint(transform.position);
-        // depth = sp.z;
-        // Vector3 worldUnderPointer = cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, depth));
-        // offset = transform.position - worldUnderPointer;
-        //#11
+
         Vector3 sp = cam.WorldToScreenPoint(MoveT.position);
         depth = sp.z;
         Vector3 worldUnderPointer = cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, depth));
         offset = MoveT.position - worldUnderPointer;
-
     }
 
     void EndDrag()
@@ -216,12 +240,9 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         float x = Mathf.Clamp(screenPos.x, screenMargin, Screen.width - screenMargin);
         float y = Mathf.Clamp(screenPos.y, screenMargin, Screen.height - screenMargin);
-        // Vector3 world = cam.ScreenToWorldPoint(new Vector3(x, y, depth));
-        // transform.position = world + offset;
-        //#11
+
         Vector3 world = cam.ScreenToWorldPoint(new Vector3(x, y, depth));
         MoveT.position = world + offset;
-
 
         CheckTrashHover(screenPos);
     }
@@ -229,7 +250,17 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     bool IsPointerOnThisObject(Vector2 screenPos)
     {
         Ray ray = cam.ScreenPointToRay(screenPos);
-        return Physics.Raycast(ray, out RaycastHit hit, 1000f) && hit.transform == transform;
+
+        // *** hit.transform == transform 만 보지 말고, 자식/부모 구조도 허용
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000f))
+        {
+            if (hit.transform == transform) return true;
+            if (hit.transform == MoveT) return true;
+
+            // hit가 자식일 수도 있으니, 루트 기준으로 포함 관계 체크
+            if (hit.transform.IsChildOf(transform)) return true;
+        }
+        return false;
     }
 
     bool IsPointerOverUI()
@@ -247,7 +278,6 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         if (EventSystem.current == null) return;
 
-        // UI 레이캐스트 실행
         var eventData = new PointerEventData(EventSystem.current);
         eventData.position = screenPos;
         var results = new List<RaycastResult>();
@@ -264,7 +294,6 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             }
         }
 
-        // 상태 변화 감지 (새로 들어옴 / 나감)
         if (foundTrash != currentHoveredTrash)
         {
             if (currentHoveredTrash != null)
@@ -277,9 +306,8 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             if (currentHoveredTrash != null)
             {
                 currentHoveredTrash.OnHoverEnter();
-                // --- [핵심 추가] 쓰레기통 영역에 처음 진입했을 때 진동 발생 ---
 #if UNITY_ANDROID || UNITY_IOS
-                //Handheld.Vibrate(); // 삭제 성공 피드백
+                //Handheld.Vibrate();
 #endif
             }
         }
@@ -292,5 +320,8 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void SetMoveTarget(Transform t)
     {
         moveTarget = t;
+
+        // *** moveTarget이 바뀌면, 그 시점 기준으로 시작 스케일도 다시 잡아주는 게 안전함
+        baseScale = MoveT.localScale;
     }
 }
