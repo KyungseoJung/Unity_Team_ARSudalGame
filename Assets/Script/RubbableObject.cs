@@ -149,7 +149,7 @@ public class RubbableObject : MonoBehaviour
         }
         else if(CompareTag("Otter"))
         {
-            transform.parent.rotation = Quaternion.Euler(0, 90, 0);
+            transform.parent.rotation = Quaternion.Euler(0, 270, 0);
         }
     }
 }

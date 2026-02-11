@@ -29,7 +29,10 @@ public class UIManager : MonoBehaviour
 
     public void ShowOtterInfo(string name)
     {
-        nameText.text = name + " has appeared!\nRub the screen to clean it and collect it!";
+        // "_"를 공백으로 변환
+        string displayName = name.Replace("_", " ");
+
+        nameText.text = displayName + " has appeared!\nRub the screen to clean it and collect it!";
         nameTagPanel.SetActive(true);
     }
 
@@ -60,7 +63,11 @@ public class UIManager : MonoBehaviour
 
     IEnumerator PopupRoutine(string itemName)
     {
-        popupText.text = $"{itemName} obtained!";
+        // "_"를 공백으로 변환
+        string displayName = itemName.Replace("_", " ");
+
+        popupText.text = $"{displayName} obtained!";
+
         popupPanel.SetActive(true);
         yield return new WaitForSeconds(2.0f);
         popupPanel.SetActive(false);
