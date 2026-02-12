@@ -25,6 +25,14 @@ public class GameManager : MonoBehaviour
     public bool CanSpawn()
     {
         // 현재 활성화된 오브젝트가 없어야 소환 가능
+        // return currentActiveObject == null;\
+
+        //#12 *** 안전장치: 현재 오브젝트가 비활성/파괴되었으면 잠금 해제
+        if (currentActiveObject != null && !currentActiveObject.activeInHierarchy)
+        {
+            currentActiveObject = null;
+        }
+
         return currentActiveObject == null;
     }
 
@@ -115,10 +123,37 @@ public void RegisterObject(GameObject obj)
             InventoryManager.Instance.AcquireItem(completedItem.itemType);
         }
 
-        // 2. 현재 활성화된 오브젝트 비우기 (이제 다음 수달 소환 가능)
-        if (currentActiveObject == completedItem.gameObject)
+        // // 2. 현재 활성화된 오브젝트 비우기 (이제 다음 수달 소환 가능)
+        // if (currentActiveObject == completedItem.gameObject)
+        // {
+        //     currentActiveObject = null;
+        // }
+
+
+        //#12 // 2. 현재 활성화된 오브젝트 비우기 (이제 다음 스폰 가능)
+        // *** completedItem은 보통 자식이므로 "OwnerRoot" 또는 "자식 관계"로 해제해야 함
+        if (currentActiveObject != null)
         {
-            currentActiveObject = null;
+            // (1) 가장 확실: OwnerRoot가 있으면 그걸 우선 사용
+            if (completedItem.OwnerRoot != null)
+            {
+                // currentActiveObject가 model이든 wrapper든 상관없이,
+                // completedItem이 currentActiveObject 아래에 있으면 잠금 해제
+                if (completedItem.OwnerRoot.IsChildOf(currentActiveObject.transform) ||
+                    currentActiveObject.transform.IsChildOf(completedItem.OwnerRoot) ||
+                    completedItem.transform.IsChildOf(currentActiveObject.transform))
+                {
+                    currentActiveObject = null;
+                }
+            }
+            else
+            {
+                // (2) OwnerRoot가 없는 예외 대비: 자식 관계로라도 풀기
+                if (completedItem.transform.IsChildOf(currentActiveObject.transform))
+                {
+                    currentActiveObject = null;
+                }
+            }
         }
     }
     private void ResetAllTrackingSystems()

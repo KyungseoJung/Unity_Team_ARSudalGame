@@ -54,48 +54,38 @@ public class MarkerSpawner : MonoBehaviour
 
         Transform camTrans = Camera.main.transform;
 
-        // 1. 빈 부모(Wrapper) 생성
         GameObject wrapper = new GameObject($"Wrapper_{contentPrefab.name}");
-
-        // ★ [핵심 변경] 생성 즉시 카메라의 자식으로 넣습니다.
         wrapper.transform.SetParent(camTrans);
-
-        // ★ [핵심 변경] 월드 좌표가 아닌 '로컬 좌표'를 사용하여 카메라 정중앙 앞(Z축)에 배치합니다.
         wrapper.transform.localPosition = new Vector3(0, 0, spawnDistance);
-
-        // 회전도 로컬 기준으로 설정 (카메라 기준 180도 돌리기 등)
         wrapper.transform.localRotation = Quaternion.Euler(rotationOffset);
         wrapper.transform.localScale = Vector3.one;
 
-        // 2. 실제 모델 생성 및 Wrapper 자식 설정
         GameObject model = Instantiate(contentPrefab);
         model.transform.SetParent(wrapper.transform);
-
-        // 모델 초기화 (일단 부모인 Wrapper의 원점에 둠)
         model.transform.localPosition = Vector3.zero;
         model.transform.localRotation = Quaternion.identity;
         model.transform.localScale = Vector3.one;
 
-        // 3. Rubbable 연결
+        // ✅ Rubbable 연결 + OwnerRoot 지정
         RubbableObject rubScript = model.GetComponentInChildren<RubbableObject>();
-        if (rubScript != null) rubScript.mySpawner = this;
-
-        // 4. ★ [자동 보정] 크기 조절 및 피벗(중심점) 맞추기
-        NormalizeSizeAndPivot(wrapper, model);
-
-        // 5. 사용자 지정 미세 조정 (Local 기준)
-        wrapper.transform.localPosition += positionOffset;
-
-        // 6. UI 표시
-        if (UIManager.Instance != null)
+        if (rubScript != null)
         {
-            UIManager.Instance.ShowOtterInfo(model.name.Replace("(Clone)", ""));
+            rubScript.mySpawner = this;
+            rubScript.SetOwnerRoot(wrapper.transform);
         }
 
-        // 7. 마커 트래킹 중지
+        NormalizeSizeAndPivot(wrapper, model);
+        wrapper.transform.localPosition += positionOffset;
+
+        if (UIManager.Instance != null)
+            UIManager.Instance.ShowOtterInfo(model.name.Replace("(Clone)", ""));
+
         if (observerBehaviour != null) observerBehaviour.enabled = false;
 
-        GameManager.Instance.RegisterObject(model);
+        // ✅ 잠금/등록은 wrapper로!
+        // GameManager.Instance.RegisterObject(wrapper);
+        GameManager.Instance.RegisterObject(model); // 다시 원래 방식대로
+
         hasSpawned = true;
     }
 
