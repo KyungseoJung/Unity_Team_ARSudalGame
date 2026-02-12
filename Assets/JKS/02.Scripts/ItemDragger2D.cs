@@ -44,6 +44,15 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     // *** 시작 스케일 저장 (NEW)
     private Vector3 baseScale;
 
+    //#13 더블클릭하면 배치된 아이템 좌우반전하도록
+    [Header("Double Tap Flip")]
+    public bool enableDoubleTapFlip = true;
+    public float doubleTapMaxDelay = 0.25f;
+
+    private float lastTapTime = -999f;
+    private static ItemDragger2D lastTapped;
+
+
     void Awake()
     {
         if (cam == null) cam = Camera.main;
@@ -52,7 +61,9 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (moveTarget == null) moveTarget = transform; //#11 기본은 자기 자신
 
         // *** 시작 스케일 저장 (NEW)
-        baseScale = MoveT.localScale;
+        // baseScale = MoveT.localScale;
+        baseScale = new Vector3(Mathf.Abs(MoveT.localScale.x), Mathf.Abs(MoveT.localScale.y), Mathf.Abs(MoveT.localScale.z));   //#13
+
     }
 
     void Update()
@@ -82,7 +93,13 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 float maxAbs = baseScale.x * maxScaleMultiplier;
                 s = Mathf.Clamp(s, minAbs, maxAbs);
 
-                MoveT.localScale = Vector3.one * s;
+                // MoveT.localScale = Vector3.one * s;
+                //#13 ------------------------------
+                float signX = Mathf.Sign(MoveT.localScale.x);
+                if (signX == 0) signX = 1f;
+
+                MoveT.localScale = new Vector3(signX * s, s, s);
+
             }
         }
 #endif
@@ -135,7 +152,12 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         float target = pinchStartScale.x * scaleFactor;
         float clamped = Mathf.Clamp(target, minAbs, maxAbs);
 
-        MoveT.localScale = new Vector3(clamped, clamped, clamped);
+        // MoveT.localScale = new Vector3(clamped, clamped, clamped);
+        //#13 --------------------------------
+        float signX = Mathf.Sign(MoveT.localScale.x);
+        if (signX == 0) signX = 1f;
+
+        MoveT.localScale = new Vector3(signX * clamped, clamped, clamped);
     }
 
     private void HandleMouseOrSingleTouch()
@@ -145,13 +167,44 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             if (IsPointerOverUI()) return;
 
             pointerDownOnMe = IsPointerOnThisObject(Pointer.current.position.ReadValue());
-            if (pointerDownOnMe)
-            {
-                StartDrag(Pointer.current.position.ReadValue());
+            // if (pointerDownOnMe)
+            // {
+            //     StartDrag(Pointer.current.position.ReadValue());
 
-                var placed = GetComponentInParent<PlacedItem>();    //#11 부모까지 탐색
-                if (placed != null && InventoryManager.Instance != null)
-                    InventoryManager.Instance.SelectItem(placed);
+            //     var placed = GetComponentInParent<PlacedItem>();    //#11 부모까지 탐색
+            //     if (placed != null && InventoryManager.Instance != null)
+            //         InventoryManager.Instance.SelectItem(placed);
+            // }
+
+            if (pointerDownOnMe)    //#13 -----------------------------
+            {
+                var placed = GetComponentInParent<PlacedItem>();
+                var manager = InventoryManager.Instance;
+                if (placed != null && manager != null)
+                    manager.SelectItem(placed);
+
+                // *** 더블탭 체크 (선택된 아이템일 때만)
+                if (enableDoubleTapFlip && placed != null && manager != null && manager.GetSelected() == placed)
+                {
+                    float now = Time.unscaledTime;
+                    bool isDoubleTap = (lastTapped == this) && (now - lastTapTime <= doubleTapMaxDelay);
+
+                    lastTapTime = now;
+                    lastTapped = this;
+
+                    if (isDoubleTap)
+                    {
+                        FlipRootHorizontally();
+
+                        // 저장(조금 딜레이 주는 게 안전)
+                        if (saveManager != null)
+                            saveManager.Invoke("SaveAll", 0.05f);
+
+                        return; // *** 더블탭은 드래그로 안 넘어가게
+                    }
+                }
+
+                StartDrag(Pointer.current.position.ReadValue());
             }
         }
 
@@ -322,6 +375,30 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         moveTarget = t;
 
         // *** moveTarget이 바뀌면, 그 시점 기준으로 시작 스케일도 다시 잡아주는 게 안전함
-        baseScale = MoveT.localScale;
+        // baseScale = MoveT.localScale;
+        //#13 ----------------------------
+        baseScale = new Vector3(Mathf.Abs(MoveT.localScale.x), Mathf.Abs(MoveT.localScale.y), Mathf.Abs(MoveT.localScale.z));
+    }
+
+    //#13 -----------------------------
+    private void FlipRootHorizontally() // 이미 90도로 뒤집혀져있는 물고기 & 수달도 좌우 반전되는 것이 보이도록
+    {
+        if (cam == null) cam = Camera.main;
+        if (cam == null) return;
+
+        Transform t = MoveT;
+
+        // "화면의 오른쪽 방향"을 오브젝트 로컬 공간으로 변환
+        Vector3 localCamRight = t.InverseTransformDirection(cam.transform.right);
+
+        // 화면 Right가 로컬 X에 더 가까우면 X를 뒤집고,
+        // 화면 Right가 로컬 Z에 더 가까우면 Z를 뒤집는다.
+        bool flipX = Mathf.Abs(localCamRight.x) >= Mathf.Abs(localCamRight.z);
+
+        Vector3 s = t.localScale;
+        if (flipX) s.x *= -1f;
+        else       s.z *= -1f;
+
+        t.localScale = s;
     }
 }
