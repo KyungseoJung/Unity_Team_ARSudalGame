@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig>
   <Tracking>
+    <ImageTarget name="Rock" size="140.000000 78.750000" />
+    <ImageTarget name="Moss" size="140.000000 78.750000" />
+    <ImageTarget name="Seashell" size="140.000000 78.750000" />
+    <ImageTarget name="Turtle" size="140.000000 78.750000" />
+    <ImageTarget name="Sparrow" size="140.000000 78.750000" />
+    <ImageTarget name="Beaver" size="140.000000 78.750000" />
     <ImageTarget name="African_clawless_Otter" size="140.000000 78.750000" />
     <ImageTarget name="Hairy-nosed_Otter" size="140.000000 78.750000" />
     <ImageTarget name="Eurasian_Otter" size="140.000000 78.750000" />
