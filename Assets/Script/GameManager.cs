@@ -73,7 +73,7 @@ public void RegisterObject(GameObject obj)
 
         string displayName;
 
-        if (completedItem.CompareTag("Otter"))
+        if (completedItem.CompareTag("Otter") || completedItem.CompareTag("OtterFriends"))
         {
             // 1) Otter_Mesh에서 시작해서 부모로 올라가며,
             //    "(Clone)"이 붙어있는 실체 프리팹(Eurasian_otter(Clone))을 찾는다.

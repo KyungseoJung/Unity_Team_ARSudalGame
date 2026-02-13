@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 8974647399423263379}
   - component: {fileID: 8984578786332577885}
   - component: {fileID: 8943444763223115345}
-  m_Layer: 0
+  - component: {fileID: 1311706845668089637}
+  m_Layer: 6
   m_Name: Mossy_Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,7 +51,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9006787070462486325}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -112,3 +113,23 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 10aae599039937d48ad5d8e79d6fd7b5, type: 3}
+--- !u!114 &1311706845668089637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9006787070462486325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 686d0143964dab04e9aed2b224d19cd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RubbableObject
+  itemName: 
+  itemType: 19
+  cleaningSensitivity: 0.00005
+  currentDirt: 5
+  dirtyMaterial: {fileID: 2100000, guid: 0f2b6df3cfe89b9499b267923e41741c, type: 2}
+  overlayScale: 1.01
+  cleanEffect: {fileID: 0}
+  mySpawner: {fileID: 0}

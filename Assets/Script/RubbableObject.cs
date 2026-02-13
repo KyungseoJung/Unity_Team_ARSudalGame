@@ -129,11 +129,11 @@ public class RubbableObject : MonoBehaviour
             overlayTransform = null;
         }
 
-        if (CompareTag("Fish") || CompareTag("OtterFriends"))
+        if (CompareTag("Fish"))
         {
             transform.rotation = Quaternion.Euler(0, 90, 0);
         }
-        else if (CompareTag("Otter"))
+        else if (CompareTag("Otter") || CompareTag("OtterFriends"))
         {
             Transform root = OwnerRoot != null ? OwnerRoot : transform.parent;
             if (root != null)
