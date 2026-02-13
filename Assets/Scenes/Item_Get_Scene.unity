@@ -767,7 +767,7 @@ GameObject:
   - component: {fileID: 224144928}
   - component: {fileID: 224144927}
   - component: {fileID: 224144926}
-  - component: {fileID: 224144925}
+  - component: {fileID: 224144929}
   m_Layer: 0
   m_Name: ImageTarget_etc_Beaver
   m_TagString: Untagged
@@ -790,25 +790,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 872996916}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &224144925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 224144923}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
-  mObserverBehaviour: {fileID: 224144928}
-  mHiddenRoot: {fileID: 0}
-  mTargetName: Beaver
-  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
-  mCastedBehaviour: {fileID: 224144928}
-  mMeshFilter: {fileID: 0}
-  mMeshRenderer: {fileID: 0}
 --- !u!114 &224144926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -898,7 +879,26 @@ MonoBehaviour:
   mMotionHint: 1
   mTrackingOptimization: 0
   mTrackingOptimizationNeedsUpgrade: 0
-  mPreview: {fileID: 224144925}
+  mPreview: {fileID: 224144929}
+--- !u!114 &224144929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224144923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
+  mObserverBehaviour: {fileID: 224144928}
+  mHiddenRoot: {fileID: 0}
+  mTargetName: Beaver
+  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
+  mCastedBehaviour: {fileID: 224144928}
+  mMeshFilter: {fileID: 0}
+  mMeshRenderer: {fileID: 0}
 --- !u!1 &261670187
 GameObject:
   m_ObjectHideFlags: 0
@@ -911,9 +911,9 @@ GameObject:
   - component: {fileID: 261670192}
   - component: {fileID: 261670191}
   - component: {fileID: 261670190}
-  - component: {fileID: 261670189}
+  - component: {fileID: 261670193}
   m_Layer: 0
-  m_Name: ImageTarget_etc_Rock
+  m_Name: ImageTarget_etc_Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -934,25 +934,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 872996916}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &261670189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 261670187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
-  mObserverBehaviour: {fileID: 261670192}
-  mHiddenRoot: {fileID: 0}
-  mTargetName: Rock
-  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
-  mCastedBehaviour: {fileID: 261670192}
-  mMeshFilter: {fileID: 0}
-  mMeshRenderer: {fileID: 0}
 --- !u!114 &261670190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1031,7 +1012,7 @@ MonoBehaviour:
   PreviewVisible: 1
   RuntimeOcclusion: 0
   RuntimeCollider: 0
-  mTrackableName: Rock
+  mTrackableName: Stone
   mInitializedInEditor: 1
   mDataSetPath: Vuforia/OtterGame1_Prefabs.xml
   mAspectRatio: 0.5625
@@ -1042,7 +1023,26 @@ MonoBehaviour:
   mMotionHint: 1
   mTrackingOptimization: 0
   mTrackingOptimizationNeedsUpgrade: 0
-  mPreview: {fileID: 261670189}
+  mPreview: {fileID: 261670193}
+--- !u!114 &261670193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261670187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
+  mObserverBehaviour: {fileID: 261670192}
+  mHiddenRoot: {fileID: 0}
+  mTargetName: Stone
+  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
+  mCastedBehaviour: {fileID: 261670192}
+  mMeshFilter: {fileID: 0}
+  mMeshRenderer: {fileID: 0}
 --- !u!1 &288857400
 GameObject:
   m_ObjectHideFlags: 0
@@ -1195,7 +1195,7 @@ GameObject:
   - component: {fileID: 326097341}
   - component: {fileID: 326097340}
   - component: {fileID: 326097339}
-  - component: {fileID: 326097338}
+  - component: {fileID: 326097342}
   m_Layer: 0
   m_Name: ImageTarget_etc_Turtle
   m_TagString: Untagged
@@ -1218,25 +1218,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 872996916}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &326097338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 326097336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
-  mObserverBehaviour: {fileID: 326097341}
-  mHiddenRoot: {fileID: 0}
-  mTargetName: Turtle
-  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
-  mCastedBehaviour: {fileID: 326097341}
-  mMeshFilter: {fileID: 0}
-  mMeshRenderer: {fileID: 0}
 --- !u!114 &326097339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1326,7 +1307,26 @@ MonoBehaviour:
   mMotionHint: 1
   mTrackingOptimization: 0
   mTrackingOptimizationNeedsUpgrade: 0
-  mPreview: {fileID: 326097338}
+  mPreview: {fileID: 326097342}
+--- !u!114 &326097342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326097336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
+  mObserverBehaviour: {fileID: 326097341}
+  mHiddenRoot: {fileID: 0}
+  mTargetName: Turtle
+  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
+  mCastedBehaviour: {fileID: 326097341}
+  mMeshFilter: {fileID: 0}
+  mMeshRenderer: {fileID: 0}
 --- !u!1 &345076946
 GameObject:
   m_ObjectHideFlags: 0
@@ -1508,7 +1508,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 239.4794
+  m_PreferredWidth: 240
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -1637,7 +1637,7 @@ GameObject:
   - component: {fileID: 433320820}
   - component: {fileID: 433320819}
   - component: {fileID: 433320818}
-  - component: {fileID: 433320817}
+  - component: {fileID: 433320821}
   m_Layer: 0
   m_Name: ImageTarget_etc_Mossy_Stone
   m_TagString: Untagged
@@ -1660,25 +1660,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 872996916}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &433320817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 433320815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
-  mObserverBehaviour: {fileID: 433320820}
-  mHiddenRoot: {fileID: 0}
-  mTargetName: Moss
-  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
-  mCastedBehaviour: {fileID: 433320820}
-  mMeshFilter: {fileID: 0}
-  mMeshRenderer: {fileID: 0}
 --- !u!114 &433320818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1757,7 +1738,7 @@ MonoBehaviour:
   PreviewVisible: 1
   RuntimeOcclusion: 0
   RuntimeCollider: 0
-  mTrackableName: Moss
+  mTrackableName: Mossy_Stone
   mInitializedInEditor: 1
   mDataSetPath: Vuforia/OtterGame1_Prefabs.xml
   mAspectRatio: 0.5625
@@ -1768,7 +1749,26 @@ MonoBehaviour:
   mMotionHint: 1
   mTrackingOptimization: 0
   mTrackingOptimizationNeedsUpgrade: 0
-  mPreview: {fileID: 433320817}
+  mPreview: {fileID: 433320821}
+--- !u!114 &433320821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 433320815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
+  mObserverBehaviour: {fileID: 433320820}
+  mHiddenRoot: {fileID: 0}
+  mTargetName: Mossy_Stone
+  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
+  mCastedBehaviour: {fileID: 433320820}
+  mMeshFilter: {fileID: 0}
+  mMeshRenderer: {fileID: 0}
 --- !u!1 &522942821
 GameObject:
   m_ObjectHideFlags: 0
@@ -2886,7 +2886,7 @@ GameObject:
   - component: {fileID: 1151601214}
   - component: {fileID: 1151601213}
   - component: {fileID: 1151601212}
-  - component: {fileID: 1151601211}
+  - component: {fileID: 1151601215}
   m_Layer: 0
   m_Name: ImageTarget_etc_Sparrow
   m_TagString: Untagged
@@ -2909,25 +2909,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 872996916}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1151601211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1151601209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
-  mObserverBehaviour: {fileID: 1151601214}
-  mHiddenRoot: {fileID: 0}
-  mTargetName: Sparrow
-  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
-  mCastedBehaviour: {fileID: 1151601214}
-  mMeshFilter: {fileID: 0}
-  mMeshRenderer: {fileID: 0}
 --- !u!114 &1151601212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3017,7 +2998,26 @@ MonoBehaviour:
   mMotionHint: 1
   mTrackingOptimization: 0
   mTrackingOptimizationNeedsUpgrade: 0
-  mPreview: {fileID: 1151601211}
+  mPreview: {fileID: 1151601215}
+--- !u!114 &1151601215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151601209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
+  mObserverBehaviour: {fileID: 1151601214}
+  mHiddenRoot: {fileID: 0}
+  mTargetName: Sparrow
+  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
+  mCastedBehaviour: {fileID: 1151601214}
+  mMeshFilter: {fileID: 0}
+  mMeshRenderer: {fileID: 0}
 --- !u!224 &1172654874 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6809722394234723116, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
@@ -4050,7 +4050,7 @@ GameObject:
   - component: {fileID: 1571898790}
   - component: {fileID: 1571898789}
   - component: {fileID: 1571898788}
-  - component: {fileID: 1571898787}
+  - component: {fileID: 1571898791}
   m_Layer: 0
   m_Name: ImageTarget_etc_Seashell
   m_TagString: Untagged
@@ -4073,25 +4073,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 872996916}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1571898787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1571898785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
-  mObserverBehaviour: {fileID: 1571898790}
-  mHiddenRoot: {fileID: 0}
-  mTargetName: Seashell
-  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
-  mCastedBehaviour: {fileID: 1571898790}
-  mMeshFilter: {fileID: 0}
-  mMeshRenderer: {fileID: 0}
 --- !u!114 &1571898788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4181,7 +4162,26 @@ MonoBehaviour:
   mMotionHint: 1
   mTrackingOptimization: 0
   mTrackingOptimizationNeedsUpgrade: 0
-  mPreview: {fileID: 1571898787}
+  mPreview: {fileID: 1571898791}
+--- !u!114 &1571898791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571898785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
+  mObserverBehaviour: {fileID: 1571898790}
+  mHiddenRoot: {fileID: 0}
+  mTargetName: Seashell
+  mDatasetName: Vuforia/OtterGame1_Prefabs.xml
+  mCastedBehaviour: {fileID: 1571898790}
+  mMeshFilter: {fileID: 0}
+  mMeshRenderer: {fileID: 0}
 --- !u!1 &1591461492
 GameObject:
   m_ObjectHideFlags: 0
@@ -4697,7 +4697,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1591461494}
   m_HandleRect: {fileID: 1591461493}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -6821,7 +6821,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 269.4143
+  m_PreferredWidth: 270
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -7135,7 +7135,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 269.4143
+  m_PreferredWidth: 270
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -7860,7 +7860,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 239.4794
+  m_PreferredWidth: 240
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1

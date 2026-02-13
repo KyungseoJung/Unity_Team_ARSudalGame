@@ -33,7 +33,7 @@ public class InventoryManager : MonoBehaviour
         Blue_Fish, Green_Fish, Red_Fish, Grass, Log, Mushroom,
         Eurasian_Otter, Hairy_nosed_Otter, African_clawless_Otter,
         Beaver, Sparrow, Turtle,
-        Seashell, Mossy_Stone, Rock
+        Seashell, Mossy_Stone, Stone
     }
 
     private void Awake()

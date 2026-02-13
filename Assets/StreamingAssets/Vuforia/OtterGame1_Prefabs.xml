@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig>
   <Tracking>
-    <ImageTarget name="Rock" size="140.000000 78.750000" />
-    <ImageTarget name="Moss" size="140.000000 78.750000" />
+    <ImageTarget name="Stone" size="140.000000 78.750000" />
+    <ImageTarget name="Mossy_Stone" size="140.000000 78.750000" />
     <ImageTarget name="Seashell" size="140.000000 78.750000" />
     <ImageTarget name="Turtle" size="140.000000 78.750000" />
     <ImageTarget name="Sparrow" size="140.000000 78.750000" />
