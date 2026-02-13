@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ad17caea26e196942ade088719b8822b
+timeCreated: 1452905947
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Source/Material/Tree/Tree_2_bark.mat
+  uploadId: 210455

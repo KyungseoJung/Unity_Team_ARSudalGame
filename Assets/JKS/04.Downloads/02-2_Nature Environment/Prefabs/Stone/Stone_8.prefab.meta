@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 7f32270807d9f7e46ad3699c181cec7a
+timeCreated: 1509896478
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Prefabs/Stone/Stone_8.prefab
+  uploadId: 210455

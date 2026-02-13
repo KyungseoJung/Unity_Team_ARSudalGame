@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 20afa670178225a468b6fb7a3e777c4d
+timeCreated: 1509901960
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Prefabs/Bush_010.prefab
+  uploadId: 210455

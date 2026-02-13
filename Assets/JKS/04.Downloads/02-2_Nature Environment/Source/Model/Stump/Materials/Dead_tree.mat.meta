@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cd05de9aea50d474c96a6ab04df5939c
+timeCreated: 1453496498
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Source/Model/Stump/Materials/Dead_tree.mat
+  uploadId: 210455

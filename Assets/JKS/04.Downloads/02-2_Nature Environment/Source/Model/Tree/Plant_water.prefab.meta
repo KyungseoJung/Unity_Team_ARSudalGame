@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 555ada89d154def4d850010f953edbef
+timeCreated: 1453505135
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Source/Model/Tree/Plant_water.prefab
+  uploadId: 210455

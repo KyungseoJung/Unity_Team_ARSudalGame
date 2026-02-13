@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 0c19259e94febf84ebae574708d91b7b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 185091
+  packageName: Beaver - Quirky Series
+  packageVersion: 1.5
+  assetPath: Assets/JKS/04.Downloads/01-2_Quirky Series - Birds Bundle/_Scripts/RotateOnScroll.cs
+  uploadId: 753841

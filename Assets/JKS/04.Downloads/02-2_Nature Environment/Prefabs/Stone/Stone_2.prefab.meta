@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a5286fee6f3aa0840bbdca091a050fea
+timeCreated: 1453453584
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Prefabs/Stone/Stone_2.prefab
+  uploadId: 210455

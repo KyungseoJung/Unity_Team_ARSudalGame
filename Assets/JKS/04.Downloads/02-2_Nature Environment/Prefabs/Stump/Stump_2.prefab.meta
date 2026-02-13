@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d03ef5ecf57ae0f4883a026635ba7c49
+timeCreated: 1453461047
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Prefabs/Stump/Stump_2.prefab
+  uploadId: 210455

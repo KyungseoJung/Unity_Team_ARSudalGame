@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 73574cd6af27f724785902d94b2f3764
+timeCreated: 1452952376
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Source/Material/Tree/Tree_3_branch.mat
+  uploadId: 210455

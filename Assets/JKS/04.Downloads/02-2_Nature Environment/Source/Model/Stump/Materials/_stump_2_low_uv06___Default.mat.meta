@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f8bc45682f5e404478877deed730bf3d
+timeCreated: 1482577066
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Source/Model/Stump/Materials/_stump_2_low_uv06___Default.mat
+  uploadId: 210455

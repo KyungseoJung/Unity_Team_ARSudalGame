@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b0adffd8e2910c04a81a2d516f67e293
+timeCreated: 1453452616
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Source/Model/Stone/Materials/Stone_1.mat
+  uploadId: 210455

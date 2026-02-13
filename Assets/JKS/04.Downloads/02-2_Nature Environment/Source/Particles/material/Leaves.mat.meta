@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8e08d931b47c4754ba0ec189841fd687
+timeCreated: 1453724628
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Source/Particles/material/Leaves.mat
+  uploadId: 210455

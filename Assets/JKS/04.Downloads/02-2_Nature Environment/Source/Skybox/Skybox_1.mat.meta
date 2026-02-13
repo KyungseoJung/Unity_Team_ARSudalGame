@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2e336e4d149c98843bfd3c4979ae9e99
+timeCreated: 1453077472
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Source/Skybox/Skybox_1.mat
+  uploadId: 210455

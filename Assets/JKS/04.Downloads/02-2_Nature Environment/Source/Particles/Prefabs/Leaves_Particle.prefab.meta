@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 060148a3d2d50e44b97d182643d79176
+timeCreated: 1453725310
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Source/Particles/Prefabs/Leaves_Particle.prefab
+  uploadId: 210455

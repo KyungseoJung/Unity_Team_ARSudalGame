@@ -129,7 +129,7 @@ public class RubbableObject : MonoBehaviour
             overlayTransform = null;
         }
 
-        if (CompareTag("Fish"))
+        if (CompareTag("Fish") || CompareTag("OtterFriends"))
         {
             transform.rotation = Quaternion.Euler(0, 90, 0);
         }

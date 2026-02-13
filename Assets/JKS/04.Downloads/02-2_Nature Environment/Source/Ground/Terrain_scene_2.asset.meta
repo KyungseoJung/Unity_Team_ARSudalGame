@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 938e30fac269c6c4089e90d9e32bc7bf
+timeCreated: 1452887062
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Source/Ground/Terrain_scene_2.asset
+  uploadId: 210455

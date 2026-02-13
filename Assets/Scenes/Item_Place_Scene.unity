@@ -1031,7 +1031,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6809722394234723116, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 176.49997
+      value: 176.48157
       objectReference: {fileID: 0}
     - target: {fileID: 6970104171223442146, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_Name
@@ -1844,7 +1844,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 221.53845
+  m_PreferredWidth: 240
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1

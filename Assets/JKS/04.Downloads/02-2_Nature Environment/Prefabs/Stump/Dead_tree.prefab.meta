@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7851a39a0f4332f47beef3de9f7132c4
+timeCreated: 1453497439
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Prefabs/Stump/Dead_tree.prefab
+  uploadId: 210455

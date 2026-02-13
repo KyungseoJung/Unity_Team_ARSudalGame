@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 10dfad5ea6fb6c4498502bd62ba39482
+timeCreated: 1453744774
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Source/Material/Stump/Stump_2.mat
+  uploadId: 210455

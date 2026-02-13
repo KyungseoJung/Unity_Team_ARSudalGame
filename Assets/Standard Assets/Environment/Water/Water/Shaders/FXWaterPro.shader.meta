@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 1cac2e0bcc34e4b3cbb4bd85982eba83
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Standard Assets/Environment/Water/Water/Shaders/FXWaterPro.shader
+  uploadId: 210455

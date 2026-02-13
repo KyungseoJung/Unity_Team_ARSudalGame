@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0a5421877607f6546b022814cd4ef360
+timeCreated: 1453040227
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Source/Material/Terrain/Terrain.mat
+  uploadId: 210455

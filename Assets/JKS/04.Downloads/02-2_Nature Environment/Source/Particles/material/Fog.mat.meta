@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c230b08bd4bd770489ddf4a6db18d0f8
+timeCreated: 1440926266
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Source/Particles/material/Fog.mat
+  uploadId: 210455

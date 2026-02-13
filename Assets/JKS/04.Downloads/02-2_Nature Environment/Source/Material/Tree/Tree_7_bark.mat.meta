@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e788744d40cbc594fa371e40c178b56b
+timeCreated: 1452989504
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Source/Material/Tree/Tree_7_bark.mat
+  uploadId: 210455

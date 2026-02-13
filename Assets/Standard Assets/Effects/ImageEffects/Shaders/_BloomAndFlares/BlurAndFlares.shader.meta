@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: be6e39cf196f146d5be72fbefb18ed75
+ShaderImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Standard Assets/Effects/ImageEffects/Shaders/_BloomAndFlares/BlurAndFlares.shader
+  uploadId: 210455

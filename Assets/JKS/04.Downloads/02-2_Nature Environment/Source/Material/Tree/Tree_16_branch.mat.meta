@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 97d66649fe99c4d4f9b350bc5d6482cc
+timeCreated: 1442957182
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Source/Material/Tree/Tree_16_branch.mat
+  uploadId: 210455

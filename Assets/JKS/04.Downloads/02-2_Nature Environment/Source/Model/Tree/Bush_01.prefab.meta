@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7204fa295cc71334a9656ce30ddc6c75
+timeCreated: 1442005532
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54105
+  packageName: Nature Environment
+  packageVersion: 1.2
+  assetPath: Assets/Nature Environment/Source/Model/Tree/Bush_01.prefab
+  uploadId: 210455

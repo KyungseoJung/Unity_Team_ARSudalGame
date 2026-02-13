@@ -31,7 +31,9 @@ public class InventoryManager : MonoBehaviour
     {
         Blue_ConeTree, Blue_CubeTree, Green_ConeTree, Blue_Flower, Red_Flower, White_Flower,
         Blue_Fish, Green_Fish, Red_Fish, Grass, Log, Mushroom,
-        Eurasian_Otter, Hairy_nosed_Otter, African_clawless_Otter
+        Eurasian_Otter, Hairy_nosed_Otter, African_clawless_Otter,
+        Beaver, Sparrow, Turtle,
+        Seashell, Moss, Rock
     }
 
     private void Awake()
