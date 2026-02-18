@@ -1508,7 +1508,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 240
+  m_PreferredWidth: 269.74234
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -2830,8 +2830,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 643375827}
   m_HandleRect: {fileID: 643375826}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.99999994
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4087,7 +4087,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MarkerSpawner
   markerID: 
   isCollected: 0
-  contentPrefab: {fileID: 976749517787264400, guid: 79dcbe55273a8eb4488fc5e9273e6611, type: 3}
+  contentPrefab: {fileID: 976749517787264400, guid: 584b3750c410fb6499d52a521bc21fd6, type: 3}
   spawnDistance: 0.5
   screenFillRatio: 0.4
   positionOffset: {x: 0, y: 0, z: 0}
@@ -4697,8 +4697,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1591461494}
   m_HandleRect: {fileID: 1591461493}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.9999999
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5725,7 +5725,7 @@ MonoBehaviour:
   - {fileID: 2570656733323000783, guid: 4f5d8602b44f3974aa936cf13775a3a1, type: 3}
   - {fileID: 6788538757290762323, guid: c51036d21f249c3459a1d9927b43eb98, type: 3}
   - {fileID: 3911451128253662628, guid: e979c1f2fd940914cb09fd5819428c4f, type: 3}
-  - {fileID: 976749517787264400, guid: 79dcbe55273a8eb4488fc5e9273e6611, type: 3}
+  - {fileID: 976749517787264400, guid: 584b3750c410fb6499d52a521bc21fd6, type: 3}
   - {fileID: 9006787070462486325, guid: f02862c2fb30e324fbcf184aea2bb2dd, type: 3}
   - {fileID: 100000, guid: 5715379fb68a07d409a872b00d721ed7, type: 3}
   itemIcons:
@@ -6821,7 +6821,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 270
+  m_PreferredWidth: 303.4601
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -7135,7 +7135,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 270
+  m_PreferredWidth: 303.4601
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -7860,7 +7860,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 240
+  m_PreferredWidth: 269.74234
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
