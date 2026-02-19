@@ -24,6 +24,8 @@ public class InventoryUI : MonoBehaviour
 
     private string inventoryHelpMessage = "Find otters and nature items around the venue. Collect them and build a home for your otter!";
     private bool isVisible = true;
+    
+    public ScrollRect scrollRect;  //#14-2 인벤토리 첫 시작에 스크롤이 맨 위로 가있도록
 
     //#14 카테고리 이름(표시용)
     private enum Category
@@ -152,6 +154,15 @@ public class InventoryUI : MonoBehaviour
                 }
             }
         }
+
+    //#14-2 인벤토리 첫 시작에 스크롤이 맨 위로 가있도록
+    Canvas.ForceUpdateCanvases(); // 레이아웃 강제 갱신
+    if (scrollRect != null)
+    {
+        scrollRect.verticalNormalizedPosition = 1f; // 맨 위
+        scrollRect.content.anchoredPosition = new Vector2(scrollRect.content.anchoredPosition.x, 0f);
+    }
+
     }
 
     // "ȸ���ϱ�" ��ư�� ������ �Լ�
@@ -330,8 +341,8 @@ public class InventoryUI : MonoBehaviour
 
         // ✅ 자동 크기
         text.enableAutoSizing = true;
-        text.fontSizeMax = 34;   // 너 UI 기준으로 대충
-        text.fontSizeMin = 16;
+        text.fontSizeMax = 25;   // UI 기준으로 대충
+        text.fontSizeMin = 20;
 
         // ✅ 패딩(너가 쓰던 margin 유지)
         text.margin = new Vector4(20, 6, 0, 2); // 아래쪽 여백 줄이기   // (20, 8, 0, 8);
@@ -339,7 +350,9 @@ public class InventoryUI : MonoBehaviour
         // Layout
         var le = headerGO.AddComponent<LayoutElement>();
         le.preferredHeight = 30;   // 기존 60이 크면 줄여
+        le.preferredWidth = 300;
     }
+
 
     // 카테고리 한 줄(가로 row) 컨테이너 생성
     private Transform CreateRowContainer(string name)

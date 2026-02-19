@@ -1037,7 +1037,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6809722394234723116, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 176.49927
+      value: 176.49939
       objectReference: {fileID: 0}
     - target: {fileID: 6970104171223442146, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_Name
@@ -1167,6 +1167,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6809722394234723116, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
   m_PrefabInstance: {fileID: 948723729}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &948723733 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8983317622894864874, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
+  m_PrefabInstance: {fileID: 948723729}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ScrollRect
 --- !u!1 &1032235685
 GameObject:
   m_ObjectHideFlags: 0
@@ -1850,7 +1861,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 239.4794
+  m_PreferredWidth: 269.57025
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -2401,6 +2412,7 @@ MonoBehaviour:
   buttonIcon: {fileID: 1242947799}
   eyeOpen: {fileID: 21300000, guid: 1919465ae4b44de4baed5bf0425a6cc3, type: 3}
   eyeClosed: {fileID: 21300000, guid: f51cc0e28f6133d4c8b0c8568333b25b, type: 3}
+  scrollRect: {fileID: 948723733}
 --- !u!114 &1687424491234025896
 MonoBehaviour:
   m_ObjectHideFlags: 0

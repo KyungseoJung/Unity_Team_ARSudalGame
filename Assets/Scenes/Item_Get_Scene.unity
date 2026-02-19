@@ -2216,6 +2216,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   rubSensitivity: 5
+--- !u!114 &802724421 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8983317622894864874, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
+  m_PrefabInstance: {fileID: 5870318958978473590}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ScrollRect
 --- !u!1 &830154964
 GameObject:
   m_ObjectHideFlags: 0
@@ -7441,6 +7452,14 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1326558594518435087, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1975116560950031102, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
+      propertyPath: m_ChildForceExpandWidth
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2476779057390308779, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -8309,6 +8328,7 @@ MonoBehaviour:
   buttonIcon: {fileID: 0}
   eyeOpen: {fileID: 0}
   eyeClosed: {fileID: 0}
+  scrollRect: {fileID: 802724421}
 --- !u!1 &8582974946194017053
 GameObject:
   m_ObjectHideFlags: 0
