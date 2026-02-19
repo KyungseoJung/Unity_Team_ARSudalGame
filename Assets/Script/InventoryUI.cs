@@ -3,7 +3,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.IO;
-
+//#14 인벤토리 카테고리화
+using TMPro;
+using System.Collections.Generic;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -23,6 +25,11 @@ public class InventoryUI : MonoBehaviour
     private string inventoryHelpMessage = "Find otters and nature items around the venue. Collect them and build a home for your otter!";
     private bool isVisible = true;
 
+    //#14 카테고리 이름(표시용)
+    private enum Category
+    {
+        Tree, Flower, Fish, GroundObjects, Otters, AnimalFriends, OtterHomeItems
+    }
     private void Start()
     {
         // ������ �� UI �ʱ�ȭ
@@ -76,54 +83,67 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    // ���� �׸��� (GenerateSlots)
+    // ���� �׸��� (GenerateSlots)   //#14 인벤토리 카테고리화
     void RefreshUI()
     {
-        // 1. ���� ���� ����
         foreach (Transform child in slotsArea)
-        {
             Destroy(child.gameObject);
-        }
 
         InventoryManager manager = InventoryManager.Instance;
         if (manager == null) return;
 
         string currentSceneName = SceneManager.GetActiveScene().name;
 
-        // 2. ������ Ȯ�� �� ���� ����
+        // 1) 카테고리별로 인덱스 모으기
+        var buckets = new Dictionary<Category, List<int>>();
+        foreach (Category c in System.Enum.GetValues(typeof(Category)))
+            buckets[c] = new List<int>();
+
         for (int i = 0; i < manager.itemPrefabs.Length; i++)
         {
-            // �Ŵ������� "�� �� ������ �־�?" ��� ���
-            if (manager.HasItem(i))
-            {
-                GameObject slot = Instantiate(slotPrefab, slotsArea);
+            if (!manager.HasItem(i)) continue;
 
-                // ���� ��ũ��Ʈ ����
+            var cat = GetCategoryByItemType(i);
+            buckets[cat].Add(i);
+        }
+
+        // 2) 원하는 순서대로 출력
+        Category[] order =
+        {
+            Category.Tree,
+            Category.Flower,
+            Category.Fish,
+            Category.GroundObjects,
+            Category.Otters,
+            Category.AnimalFriends,
+            Category.OtterHomeItems
+        };
+
+        foreach (var cat in order)
+        {
+            // 해당 카테고리에 아무것도 없으면 스킵(원하면 빈 줄로 유도할 수도 있음)
+            if (buckets[cat].Count == 0) continue;
+
+            CreateCategoryHeader(SplitCamelCase(cat.ToString()));
+            Transform row = CreateRowContainer(cat.ToString());
+
+            foreach (int i in buckets[cat])
+            {
+                GameObject slot = Instantiate(slotPrefab, row);
+
                 InventorySlot slotScript = slot.GetComponent<InventorySlot>();
                 if (slotScript != null)
                 {
-                    // slotScript.Setup(i, "Item " + i);
-                    //#7 아이템 이름 변경 -----------------------
-                    // var typeName = ((InventoryManager.ItemType)i).ToString();
-                    // slotScript.Setup(i, typeName);
-                    //#10 인벤토리 각 슬롯에 아이템 이미지 나타나도록 하기 
                     Sprite icon = null;
                     if (manager.itemIcons != null && i < manager.itemIcons.Length)
-                    {
                         icon = manager.itemIcons[i];
-                    }
 
-                    // 이름은 이제 안 쓰고 싶으면 null로 넘기면 됨
                     slotScript.Setup(i, icon, null);
-
-
-                    Button slotBtn = slot.GetComponent<Button>();
-
-                    // ���� Ŭ�� �̺�Ʈ ���� (Ŭ�� �� ���� + â �ݱ�)
 
                     if (currentSceneName != "Item_Get_Scene")
                     {
                         int index = i;
+                        Button slotBtn = slot.GetComponent<Button>();
                         slotBtn.onClick.AddListener(() => {
                             manager.SpawnItem(index);
                             ToggleInventory();
@@ -214,4 +234,143 @@ public class InventoryUI : MonoBehaviour
         }
         ToastManager.Instance.ShowToast("Screen captured! Saved to gallery.");
     }
+
+    //#14 인벤토리 카테고리화 (아래 3개 함수)------------------------------------
+    // 아이템 인덱스 -> 카테고리 매핑 (가장 안전/간단: ItemType 기준)
+    private Category GetCategoryByItemType(int index)
+    {
+        var type = (InventoryManager.ItemType)index;
+
+        switch (type)
+        {
+            // (1) Tree 3가지
+            case InventoryManager.ItemType.Blue_ConeTree:
+            case InventoryManager.ItemType.Blue_CubeTree:
+            case InventoryManager.ItemType.Green_ConeTree: 
+                return Category.Tree;
+
+            // (2) Flower 3가지
+            case InventoryManager.ItemType.Blue_Flower:
+            case InventoryManager.ItemType.Red_Flower:
+            case InventoryManager.ItemType.White_Flower:
+                return Category.Flower;
+
+            // (3) Fish 3가지
+            case InventoryManager.ItemType.Blue_Fish:
+            case InventoryManager.ItemType.Green_Fish:
+            case InventoryManager.ItemType.Red_Fish:
+                return Category.Fish;
+
+            // (4) Ground Objects 3가지
+            case InventoryManager.ItemType.Grass:
+            case InventoryManager.ItemType.Log:
+            case InventoryManager.ItemType.Mushroom:
+                return Category.GroundObjects;
+
+            // (5) Otters 3가지
+            case InventoryManager.ItemType.Eurasian_Otter:
+            case InventoryManager.ItemType.Hairy_nosed_Otter:
+            case InventoryManager.ItemType.African_clawless_Otter:
+                return Category.Otters;
+
+            // (6) Animal Friends 3가지
+            case InventoryManager.ItemType.Beaver:
+            case InventoryManager.ItemType.Sparrow:
+            case InventoryManager.ItemType.Turtle:
+                return Category.AnimalFriends;
+
+            // (7) Otter Home Items
+            case InventoryManager.ItemType.Seashell:
+            case InventoryManager.ItemType.Mossy_Stone:
+            case InventoryManager.ItemType.Stone:
+                return Category.OtterHomeItems;
+
+            default:
+                // 혹시 빠진 것들은 일단 Ground로 보내든지 원하는 곳으로
+                return Category.GroundObjects;
+        }
+    }
+
+    private string SplitCamelCase(string s)
+    {
+        if(string.IsNullOrEmpty(s))
+        {
+            return s;
+        }
+
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        sb.Append(s[0]);    // 첫 글자는 그대로
+
+        for(int i=1; i<s.Length; i++)
+        {
+            char c = s[i];
+            if(char.IsUpper(c))
+            {
+                sb.Append(' ');
+            }
+            sb.Append(c);
+        }
+
+        return sb.ToString();
+    }
+
+
+    // 카테고리 헤더 생성 (TextMeshProUGUI)
+    private void CreateCategoryHeader(string title)
+    {
+        GameObject headerGO = new GameObject($"Header_{title}", typeof(RectTransform));
+        headerGO.transform.SetParent(slotsArea, false);
+
+        var text = headerGO.AddComponent<TextMeshProUGUI>();
+        text.text = title;
+
+        // ✅ 글자색/정렬
+        text.color = Color.black;
+        text.alignment = TextAlignmentOptions.Left;
+
+        // ✅ 자동 크기
+        text.enableAutoSizing = true;
+        text.fontSizeMax = 34;   // 너 UI 기준으로 대충
+        text.fontSizeMin = 16;
+
+        // ✅ 패딩(너가 쓰던 margin 유지)
+        text.margin = new Vector4(20, 6, 0, 2); // 아래쪽 여백 줄이기   // (20, 8, 0, 8);
+
+        // Layout
+        var le = headerGO.AddComponent<LayoutElement>();
+        le.preferredHeight = 30;   // 기존 60이 크면 줄여
+    }
+
+    // 카테고리 한 줄(가로 row) 컨테이너 생성
+    private Transform CreateRowContainer(string name)
+    {
+        GameObject rowGO = new GameObject($"Row_{name}", typeof(RectTransform));
+        rowGO.transform.SetParent(slotsArea, false);
+
+        var hlg = rowGO.AddComponent<HorizontalLayoutGroup>();
+        hlg.childAlignment = TextAnchor.MiddleLeft;
+        hlg.spacing = 10;   // 16;
+
+        // *** Inspector에서 ON 한 옵션들   (이걸 켜야, 각 슬롯 버튼의 테두리가 보임)
+        hlg.childControlWidth  = true;
+        hlg.childControlHeight = true;
+
+        // (권장) 슬롯이 갑자기 늘어나지 않게
+        hlg.childForceExpandWidth  = false;
+        hlg.childForceExpandHeight = false;
+
+        // (선택) 슬롯 스케일로 흔들리는 거 방지(보통 false 권장)
+        hlg.childScaleWidth  = false;
+        hlg.childScaleHeight = false;
+
+        var fitter = rowGO.AddComponent<ContentSizeFitter>();
+        fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+        var le = rowGO.AddComponent<LayoutElement>();
+        le.preferredHeight = 100;   // 180;
+
+        return rowGO.transform;
+    }
+
 }
