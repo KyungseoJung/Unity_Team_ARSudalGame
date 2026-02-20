@@ -14,16 +14,12 @@ public class UIManager : MonoBehaviour
     public GameObject popupPanel;
     public TextMeshProUGUI popupText;
 
-    [Header("Info Popup")]
-    public GameObject infoPanel;
-
 
     void Awake()
     {
         if (Instance == null) Instance = this;
         nameTagPanel.SetActive(false);
         popupPanel.SetActive(false);
-        infoPanel.SetActive(false);
     }
 
     public void ShowOtterInfo(string name)
@@ -47,7 +43,7 @@ public class UIManager : MonoBehaviour
         StopAllCoroutines(); // 진행 중인 팝업 예약 종료
 
         GameManager.Instance.SetVuforiaActive(false);
-        infoPanel.SetActive(true); // 패널 활성화
+        InfoPanelController.Instance.OpenPanel();
 
         // 필요하다면 일정 시간 뒤에 꺼지게 하거나, 
         // 유저가 닫기 전까지 계속 띄워둘 수 있습니다.
@@ -56,7 +52,7 @@ public class UIManager : MonoBehaviour
     public void HideInfoPanel()
     {
         GameManager.Instance.SetVuforiaActive(true);
-        infoPanel.SetActive(false);
+        InfoPanelController.Instance.ClosePanel();
     }
 
     IEnumerator PopupRoutine(string itemName)
