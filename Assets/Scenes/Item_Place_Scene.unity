@@ -1037,7 +1037,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6809722394234723116, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 176.49939
+      value: 176.49362
       objectReference: {fileID: 0}
     - target: {fileID: 6970104171223442146, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_Name
@@ -1861,7 +1861,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 269.57025
+  m_PreferredWidth: 221.53845
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -2408,6 +2408,7 @@ MonoBehaviour:
   inventoryPanel: {fileID: 948723730}
   slotsArea: {fileID: 948723732}
   slotPrefab: {fileID: 7622044118349017849, guid: 549151e15f2f31345baa8cc8fe755fde, type: 3}
+  myCustomFont: {fileID: 11400000, guid: cac39b01e89241148921367110d19457, type: 2}
   mainUI: {fileID: 8947624327487538289}
   buttonIcon: {fileID: 1242947799}
   eyeOpen: {fileID: 21300000, guid: 1919465ae4b44de4baed5bf0425a6cc3, type: 3}

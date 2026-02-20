@@ -7499,7 +7499,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6809722394234723116, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 176.5
+      value: 176.49995
       objectReference: {fileID: 0}
     - target: {fileID: 6970104171223442146, guid: 21f74460cf657b145b460e0af6f04b69, type: 3}
       propertyPath: m_Name
@@ -8325,6 +8325,7 @@ MonoBehaviour:
   inventoryPanel: {fileID: 4877672428745333380}
   slotsArea: {fileID: 1172654874}
   slotPrefab: {fileID: 7622044118349017849, guid: 549151e15f2f31345baa8cc8fe755fde, type: 3}
+  myCustomFont: {fileID: 11400000, guid: cac39b01e89241148921367110d19457, type: 2}
   mainUI: {fileID: 0}
   buttonIcon: {fileID: 0}
   eyeOpen: {fileID: 0}

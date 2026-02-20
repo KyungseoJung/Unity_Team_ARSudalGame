@@ -13,6 +13,7 @@ public class InventoryUI : MonoBehaviour
     public GameObject inventoryPanel;  // �κ��丮 ��ü �г�
     public Transform slotsArea;        // ���Ե��� ������ �θ� Transform
     public GameObject slotPrefab;      // ���� UI ������
+    public TMP_FontAsset myCustomFont;
 
     [Header("Target UI")]
     public GameObject mainUI; // 숨길 UI 부모
@@ -333,6 +334,10 @@ public class InventoryUI : MonoBehaviour
         headerGO.transform.SetParent(slotsArea, false);
 
         var text = headerGO.AddComponent<TextMeshProUGUI>();
+        if (myCustomFont != null)
+        {
+            text.font = myCustomFont;
+        }
         text.text = title;
 
         // ✅ 글자색/정렬
