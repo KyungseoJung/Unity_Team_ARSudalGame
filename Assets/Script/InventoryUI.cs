@@ -23,7 +23,6 @@ public class InventoryUI : MonoBehaviour
     public Sprite eyeOpen;     // 표시 중일 때 아이콘
     public Sprite eyeClosed;   // 숨김 중일 때 아이콘
 
-    private string inventoryHelpMessage = "Find otters and nature items around the venue. Collect them and build a home for your otter!";
     private bool isVisible = true;
     
     public ScrollRect scrollRect;  //#14-2 인벤토리 첫 시작에 스크롤이 맨 위로 가있도록
@@ -186,7 +185,7 @@ public class InventoryUI : MonoBehaviour
         if (UIManager.Instance != null)
         {
             // UIManager에게 "이 메세지를 띄워줘"라고 명령
-            UIManager.Instance.ShowGeneralInfo(inventoryHelpMessage);
+           UIManager.Instance.ShowGeneralInfo();
         }
     }
 

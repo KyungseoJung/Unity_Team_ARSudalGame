@@ -16,7 +16,6 @@ public class UIManager : MonoBehaviour
 
     [Header("Info Popup")]
     public GameObject infoPanel;
-    public TextMeshProUGUI infoText;
 
 
     void Awake()
@@ -43,12 +42,11 @@ public class UIManager : MonoBehaviour
         StartCoroutine(PopupRoutine(itemName));
     }
 
-    public void ShowGeneralInfo(string message)
+    public void ShowGeneralInfo()
     {
         StopAllCoroutines(); // 진행 중인 팝업 예약 종료
 
         GameManager.Instance.SetVuforiaActive(false);
-        infoText.text = message; // 전달받은 메세지로 변경
         infoPanel.SetActive(true); // 패널 활성화
 
         // 필요하다면 일정 시간 뒤에 꺼지게 하거나, 
