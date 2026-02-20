@@ -11,6 +11,7 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Data & Prefabs")]
     public GameObject[] itemPrefabs;   // 아이템 프리팹 (데이터)
+    public float targetSize  = 2.0f;
 
     [Header("UI Icons (same order as itemPrefabs)")]
     public Sprite[] itemIcons;         //#10 인벤토리 슬롯에 "텍스트" 대신 "이미지" 넣기
@@ -118,6 +119,23 @@ public class InventoryManager : MonoBehaviour
         Debug.Log("아이템 소환: " + itemPrefabs[index]);
 
         GameObject go = Instantiate(itemPrefabs[index], spawnPos, Quaternion.identity);
+
+        // 1. 모든 렌더러(Mesh, SkinnedMesh 포함)를 찾습니다.
+        Renderer[] renderers = go.GetComponentsInChildren<Renderer>();
+        if (renderers.Length == 0) return;
+
+        // 2. 전체를 감싸는 가상의 박스(Bounds)를 계산합니다.
+        Bounds bounds = renderers[0].bounds;
+        foreach (Renderer r in renderers) bounds.Encapsulate(r.bounds);
+
+        // 3. 가장 긴 변의 길이를 찾습니다.
+        float maxDimension = Mathf.Max(bounds.size.x, bounds.size.y, bounds.size.z);
+
+        // 4. 스케일 비율을 계산하여 적용합니다.
+        // 공식: $Scale_{new} = \frac{TargetSize}{MaxDimension}$
+        float scaleFactor = targetSize / maxDimension;
+        go.transform.localScale *= scaleFactor;
+
 
         //#11 여기부터--------------------------------------
         // 1) 드래그 판정은 "Collider가 있는 오브젝트"가 하게 만들기
