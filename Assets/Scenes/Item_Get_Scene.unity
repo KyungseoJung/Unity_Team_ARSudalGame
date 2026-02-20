@@ -958,7 +958,6 @@ MonoBehaviour:
   nameTagPanel: {fileID: 6671016199817722494}
   popupPanel: {fileID: 6664708475864714221}
   popupText: {fileID: 5025332897899114235}
-  infoPanel: {fileID: 6653906444100964176}
 --- !u!4 &288857402
 Transform:
   m_ObjectHideFlags: 0
