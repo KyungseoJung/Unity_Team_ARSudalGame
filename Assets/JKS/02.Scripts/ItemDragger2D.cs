@@ -26,7 +26,7 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     // *** "시작 스케일 기준 배수 제한" (NEW)
     [Header("Pinch Scale Limits (Multiplier based on START scale)")]
-    public float minScaleMultiplier = 0.6f; // 시작 스케일의 0.6배까지
+    public float minScaleMultiplier = 0.4f; // 시작 스케일의 0.6배까지 -> 0.4배로 범위 넓히기
     public float maxScaleMultiplier = 1.6f; // 시작 스케일의 1.6배까지
 
     float pinchStartDist;
