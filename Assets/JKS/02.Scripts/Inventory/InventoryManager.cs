@@ -136,7 +136,6 @@ public class InventoryManager : MonoBehaviour
         float scaleFactor = targetSize / maxDimension;
         go.transform.localScale *= scaleFactor;
 
-
         //#11 여기부터--------------------------------------
         // 1) 드래그 판정은 "Collider가 있는 오브젝트"가 하게 만들기
         Transform hitT = FindColliderTransform(go);
@@ -146,20 +145,31 @@ public class InventoryManager : MonoBehaviour
         if (placed == null) placed = go.AddComponent<PlacedItem>();
         placed.itemIndex = index;
 
+        // ----------------------------------------------------
+        //#15 fix: 정규화된 현재 스케일을 '기준 스케일'로 저장
+        // ----------------------------------------------------
+        placed.baseScale = new Vector3(
+            Mathf.Abs(go.transform.localScale.x),
+            Mathf.Abs(go.transform.localScale.y),
+            Mathf.Abs(go.transform.localScale.z)
+        );
+
         // 3) ItemDragger2D는 hitT에 붙인다 (레이캐스트가 hitT에 맞으니까)
         var dragger = hitT.GetComponent<ItemDragger2D>();
         if (dragger == null) dragger = hitT.gameObject.AddComponent<ItemDragger2D>();
 
         // 4) 핵심: 실제로 움직일 대상은 "루트"로 지정
         dragger.SetMoveTarget(go.transform);
+
+        // ✅ #15 fix: 드래거에도 같은 기준 스케일 주입 (핀치 범위 안정화)
+        dragger.SetBaseScaleFromPrefab(placed.baseScale);
+
         //#11 여기까지--------------------------------------
 
         // 수달처럼 RubbableObject가 자식에 붙어있을 수 있으므로 InChildren로 처리
         go.GetComponentInChildren<RubbableObject>(true)?.ApplyCleanedState();
-
-        // 아이템 생성 후 인벤토리를 닫고 싶다면 UI 쪽에서 처리하거나,
-        // 여기서 이벤트를 보낼 수도 있습니다. (여기서는 UI가 알아서 닫도록 유도)
     }
+
 
     public void SelectItem(PlacedItem item)
     {
