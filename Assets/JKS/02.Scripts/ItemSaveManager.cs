@@ -9,7 +9,7 @@ public class ItemSaveManager : MonoBehaviour
     [Header("아이템 프리팹 목록 (InventoryManager와 동일 순서)")]
     public GameObject[] itemPrefabs;
 
-    const string SaveKey = "ItemPositions_v2"; // v1과 구분 (이전 데이터와 충돌 방지)
+    const string SaveKey = "ItemPositions_v3"; // v1, v2과 구분 (이전 데이터와 충돌 방지)   //2026.02.22 (v3) 업데이트
 
     [Serializable]
     public class ItemEntry  //#15 fix

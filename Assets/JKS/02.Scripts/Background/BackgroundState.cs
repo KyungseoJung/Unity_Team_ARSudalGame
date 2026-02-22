@@ -26,7 +26,7 @@ public class BackgroundState : MonoBehaviour
     public event Action OnChanged;
 
     // 저장 키
-    const string SaveKey = "BackgroundState_v1";
+    const string SaveKey = "BackgroundState_v3";    //2026.02.22 (v3) 업데이트
 
     [Serializable]
     class SaveData
