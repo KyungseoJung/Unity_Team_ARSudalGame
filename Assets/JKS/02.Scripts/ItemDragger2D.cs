@@ -34,6 +34,8 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     bool isPinching = false;
     static ItemDragger2D active;
 
+    float pinchSignX = 1f;  //#16 size 조정할 때, 좌우 반전된 상태이면 그 상태를 유지하면서 사이즈 조절되도록
+
     bool pointerDownOnMe = false;
     private TrashCanArea currentHoveredTrash;
 
@@ -102,20 +104,55 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             var placedRoot = GetComponentInParent<PlacedItem>();
             if (placedRoot != null && manager != null && manager.GetSelected() == placedRoot)
             {
+                // float delta = Mouse.current.scroll.ReadValue().y > 0 ? 1.05f : 0.95f;
+
+                // float s = MoveT.localScale.x * delta;
+
+                // // *** 시작 스케일 기준 배수 제한 적용
+                // float minAbs = baseScale.x * minScaleMultiplier;
+                // float maxAbs = baseScale.x * maxScaleMultiplier;
+                // s = Mathf.Clamp(s, minAbs, maxAbs);
+
+                // //#13 ------------------------------
+                // float signX = Mathf.Sign(MoveT.localScale.x);
+                // if (signX == 0) signX = 1f;
+
+                // MoveT.localScale = new Vector3(signX * s, s, s);
+
                 float delta = Mouse.current.scroll.ReadValue().y > 0 ? 1.05f : 0.95f;
 
-                float s = MoveT.localScale.x * delta;
+                Vector3 currentScale = MoveT.localScale;
 
-                // *** 시작 스케일 기준 배수 제한 적용
-                float minAbs = baseScale.x * minScaleMultiplier;
-                float maxAbs = baseScale.x * maxScaleMultiplier;
-                s = Mathf.Clamp(s, minAbs, maxAbs);
+                // 🔥 실제 뒤집힌 축 찾기
+                bool flippedOnX = currentScale.x < 0f;
+                bool flippedOnZ = currentScale.z < 0f;
 
-                //#13 ------------------------------
-                float signX = Mathf.Sign(MoveT.localScale.x);
-                if (signX == 0) signX = 1f;
+                // 현재 절댓값 크기 (뒤집힌 축 기준으로 계산)
+                float currentSize = flippedOnX 
+                    ? Mathf.Abs(currentScale.x) 
+                    : Mathf.Abs(currentScale.z);
 
-                MoveT.localScale = new Vector3(signX * s, s, s);
+                float s = currentSize * delta;
+
+                // 절대 한계 (baseScale 기준)
+                float globalMin = baseScale.x * minScaleMultiplier;
+                float globalMax = baseScale.x * maxScaleMultiplier;
+
+                s = Mathf.Clamp(s, globalMin, globalMax);
+
+                // 🔥 flip 상태 그대로 유지
+                if (flippedOnX)
+                {
+                    MoveT.localScale = new Vector3(-s, s, s);
+                }
+                else if (flippedOnZ)
+                {
+                    MoveT.localScale = new Vector3(s, s, -s);
+                }
+                else
+                {
+                    MoveT.localScale = new Vector3(s, s, s);
+                }
             }
         }
 #endif
@@ -156,6 +193,11 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             isDragging = false;
             pinchStartDist = dist;
             pinchStartScale = MoveT.localScale; //#11
+
+            //#16 현재 방향 저장
+            pinchSignX = Mathf.Sign(MoveT.localScale.x);
+            if (pinchSignX == 0) pinchSignX = 1f;
+
             return;
         }
 
@@ -165,14 +207,16 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         float minAbs = baseScale.x * minScaleMultiplier;
         float maxAbs = baseScale.x * maxScaleMultiplier;
 
-        float target = pinchStartScale.x * scaleFactor;
+        // float target = pinchStartScale.x * scaleFactor;
+        float target = Mathf.Abs(pinchStartScale.x) * scaleFactor;  //#16 
         float clamped = Mathf.Clamp(target, minAbs, maxAbs);
 
         //#13 --------------------------------
-        float signX = Mathf.Sign(MoveT.localScale.x);
-        if (signX == 0) signX = 1f;
+        // float signX = Mathf.Sign(MoveT.localScale.x);
+        // if (signX == 0) signX = 1f;
 
-        MoveT.localScale = new Vector3(signX * clamped, clamped, clamped);
+        // MoveT.localScale = new Vector3(signX * clamped, clamped, clamped);
+        MoveT.localScale = new Vector3(pinchSignX * clamped, clamped, clamped); //#16 
     }
 
     //#15 fix: 기준 스케일을 외부에서 주입(로드 시)
