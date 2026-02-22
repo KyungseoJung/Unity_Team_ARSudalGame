@@ -27,6 +27,8 @@ public class InventoryUI : MonoBehaviour
     
     public ScrollRect scrollRect;  //#14-2 인벤토리 첫 시작에 스크롤이 맨 위로 가있도록
 
+    private bool snappedOnce = false;   //#14-3 맨 처음 인벤토리를 열 때만 스크롤이 맨 위로 가있도록
+
     //#14 카테고리 이름(표시용)
     private enum Category
     {
@@ -63,9 +65,26 @@ public class InventoryUI : MonoBehaviour
         if (isActive)
         {
             RefreshUI(); // �� �� �ֽ� ���·� ����
+
+            //#14-3 맨 처음 인벤토리 열 때만 스크롤이 맨 위로 가있도록
+            if (!snappedOnce && scrollRect != null)
+            {
+                snappedOnce = true;
+                StartCoroutine(SnapScrollToTopNextFrame());
+            }
         }
     }
 
+    private IEnumerator SnapScrollToTopNextFrame()  //#14-3 맨 처음 인벤토리 열 때만 스크롤이 맨 위로 가있도록
+    {
+        yield return null; // 다음 프레임 (레이아웃 계산 이후에 가까움)
+
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(scrollRect.content);
+
+        scrollRect.StopMovement();
+        scrollRect.verticalNormalizedPosition = 1f; // 맨 위
+    }
     public void ChangeScene()
     {
         string sceneName = SceneManager.GetActiveScene().name;
@@ -155,13 +174,14 @@ public class InventoryUI : MonoBehaviour
             }
         }
 
-    //#14-2 인벤토리 첫 시작에 스크롤이 맨 위로 가있도록
-    Canvas.ForceUpdateCanvases(); // 레이아웃 강제 갱신
-    if (scrollRect != null)
-    {
-        scrollRect.verticalNormalizedPosition = 1f; // 맨 위
-        scrollRect.content.anchoredPosition = new Vector2(scrollRect.content.anchoredPosition.x, 0f);
-    }
+    //#14-3 삭제
+    // //#14-2 인벤토리 첫 시작에 스크롤이 맨 위로 가있도록
+    // Canvas.ForceUpdateCanvases(); // 레이아웃 강제 갱신
+    // if (scrollRect != null)
+    // {
+    //     scrollRect.verticalNormalizedPosition = 1f; // 맨 위
+    //     scrollRect.content.anchoredPosition = new Vector2(scrollRect.content.anchoredPosition.x, 0f);
+    // }
 
     }
 
