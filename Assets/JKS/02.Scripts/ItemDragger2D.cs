@@ -35,6 +35,7 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     static ItemDragger2D active;
 
     float pinchSignX = 1f;  //#16 size 조정할 때, 좌우 반전된 상태이면 그 상태를 유지하면서 사이즈 조절되도록
+    float pinchSignZ = 1f;
 
     bool pointerDownOnMe = false;
     private TrashCanArea currentHoveredTrash;
@@ -158,6 +159,7 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 #endif
     }
 
+
     private void HandlePinchScale()
     {
         if (!enablePinchScale || Touch.activeTouches.Count < 2)
@@ -170,10 +172,7 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             return;
         }
 
-        // 선택된 아이템 체크 및 핀치 계산
         var manager = InventoryManager.Instance;
-
-        // 선택된 아이템만 크기 변경되도록 (자식에 붙어있어도 동작하게)
         var placedRoot = GetComponentInParent<PlacedItem>();
         if (manager == null || placedRoot == null) return;
         if (manager.GetSelected() != placedRoot) return;
@@ -191,32 +190,39 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             isPinching = true;
             isDragging = false;
-            pinchStartDist = dist;
-            pinchStartScale = MoveT.localScale; //#11
 
-            //#16 현재 방향 저장
-            pinchSignX = Mathf.Sign(MoveT.localScale.x);
+            pinchStartDist = dist;
+            pinchStartScale = MoveT.localScale;
+
+            pinchSignX = Mathf.Sign(pinchStartScale.x);
             if (pinchSignX == 0) pinchSignX = 1f;
+
+            pinchSignZ = Mathf.Sign(pinchStartScale.z);
+            if (pinchSignZ == 0) pinchSignZ = 1f;
 
             return;
         }
 
         float scaleFactor = 1f + ((dist - pinchStartDist) * pinchSensitivity);
 
-        // *** 기준 스케일(baseScale) 기준 배수 제한
+        // 🔥 실제 사용 중인 축 기준으로 절댓값 계산
+        float startSize = Mathf.Max(
+            Mathf.Abs(pinchStartScale.x),
+            Mathf.Abs(pinchStartScale.z)
+        );
+
+        float target = startSize * scaleFactor;
+
         float minAbs = baseScale.x * minScaleMultiplier;
         float maxAbs = baseScale.x * maxScaleMultiplier;
 
-        // float target = pinchStartScale.x * scaleFactor;
-        float target = Mathf.Abs(pinchStartScale.x) * scaleFactor;  //#16 
         float clamped = Mathf.Clamp(target, minAbs, maxAbs);
 
-        //#13 --------------------------------
-        // float signX = Mathf.Sign(MoveT.localScale.x);
-        // if (signX == 0) signX = 1f;
-
-        // MoveT.localScale = new Vector3(signX * clamped, clamped, clamped);
-        MoveT.localScale = new Vector3(pinchSignX * clamped, clamped, clamped); //#16 
+        MoveT.localScale = new Vector3(
+            pinchSignX * clamped,
+            clamped,
+            pinchSignZ * clamped
+        );
     }
 
     //#15 fix: 기준 스케일을 외부에서 주입(로드 시)
