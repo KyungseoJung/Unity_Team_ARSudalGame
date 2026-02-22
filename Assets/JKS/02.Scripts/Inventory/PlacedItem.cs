@@ -5,10 +5,12 @@ public class PlacedItem : MonoBehaviour
     Renderer rend;                  //#4-2: 색 변경을 위한 Renderer 캐시
     Color originalColor;            //#4-2
     public Color selectedColor = Color.yellow;   //#4-2: 선택시 표시 색
+
     // //#6-1: 선택 표시용 오브젝트(자식)
     [SerializeField] private GameObject selectionRing; // "SelectionRing"
-    public int itemIndex;   //#2 아이템 배치 저장 목적
 
+    public int itemIndex;           //#2 아이템 배치 저장 목적
+    public Vector3 baseScale;       //#15 fix: 기준 스케일
 
     void Awake()                    //#4-2
     {
@@ -22,9 +24,9 @@ public class PlacedItem : MonoBehaviour
         if (selectionRing == null)
         {
             selectionRing = transform.Find("SelectionRing")?.gameObject;
-        }            
-        SetSelected(false); // 시작 시 꺼둠
+        }
 
+        SetSelected(false); // 시작 시 꺼둠
     }
 
     private void OnMouseDown()
@@ -42,7 +44,7 @@ public class PlacedItem : MonoBehaviour
     {
         // if (rend == null) return;
         // rend.material.color = selected ? selectedColor : originalColor;
-        if (selectionRing != null) 
+        if (selectionRing != null)
         {
             selectionRing.SetActive(selected);
         }

@@ -52,7 +52,6 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private float lastTapTime = -999f;
     private static ItemDragger2D lastTapped;
 
-
     void Awake()
     {
         if (cam == null) cam = Camera.main;
@@ -60,10 +59,29 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         if (moveTarget == null) moveTarget = transform; //#11 기본은 자기 자신
 
-        // *** 시작 스케일 저장 (NEW)
-        // baseScale = MoveT.localScale;
-        baseScale = new Vector3(Mathf.Abs(MoveT.localScale.x), Mathf.Abs(MoveT.localScale.y), Mathf.Abs(MoveT.localScale.z));   //#13
+        // ✅ baseScale 기본값(현재 스케일 abs)
+        baseScale = new Vector3(
+            Mathf.Abs(MoveT.localScale.x),
+            Mathf.Abs(MoveT.localScale.y),
+            Mathf.Abs(MoveT.localScale.z)
+        );
 
+        // ✅ #15 핵심: "새로 배치된 아이템"은 baseScale이 아직 저장/로드가 안 되어있을 수 있음
+        // 이 경우 PlacedItem.baseScale을 한 번만 초기화해서, 이후 SaveAll에 제대로 저장되게 만든다.
+        var placed = GetComponentInParent<PlacedItem>();
+        if (placed != null)
+        {
+            if (placed.baseScale == Vector3.zero)
+            {
+                // 처음 배치된 상태: 지금 스케일을 기준으로 저장
+                placed.baseScale = baseScale;
+            }
+            else
+            {
+                // 이미 저장된 기준이 있으면 그걸 우선시
+                baseScale = placed.baseScale;
+            }
+        }
     }
 
     void Update()
@@ -93,13 +111,11 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 float maxAbs = baseScale.x * maxScaleMultiplier;
                 s = Mathf.Clamp(s, minAbs, maxAbs);
 
-                // MoveT.localScale = Vector3.one * s;
                 //#13 ------------------------------
                 float signX = Mathf.Sign(MoveT.localScale.x);
                 if (signX == 0) signX = 1f;
 
                 MoveT.localScale = new Vector3(signX * s, s, s);
-
             }
         }
 #endif
@@ -145,19 +161,36 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         float scaleFactor = 1f + ((dist - pinchStartDist) * pinchSensitivity);
 
-        // *** 시작 스케일 기준 배수 제한
+        // *** 기준 스케일(baseScale) 기준 배수 제한
         float minAbs = baseScale.x * minScaleMultiplier;
         float maxAbs = baseScale.x * maxScaleMultiplier;
 
         float target = pinchStartScale.x * scaleFactor;
         float clamped = Mathf.Clamp(target, minAbs, maxAbs);
 
-        // MoveT.localScale = new Vector3(clamped, clamped, clamped);
         //#13 --------------------------------
         float signX = Mathf.Sign(MoveT.localScale.x);
         if (signX == 0) signX = 1f;
 
         MoveT.localScale = new Vector3(signX * clamped, clamped, clamped);
+    }
+
+    //#15 fix: 기준 스케일을 외부에서 주입(로드 시)
+    // (이름은 prefabLocalScale 이지만, "기준 스케일" setter로 쓰는 중)
+    public void SetBaseScaleFromPrefab(Vector3 prefabLocalScale)
+    {
+        baseScale = new Vector3(
+            Mathf.Abs(prefabLocalScale.x),
+            Mathf.Abs(prefabLocalScale.y),
+            Mathf.Abs(prefabLocalScale.z)
+        );
+
+        // ✅ PlacedItem에도 동기화 (저장될 때 baseScale이 유지되도록)
+        var placed = GetComponentInParent<PlacedItem>();
+        if (placed != null)
+        {
+            placed.baseScale = baseScale;
+        }
     }
 
     private void HandleMouseOrSingleTouch()
@@ -167,14 +200,6 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             if (IsPointerOverUI()) return;
 
             pointerDownOnMe = IsPointerOnThisObject(Pointer.current.position.ReadValue());
-            // if (pointerDownOnMe)
-            // {
-            //     StartDrag(Pointer.current.position.ReadValue());
-
-            //     var placed = GetComponentInParent<PlacedItem>();    //#11 부모까지 탐색
-            //     if (placed != null && InventoryManager.Instance != null)
-            //         InventoryManager.Instance.SelectItem(placed);
-            // }
 
             if (pointerDownOnMe)    //#13 -----------------------------
             {
@@ -376,8 +401,8 @@ public class ItemDragger2D : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         // *** moveTarget이 바뀌면, 그 시점 기준으로 시작 스케일도 다시 잡아주는 게 안전함
         // baseScale = MoveT.localScale;
-        //#13 ----------------------------
-        baseScale = new Vector3(Mathf.Abs(MoveT.localScale.x), Mathf.Abs(MoveT.localScale.y), Mathf.Abs(MoveT.localScale.z));
+        //#13 ----------------------------  //#15 fix
+        // baseScale = new Vector3(Mathf.Abs(MoveT.localScale.x), Mathf.Abs(MoveT.localScale.y), Mathf.Abs(MoveT.localScale.z));
     }
 
     //#13 -----------------------------
